@@ -35,6 +35,5 @@ $ python -m flake8 --format=html --htmldir=flake-report
 
 ```bash
 # from project root directory
-$ cd chess_tournament/
-$ python chess_tournament.py
+$ python chess_tournament/start.py
 ```
