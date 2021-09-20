@@ -8,11 +8,9 @@ import sys
 
 
 def main():
-    ratings = ['bullet', 'blitz', 'rapid']
 
     welcome()
     input = get_input()
-    print(input)
     t = Tournament(input['name'], input['location'], input['rating'], input['end'])
     print(t)
     dashboard()
