@@ -4,6 +4,7 @@
 
 
 def get_input():
+    """Get user input and return the data as a dictionary"""
     name = input("Enter tournament's name: ")
     location = input("Enter tournament's location: ")
     rating = input("Enter rating type: ")

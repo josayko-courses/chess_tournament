@@ -4,6 +4,7 @@
 
 
 def welcome():
+    """Print the program welcome header"""
     print("\n+==========================+")
     print("|                          |")
     print("| Chess tournament manager |")
@@ -12,4 +13,5 @@ def welcome():
 
 
 def dashboard():
+    """Tournament monitoring dashboard"""
     print("=== Dashboard ===")

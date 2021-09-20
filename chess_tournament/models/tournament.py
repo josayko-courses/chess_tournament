@@ -12,7 +12,7 @@ class Tournament:
         self.location = location
         self.start = datetime.today().strftime('%Y-%m-%d')
         if end:
-            td = timedelta(days=end)
+            td = timedelta(end - 1) if end - 1 > 0 else timedelta(0)
             self.end = (datetime.today() + td).strftime('%Y-%m-%d')
         else:
             self.end = self.start
