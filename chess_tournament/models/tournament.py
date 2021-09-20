@@ -7,7 +7,9 @@ from datetime import datetime, timedelta
 class Tournament:
     """Holds the information of the tournament"""
 
-    def __init__(self, name, location, rating, end):
+    t_list = []
+
+    def __init__(self, name, location, rating, end, desc):
         self.name = name
         self.location = location
         self.start = datetime.today().strftime('%Y-%m-%d')
@@ -20,6 +22,7 @@ class Tournament:
         self.rounds = []
         self.players = []
         self.rating = rating
+        self.desc = desc
 
     def __repr__(self):
-        return f'{self.name}, {self.location}, {self.rating}, {self.start}, {self.end}'
+        return f"<{self.name}, {self.location}, {self.rating}, {self.start}, {self.end}>"

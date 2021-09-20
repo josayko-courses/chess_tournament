@@ -30,4 +30,17 @@ def create_tournament():
     # End date
     end = input("Enter length of the tournament : (days) ")
 
-    return Tournament(name, location, ratings[option], int(end))
+    # Description
+    desc = input("Enter description : ")
+
+    t = Tournament(name, location, ratings[option], int(end), desc)
+    print(f">> Tournament created !")
+    print(f">> Name: {name}")
+    print(f">> Location: {location}")
+    print(f">> Rating: {t.rating}")
+    print(f">> From: {t.start}")
+    print(f">> To: {t.end}")
+    print(f">> Description: {t.desc}")
+    print()
+
+    return t
