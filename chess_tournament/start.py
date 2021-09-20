@@ -3,17 +3,24 @@
 with a Swiss-system for pairing the players
 """
 from models import Tournament
-from views import get_input, dashboard, welcome
+from views import dashboard, welcome
+from controllers import create_tournament
 import sys
 
 
 def main():
 
     welcome()
-    input = get_input()
-    t = Tournament(input['name'], input['location'], input['rating'], input['end'])
-    print(t)
-    dashboard()
+    while True:
+        select = dashboard()
+        if select == 1:
+            t = create_tournament()
+            print(t)
+        elif select == 0:
+            print('Quit')
+            break
+        else:
+            continue
     return sys.exit(0)
 
 

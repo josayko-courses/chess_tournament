@@ -2,12 +2,12 @@
 
 """
 
+from models import Tournament
 
-from typing import NamedTuple
 
-
-def get_input():
+def create_tournament():
     """Get user input and return the data as a dictionary"""
+    print("+ Create tournament +")
     # Rating choices, default is 'rapid'
     ratings = ('rapid', 'blitz', 'bullet')
     option = 0
@@ -30,4 +30,4 @@ def get_input():
     # End date
     end = input("Enter length of the tournament : (days) ")
 
-    return {'name': name, 'location': location, 'rating': ratings[option], 'end': int(end)}
+    return Tournament(name, location, ratings[option], int(end))
