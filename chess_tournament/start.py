@@ -4,7 +4,7 @@ with a Swiss-system for pairing the players
 """
 from models import Tournament
 from views import dashboard, welcome
-from controllers import create_tournament
+from controllers import Application as app
 import sys
 
 
@@ -16,9 +16,9 @@ def main():
     while True:
         select = dashboard()
         if select == 1:
-            t = create_tournament()
+            new_tournament = app.tm.create_tournament()
             # TODO: Add data to the DB
-            Tournament.t_list.append(t)
+            Tournament.t_list.append(new_tournament)
             print(Tournament.t_list)
         elif select == 0:
             print('Quit')
