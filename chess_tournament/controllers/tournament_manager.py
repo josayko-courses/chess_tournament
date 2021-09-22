@@ -5,6 +5,7 @@ from models import Tournament
 
 
 class TournamentManager:
+    @staticmethod
     def create_tournament():
         """Get user input and return the data as a dictionary"""
         print("+ Create tournament +")

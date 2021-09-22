@@ -1,1 +1,1 @@
-from .main_menu import welcome, dashboard
+from .main_view import welcome
