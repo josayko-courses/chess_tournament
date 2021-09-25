@@ -7,7 +7,8 @@ from models import Tournament
 class TournamentManager:
     @staticmethod
     def create_tournament():
-        """Get user input and return the data as a dictionary"""
+        """Get user input, create a new tournament and add it to the list"""
+
         print("+ Create tournament +")
         # Rating choices, default is 'rapid'
         ratings = ('rapid', 'blitz', 'bullet')
@@ -35,13 +36,13 @@ class TournamentManager:
         desc = input("Description ? ")
 
         t = Tournament(name, location, ratings[option], int(end), desc)
+        Tournament.t_list.append(t)
+
         print(f"New tournament created !")
-        print(f">> Name: {name}")
-        print(f">> Location: {location}")
+        print(f">> Name: {t.name}")
+        print(f">> Location: {t.location}")
         print(f">> Rating: {t.rating}")
         print(f">> From: {t.start}")
         print(f">> To: {t.end}")
         print(f">> Description: {t.desc}")
         print()
-
-        return t

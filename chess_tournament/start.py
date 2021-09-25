@@ -2,7 +2,7 @@
 
 with a Swiss-system for pairing the players
 """
-from models import Tournament
+from models import Tournament, Player
 from views import welcome
 from controllers import Application as app
 import sys
@@ -12,23 +12,21 @@ def main():
 
     players = []
 
-    # print welcome header on program start
-    welcome()
+    welcome()  # print welcome header on program start
     while True:
-        # main menu selection
-        select = app.mm.main_menu()
+        select = app.mm.main_menu()  # main menu selection
 
         # create a new tournament
         if select == 1:
-            new_tournament = app.tm.create_tournament()
-            # TODO: Add data to the DB
-            Tournament.t_list.append(new_tournament)
+            app.tm.create_tournament()
             print(Tournament.t_list)
 
-        # quit the  program
-        elif select == 0:
+        elif select == 0:  # quit the  program
             print('Quit')
             break
+        elif select == 2:
+            app.pm.create_player()
+            print(Player.p_list)
         else:
             continue
 
