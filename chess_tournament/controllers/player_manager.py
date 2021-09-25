@@ -36,5 +36,5 @@ class PlayerManager:
         print(f">> Surname: {p.surname}")
         print(f">> Name: {p.name}")
         print(f">> Birth Date: {p.birthdate}")
-        print(f">> Sex: {p.gender}")
+        print(f">> Gender: {p.gender}")
         print(f">> Ranking: {p.rank}")
