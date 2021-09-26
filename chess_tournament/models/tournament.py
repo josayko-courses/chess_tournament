@@ -26,3 +26,8 @@ class Tournament:
 
     def __repr__(self):
         return f"<{self.name}, {self.location}, {self.rating}, {self.start}, {self.end}>"
+
+    def print_players(self):
+        print()
+        for p in self.players:
+            print(p)

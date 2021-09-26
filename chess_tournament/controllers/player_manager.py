@@ -32,9 +32,5 @@ class PlayerManager:
         p = Player(surname, name, birthdate, gender, rank)
         Player.p_list.append(p)
 
-        print("New player created !")
-        print(f">> Surname: {p.surname}")
-        print(f">> Name: {p.name}")
-        print(f">> Birth Date: {p.birthdate}")
-        print(f">> Gender: {p.gender}")
-        print(f">> Ranking: {p.rank}")
+        print("Player creation successful !")
+        input("Press ENTER to continue...\n")

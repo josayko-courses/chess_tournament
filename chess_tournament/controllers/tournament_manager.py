@@ -30,51 +30,68 @@ class TournamentManager:
                 continue
 
         # End date
-        end = input("Length ? (days) ")
+        end = input("Length ? (days, default=1) ")
+        try:
+            end = int(end)
+        except:
+            end = 1
 
         # Description
         desc = input("Description ? ")
 
-        t = Tournament(name, location, ratings[option], int(end), desc)
+        t = Tournament(name, location, ratings[option], end, desc)
         Tournament.t_list.append(t)
 
-        print(f"New tournament created !")
-        print(f">> Name: {t.name}")
-        print(f">> Location: {t.location}")
-        print(f">> Rating: {t.rating}")
-        print(f">> From: {t.start}")
-        print(f">> To: {t.end}")
-        print(f">> Description: {t.desc}")
-        print()
+        print(f"Tournament creation successful !")
+        input("Press ENTER to continue...\n")
 
-    @staticmethod
-    def add_player():
+    def print_error(str):
+        print(f"*** {str} ***")
+        input("Press ENTER to cancel...\n")
+
+    @classmethod
+    def add_player(cls):
         """Add players to tournament"""
 
         print("+ Add player to tournament +")
         if not Tournament.t_list:
-            print("*** No tournament available ***")
-            input("Press ENTER to cancel\n")
+            cls.print_error("No tournament available")
+        elif not Player.p_list:
+            cls.print_error("No players available")
         else:
+            for i, t in enumerate(Tournament.t_list):
+                print(f'    [ {i} ] {t.name}, {t.location}, {t.rating} === ', end="")
+                nb = len(Tournament.t_list[i].players)
+                print(f'{nb}/8 Players')
+            select = input("Select tournament: ")
+            try:
+                select = int(select)
+                if select < 0 or select >= len(Tournament.t_list):
+                    cls.print_error("Error: invalid input")
+                    return
+            except ValueError:
+                cls.print_error("Error: invalid input")
+                return
+
+            t.print_players()
+            print(f"Choose player to add to {t.name}, {t.location}: ")
             while True:
-                for i, t in enumerate(Tournament.t_list):
-                    print(f'    [ {i} ] {t.name}, {t.location}, {t.rating} === ', end="")
-                    nb = len(Tournament.t_list[i].players)
-                    print(f'{nb}/8 Players')
-                select = input("Select tournament: ")
+                for i, p in enumerate(Player.p_list):
+                    print(f'    [ {i} ] {p.surname}, {p.name}, {p.rank}')
+                select = input("Player ? ")
                 try:
                     select = int(select)
-                    if select < 0 or select >= len(Tournament.t_list):
+                    if select < 0 or select >= len(Player.p_list):
                         continue
                     break
                 except ValueError:
                     continue
 
-            print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
-            if not Player.p_list:
-                print("*** No players available ***")
-                input("Press ENTER to cancel\n")
-            else:
-                for i, p in enumerate(Player.p_list):
-                    print(f'    [ {i} ] {p.surname}, {p.name}, {p.rank}')
-                select = input("Select ? ")
+            if any(player for player in t.players if player is p):
+                cls.print_error("Player already registered in this tournament")
+                return
+            t.players.append(p)
+
+            t.print_players()
+            print("Player registration successful !")
+            input("Press ENTER to continue...\n")

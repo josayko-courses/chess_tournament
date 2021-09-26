@@ -21,4 +21,6 @@ class MenuManager:
                 val = int(select)
                 return val
             except ValueError:
+                print("*** Error: invalid input ***")
+                input("Press ENTER to continue...")
                 continue
