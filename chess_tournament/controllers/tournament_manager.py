@@ -1,7 +1,7 @@
 """Tournament related functionnalities
 
 """
-from models import Tournament
+from models import Tournament, Player
 
 
 class TournamentManager:
@@ -46,3 +46,35 @@ class TournamentManager:
         print(f">> To: {t.end}")
         print(f">> Description: {t.desc}")
         print()
+
+    @staticmethod
+    def add_player():
+        """Add players to tournament"""
+
+        print("+ Add player to tournament +")
+        if not Tournament.t_list:
+            print("*** No tournament available ***")
+            input("Press ENTER to cancel\n")
+        else:
+            while True:
+                for i, t in enumerate(Tournament.t_list):
+                    print(f'    [ {i} ] {t.name}, {t.location}, {t.rating} === ', end="")
+                    nb = len(Tournament.t_list[i].players)
+                    print(f'{nb}/8 Players')
+                select = input("Select tournament: ")
+                try:
+                    select = int(select)
+                    if select < 0 or select >= len(Tournament.t_list):
+                        continue
+                    break
+                except ValueError:
+                    continue
+
+            print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
+            if not Player.p_list:
+                print("*** No players available ***")
+                input("Press ENTER to cancel\n")
+            else:
+                for i, p in enumerate(Player.p_list):
+                    print(f'    [ {i} ] {p.surname}, {p.name}, {p.rank}')
+                select = input("Select ? ")

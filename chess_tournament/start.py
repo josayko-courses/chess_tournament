@@ -27,6 +27,8 @@ def main():
         elif select == 2:
             app.pm.create_player()
             print(Player.p_list)
+        elif select == 3:
+            app.tm.add_player()
         else:
             continue
 
