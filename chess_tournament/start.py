@@ -22,7 +22,8 @@ def main():
     p6 = Player('Player6', '', '', '', 1)
     p7 = Player('Player7', '', '', '', 1)
     p8 = Player('Player8', '', '', '', 1)
-    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7, p8])
+    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7])
+    test.players.extend([p1, p2, p3, p4, p5, p6, p7])
 
     welcome()  # print welcome header on program start
     while True:
