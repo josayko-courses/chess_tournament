@@ -28,6 +28,8 @@ class Tournament:
         return f"<{self.name}, {self.location}, {self.rating}, {self.start}, {self.end}>"
 
     def print_players(self):
-        print()
-        for p in self.players:
-            print(p)
+        if len(self.players) == 0:
+            print("<This tournament is empty>")
+        else:
+            for p in self.players:
+                print(p)

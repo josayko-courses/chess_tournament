@@ -10,7 +10,19 @@ import sys
 
 def main():
 
-    players = []
+    # Dummy data for tests
+    test = Tournament('Tournoi test', 'Paris', 'blitz', 1, 'Created by the program')
+    Tournament.t_list.append(test)
+
+    p1 = Player('Player1', '', '', '', 1)
+    p2 = Player('Player2', '', '', '', 1)
+    p3 = Player('Player3', '', '', '', 1)
+    p4 = Player('Player4', '', '', '', 1)
+    p5 = Player('Player5', '', '', '', 1)
+    p6 = Player('Player6', '', '', '', 1)
+    p7 = Player('Player7', '', '', '', 1)
+    p8 = Player('Player8', '', '', '', 1)
+    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7, p8])
 
     welcome()  # print welcome header on program start
     while True:

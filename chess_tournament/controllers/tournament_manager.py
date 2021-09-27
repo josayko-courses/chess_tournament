@@ -73,6 +73,11 @@ class TournamentManager:
                 cls.print_error("Error: invalid input")
                 return
 
+            if len(t.players) >= 8:
+                cls.print_error("This tournament is full")
+                return
+
+            print("\n<< Registered players >>")
             t.print_players()
             print(f"Choose player to add to {t.name}, {t.location}: ")
             while True:
@@ -87,11 +92,10 @@ class TournamentManager:
                 except ValueError:
                     continue
 
-            if any(player for player in t.players if player is p):
+            if any(player for player in t.players if player is Player.p_list[select]):
                 cls.print_error("Player already registered in this tournament")
                 return
-            t.players.append(p)
+            t.players.append(Player.p_list[select])
 
-            t.print_players()
             print("Player registration successful !")
             input("Press ENTER to continue...\n")
