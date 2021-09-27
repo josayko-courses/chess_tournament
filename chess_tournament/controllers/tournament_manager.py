@@ -33,7 +33,7 @@ class TournamentManager:
         end = input("Length ? (days, default=1) ")
         try:
             end = int(end)
-        except:
+        except ValueError:
             end = 1
 
         # Description
@@ -42,7 +42,7 @@ class TournamentManager:
         t = Tournament(name, location, ratings[option], end, desc)
         Tournament.t_list.append(t)
 
-        print(f"Tournament creation successful !")
+        print("Tournament creation successful !")
         input("Press ENTER to continue...\n")
 
     def print_error(str):
@@ -59,9 +59,13 @@ class TournamentManager:
         elif not Player.p_list:
             cls.print_error("No players available")
         else:
-            for i, t in enumerate(Tournament.t_list):
+            tour_lst = [tour for tour in Tournament.t_list if len(tour.players) < 8]
+            if len(tour_lst) == 0:
+                cls.print_error("No tournament available")
+                return
+            for i, t in enumerate(tour_lst):
                 print(f'    [ {i} ] {t.name}, {t.location}, {t.rating} === ', end="")
-                nb = len(Tournament.t_list[i].players)
+                nb = len(tour_lst[i].players)
                 print(f'{nb}/8 Players')
             select = input("Select tournament: ")
             try:

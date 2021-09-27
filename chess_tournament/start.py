@@ -15,15 +15,15 @@ def main():
     Tournament.t_list.append(test)
 
     p1 = Player('Player1', '', '', '', 1)
-    p2 = Player('Player2', '', '', '', 1)
-    p3 = Player('Player3', '', '', '', 1)
-    p4 = Player('Player4', '', '', '', 1)
-    p5 = Player('Player5', '', '', '', 1)
-    p6 = Player('Player6', '', '', '', 1)
-    p7 = Player('Player7', '', '', '', 1)
-    p8 = Player('Player8', '', '', '', 1)
-    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7])
-    test.players.extend([p1, p2, p3, p4, p5, p6, p7])
+    p2 = Player('Player2', '', '', '', 2)
+    p3 = Player('Player3', '', '', '', 3)
+    p4 = Player('Player4', '', '', '', 4)
+    p5 = Player('Player5', '', '', '', 5)
+    p6 = Player('Player6', '', '', '', 6)
+    p7 = Player('Player7', '', '', '', 7)
+    p8 = Player('Player8', '', '', '', 8)
+    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7, p8])
+    test.players.extend([p1, p2, p3, p4, p5, p6, p7, p8])
 
     welcome()  # print welcome header on program start
     while True:
@@ -42,6 +42,10 @@ def main():
 
         elif select == 3:
             app.tm.add_player()
+
+        elif select == 4:
+            app.generate_round(Tournament.t_list[0].players)
+
         else:
             continue
 
