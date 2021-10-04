@@ -22,7 +22,16 @@ class TournamentManager:
 
         # Tournament name and location
         name = input("Name ? ")
+        if len(name) < 2:
+            print("*** Error: input must be more than 1 character ***")
+            input("Press ENTER to cancel...\n")
+            return
+
         location = input("Location ? ")
+        if len(location) < 2:
+            print("*** Error: input must be more than 1 character ***")
+            input("Press ENTER to cancel...\n")
+            return
 
         # Rating choice. Loop until user enter a valid option
         while True:
@@ -33,21 +42,15 @@ class TournamentManager:
                     option = int(option) - 1
                     break
             except ValueError:
-                continue
+                print("*** Error: invalid input ***")
+                input("Press ENTER to cancel...\n")
+                return
 
         # Start date
-        start = input("Start date ? (days, default=1) ")
-        try:
-            start = int(start)
-        except ValueError:
-            start = 1
+        start = input("Start date ? ")
 
         # End date
-        end = input("End date ? (days, default=1) ")
-        try:
-            end = int(end)
-        except ValueError:
-            end = 1
+        end = input("End date ? ")
 
         # Description
         desc = input("Description ? ")
@@ -57,7 +60,7 @@ class TournamentManager:
             {
                 'name': name,
                 'location': location,
-                'rating': rating,
+                'rating': ratings[option],
                 'nb_rounds': 4,
                 'rounds': [],
                 'players': [],
@@ -88,17 +91,17 @@ class TournamentManager:
         elif not Player.p_list:
             cls.print_error("No players available")
         else:
-            tour_lst = [tour for tour in Tournament.t_list if len(tour.players) < 8]
+            tour_lst = [tour for tour in Tournament.t_list]
             if len(tour_lst) == 0:
                 cls.print_error("No tournament available")
                 return
             for i, t in enumerate(tour_lst):
-                print(f'    [ {i} ] {t.name}, {t.location}, {t.rating} === ', end="")
+                print(f'    [ {i + 1} ] {t.name}, {t.location}, {t.rating} === ', end="")
                 nb = len(tour_lst[i].players)
                 print(f'{nb}/8 Players')
             select = input("Select tournament: ")
             try:
-                select = int(select)
+                select = int(select) - 1
                 if select < 0 or select >= len(Tournament.t_list):
                     cls.print_error("Error: invalid input")
                     return
@@ -121,17 +124,17 @@ class TournamentManager:
                     return
 
                 for i, p in enumerate(player_lst):
-                    print(f'    [ {i} ] {p.surname}, {p.name}, {p.rank}')
-                nb = input("Player ? ")
+                    print(f'    [ {i + 1} ] {p.surname}, {p.name}, {p.rank}')
+                p_select = input("Player ? ")
                 try:
-                    nb = int(nb)
-                    if nb < 0 or nb >= len(player_lst):
+                    p_select = int(p_select) - 1
+                    if p_select < 0 or p_select >= len(player_lst):
                         continue
                     break
                 except ValueError:
                     continue
 
-            Tournament.t_list[select].players.append(player_lst[nb])
+            Tournament.t_list[select].players.append(player_lst[p_select])
 
             print("Player registration successful !")
             input("Press ENTER to continue...\n")

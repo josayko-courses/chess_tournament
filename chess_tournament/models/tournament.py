@@ -15,7 +15,7 @@ class Tournament:
         self.location = location
         self.start = start
         if end:
-            self.end = 1
+            self.end = end
         else:
             self.end = self.start
         self.nb_rounds = 4
