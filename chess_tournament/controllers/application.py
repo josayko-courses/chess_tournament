@@ -2,11 +2,11 @@
 
 """
 
-from controllers import TinyDB, Query
+from controllers import TinyDB
 from .tournament_manager import TournamentManager
 from .menu_manager import MenuManager
 from .player_manager import PlayerManager
-from models import Round, Tournament
+from models import Round, Tournament, Player
 
 
 class Application:
@@ -18,6 +18,15 @@ class Application:
 
     def load_db(self):
         db = TinyDB(self.db_path)
+        tournaments = db.table('tournaments')
+        for t in tournaments.all():
+            tournament = Tournament(t['name'], t['location'], t['rating'], t['start'], t['end'], t['desc'])
+            Tournament.t_list.append(tournament)
+
+        players = db.table('players')
+        for p in players.all():
+            player = Player(p['surname'], p['name'], p['birthdate'], p['gender'], p['rank'])
+            Player.p_list.append(player)
 
     def generate_round(players):
         new_round = Round()

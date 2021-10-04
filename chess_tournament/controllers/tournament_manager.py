@@ -33,8 +33,15 @@ class TournamentManager:
             except ValueError:
                 continue
 
+        # Start date
+        start = input("Start date ? (days, default=1) ")
+        try:
+            start = int(start)
+        except ValueError:
+            start = 1
+
         # End date
-        end = input("Length ? (days, default=1) ")
+        end = input("End date ? (days, default=1) ")
         try:
             end = int(end)
         except ValueError:
@@ -43,7 +50,7 @@ class TournamentManager:
         # Description
         desc = input("Description ? ")
 
-        t = Tournament(name, location, ratings[option], end, desc)
+        t = Tournament(name, location, ratings[option], start, end, desc)
 
         # Add to local data
         Tournament.t_list.append(t)
@@ -59,6 +66,7 @@ class TournamentManager:
                 'nb_rounds': t.nb_rounds,
                 'rounds': t.rounds,
                 'players': t.players,
+                'start': t.start,
                 'end': t.end,
                 'desc': t.desc,
             }

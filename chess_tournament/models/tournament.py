@@ -9,13 +9,12 @@ class Tournament:
 
     t_list = []
 
-    def __init__(self, name, location, rating, end, desc):
+    def __init__(self, name, location, rating, start, end, desc):
         self.name = name
         self.location = location
-        self.start = datetime.today().strftime('%Y-%m-%d')
+        self.start = start
         if end:
-            td = timedelta(end - 1) if end - 1 > 0 else timedelta(0)
-            self.end = (datetime.today() + td).strftime('%Y-%m-%d')
+            self.end = 1
         else:
             self.end = self.start
         self.nb_rounds = 4

@@ -12,6 +12,7 @@ def main():
     # Get db location and create app instance
     filepath = os.path.split(os.path.abspath(__file__))
     app = Application(filepath[0])
+    app.load_db()
 
     welcome()  # print welcome header on program start
     while True:
