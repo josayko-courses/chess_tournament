@@ -18,15 +18,18 @@ class Application:
 
     def load_db(self):
         db = TinyDB(self.db_path)
-        tournaments = db.table('tournaments')
-        for t in tournaments.all():
-            tournament = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['start'], t['end'], t['desc'])
-            Tournament.t_list.append(tournament)
-
         players = db.table('players')
         for p in players.all():
             player = Player(p.doc_id, p['surname'], p['name'], p['birthdate'], p['gender'], p['rank'])
             Player.p_list.append(player)
+
+        tournaments = db.table('tournaments')
+        for t in tournaments.all():
+            tournament = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['start'], t['end'], t['desc'])
+
+            # TODO: Add players to tournament's local data from db's doc_ids
+
+            Tournament.t_list.append(tournament)
 
     def generate_round(players):
         new_round = Round()
