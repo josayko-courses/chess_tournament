@@ -2,13 +2,15 @@
 
 """
 
-from controllers import TinyDB
+from controllers import TinyDB, Query
 from models import Tournament, Player
 
 
 class TournamentManager:
     def __init__(self, db_path):
         self.db_path = db_path
+        self.db = TinyDB(self.db_path)
+        self.table = self.db.table('tournaments')
 
     def create_tournament(self):
         """Get user input, create a new tournament and add it to the list"""
@@ -50,27 +52,24 @@ class TournamentManager:
         # Description
         desc = input("Description ? ")
 
-        t = Tournament(name, location, ratings[option], start, end, desc)
-
-        # Add to local data
-        Tournament.t_list.append(t)
-
         # Add to db
-        db = TinyDB(self.db_path)
-        table = db.table('tournaments')
-        table.insert(
+        id = self.table.insert(
             {
-                'name': t.name,
-                'location': t.location,
-                'rating': t.rating,
-                'nb_rounds': t.nb_rounds,
-                'rounds': t.rounds,
-                'players': t.players,
-                'start': t.start,
-                'end': t.end,
-                'desc': t.desc,
+                'name': name,
+                'location': location,
+                'rating': rating,
+                'nb_rounds': 4,
+                'rounds': [],
+                'players': [],
+                'start': start,
+                'end': end,
+                'desc': desc,
             }
         )
+
+        # Add to local data
+        t = Tournament(id, name, location, ratings[option], start, end, desc)
+        Tournament.t_list.append(t)
 
         print("Tournament creation successful !")
         input("Press ENTER to continue...\n")
@@ -107,32 +106,32 @@ class TournamentManager:
                 cls.print_error("Error: invalid input")
                 return
 
-            if len(t.players) >= 8:
+            if len(Tournament.t_list[select].players) >= 8:
                 cls.print_error("This tournament is full")
                 return
 
             print("\n<< Registered players >>")
-            t.print_players()
+            Tournament.t_list[select].print_players()
             print()
             print(f"Choose player to add to {t.name}, {t.location}: ")
             while True:
-                player_lst = [player for player in Player.p_list if player not in t.players]
+                player_lst = [player for player in Player.p_list if player not in Tournament.t_list[select].players]
                 if len(player_lst) == 0:
                     cls.print_error("Not enough players")
                     return
 
                 for i, p in enumerate(player_lst):
                     print(f'    [ {i} ] {p.surname}, {p.name}, {p.rank}')
-                select = input("Player ? ")
+                nb = input("Player ? ")
                 try:
-                    select = int(select)
-                    if select < 0 or select >= len(player_lst):
+                    nb = int(nb)
+                    if nb < 0 or nb >= len(player_lst):
                         continue
                     break
                 except ValueError:
                     continue
 
-            t.players.append(player_lst[select])
+            Tournament.t_list[select].players.append(player_lst[nb])
 
             print("Player registration successful !")
             input("Press ENTER to continue...\n")

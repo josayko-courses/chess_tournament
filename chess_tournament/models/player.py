@@ -7,7 +7,8 @@ class Player:
 
     p_list = []
 
-    def __init__(self, surname, name, birthdate, gender, rank):
+    def __init__(self, id, surname, name, birthdate, gender, rank):
+        self.id = id
         self.surname = surname
         self.name = name
         self.birthdate = birthdate

@@ -9,7 +9,8 @@ class Tournament:
 
     t_list = []
 
-    def __init__(self, name, location, rating, start, end, desc):
+    def __init__(self, id, name, location, rating, start, end, desc):
+        self.id = id
         self.name = name
         self.location = location
         self.start = start

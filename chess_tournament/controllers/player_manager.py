@@ -9,6 +9,8 @@ from models import Player
 class PlayerManager:
     def __init__(self, db_path):
         self.db_path = db_path
+        self.db = TinyDB(self.db_path)
+        self.table = self.db.table('players')
 
     def create_player(self):
         """Get user input, create a new player and add it to the list"""
@@ -32,15 +34,13 @@ class PlayerManager:
             if rank > 0:
                 break
 
-        p = Player(surname, name, birthdate, gender, rank)
-        Player.p_list.append(p)
-
         # Add to db
-        db = TinyDB(self.db_path)
-        table = db.table('players')
-        table.insert(
-            {'surname': p.surname, 'name': p.name, 'birthdate': p.birthdate, 'gender': p.gender, 'rank': p.rank}
+        id = self.table.insert(
+            {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank}
         )
+
+        p = Player(id, surname, name, birthdate, gender, rank)
+        Player.p_list.append(p)
 
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
