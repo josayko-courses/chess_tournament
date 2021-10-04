@@ -4,26 +4,14 @@ with a Swiss-system for pairing the players
 """
 from models import Tournament, Player
 from views import welcome
-from controllers import Application as app
-import sys
+from controllers import Application
+import sys, os
 
 
 def main():
-
-    # Dummy data for tests
-    test = Tournament('Tournoi test', 'Paris', 'blitz', 1, 'Created by the program')
-    Tournament.t_list.append(test)
-
-    p1 = Player('Player1', '', '', '', 1)
-    p2 = Player('Player2', '', '', '', 2)
-    p3 = Player('Player3', '', '', '', 3)
-    p4 = Player('Player4', '', '', '', 4)
-    p5 = Player('Player5', '', '', '', 5)
-    p6 = Player('Player6', '', '', '', 6)
-    p7 = Player('Player7', '', '', '', 7)
-    p8 = Player('Player8', '', '', '', 8)
-    Player.p_list.extend([p1, p2, p3, p4, p5, p6, p7, p8])
-    test.players.extend([p1, p2, p3, p4, p5, p6, p7, p8])
+    # Get db location and create app instance
+    filepath = os.path.split(os.path.abspath(__file__))
+    app = Application(filepath[0])
 
     welcome()  # print welcome header on program start
     while True:

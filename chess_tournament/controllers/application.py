@@ -2,6 +2,7 @@
 
 """
 
+from controllers import TinyDB, Query
 from .tournament_manager import TournamentManager
 from .menu_manager import MenuManager
 from .player_manager import PlayerManager
@@ -9,9 +10,14 @@ from models import Round, Tournament
 
 
 class Application:
-    tm = TournamentManager
-    mm = MenuManager
-    pm = PlayerManager
+    def __init__(self, dirname):
+        self.db_path = dirname + '/db.json'
+        self.tm = TournamentManager(self.db_path)
+        self.pm = PlayerManager(self.db_path)
+        self.mm = MenuManager
+
+    def load_db(self):
+        db = TinyDB(self.db_path)
 
     def generate_round(players):
         new_round = Round()

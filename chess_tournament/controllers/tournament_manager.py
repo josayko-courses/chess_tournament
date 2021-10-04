@@ -1,12 +1,16 @@
 """Tournament related functionnalities
 
 """
+
+from controllers import TinyDB
 from models import Tournament, Player
 
 
 class TournamentManager:
-    @staticmethod
-    def create_tournament():
+    def __init__(self, db_path):
+        self.db_path = db_path
+
+    def create_tournament(self):
         """Get user input, create a new tournament and add it to the list"""
 
         print("+ Create tournament +")
@@ -40,7 +44,14 @@ class TournamentManager:
         desc = input("Description ? ")
 
         t = Tournament(name, location, ratings[option], end, desc)
+
+        # Add to local data
         Tournament.t_list.append(t)
+
+        # Add to db
+        db = TinyDB(self.db_path)
+        table = db.table('tournaments')
+        table.insert({'name': name, 'location': location, 'rating': ratings[option], 'end': end, 'desc': desc})
 
         print("Tournament creation successful !")
         input("Press ENTER to continue...\n")

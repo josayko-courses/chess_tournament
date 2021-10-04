@@ -2,12 +2,15 @@
 
 """
 
+from controllers import TinyDB
 from models import Player
 
 
 class PlayerManager:
-    @staticmethod
-    def create_player():
+    def __init__(self, db_path):
+        self.db_path = db_path
+
+    def create_player(self):
         """Get user input, create a new player and add it to the list"""
 
         print("+ Create player +")
@@ -31,6 +34,11 @@ class PlayerManager:
 
         p = Player(surname, name, birthdate, gender, rank)
         Player.p_list.append(p)
+
+        # Add to db
+        db = TinyDB(self.db_path)
+        table = db.table('players')
+        table.insert({'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank})
 
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
