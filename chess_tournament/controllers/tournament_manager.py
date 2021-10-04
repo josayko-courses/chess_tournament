@@ -77,23 +77,22 @@ class TournamentManager:
         print("Tournament creation successful !")
         input("Press ENTER to continue...\n")
 
-    def print_error(str):
+    def print_error(self, str):
         print(f"*** {str} ***")
         input("Press ENTER to cancel...\n")
 
-    @classmethod
-    def add_player(cls):
+    def add_player(self):
         """Add players to tournament"""
 
         print("+ Add player to tournament +")
         if not Tournament.t_list:
-            cls.print_error("No tournament available")
+            self.print_error("No tournament available")
         elif not Player.p_list:
-            cls.print_error("No players available")
+            self.print_error("No players available")
         else:
             tour_lst = [tour for tour in Tournament.t_list]
             if len(tour_lst) == 0:
-                cls.print_error("No tournament available")
+                self.print_error("No tournament available")
                 return
             for i, t in enumerate(tour_lst):
                 print(f'    [ {i + 1} ] {t.name}, {t.location}, {t.rating} === ', end="")
@@ -103,24 +102,24 @@ class TournamentManager:
             try:
                 select = int(select) - 1
                 if select < 0 or select >= len(Tournament.t_list):
-                    cls.print_error("Error: invalid input")
+                    self.print_error("Error: invalid input")
                     return
             except ValueError:
-                cls.print_error("Error: invalid input")
+                self.print_error("Error: invalid input")
                 return
 
             if len(Tournament.t_list[select].players) >= 8:
-                cls.print_error("This tournament is full")
+                self.print_error("This tournament is full")
                 return
 
             print("\n<< Registered players >>")
             Tournament.t_list[select].print_players()
             print()
-            print(f"Choose player to add to {t.name}, {t.location}: ")
+            print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
             while True:
                 player_lst = [player for player in Player.p_list if player not in Tournament.t_list[select].players]
                 if len(player_lst) == 0:
-                    cls.print_error("Not enough players")
+                    self.print_error("Not enough players")
                     return
 
                 for i, p in enumerate(player_lst):
@@ -135,6 +134,14 @@ class TournamentManager:
                     continue
 
             Tournament.t_list[select].players.append(player_lst[p_select])
+
+            tournament = self.table.get(doc_id=Tournament.t_list[select].id)
+            p_list = tournament['players']
+            p_list.append(player_lst[p_select].id)
+            self.table.update(
+                {'players': p_list},
+                doc_ids=[Tournament.t_list[select].id],
+            )
 
             print("Player registration successful !")
             input("Press ENTER to continue...\n")
