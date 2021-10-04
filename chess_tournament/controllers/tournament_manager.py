@@ -51,7 +51,18 @@ class TournamentManager:
         # Add to db
         db = TinyDB(self.db_path)
         table = db.table('tournaments')
-        table.insert({'name': name, 'location': location, 'rating': ratings[option], 'end': end, 'desc': desc})
+        table.insert(
+            {
+                'name': t.name,
+                'location': t.location,
+                'rating': t.rating,
+                'nb_rounds': t.nb_rounds,
+                'rounds': t.rounds,
+                'players': t.players,
+                'end': t.end,
+                'desc': t.desc,
+            }
+        )
 
         print("Tournament creation successful !")
         input("Press ENTER to continue...\n")

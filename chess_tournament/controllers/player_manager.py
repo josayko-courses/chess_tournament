@@ -38,7 +38,9 @@ class PlayerManager:
         # Add to db
         db = TinyDB(self.db_path)
         table = db.table('players')
-        table.insert({'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank})
+        table.insert(
+            {'surname': p.surname, 'name': p.name, 'birthdate': p.birthdate, 'gender': p.gender, 'rank': p.rank}
+        )
 
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
