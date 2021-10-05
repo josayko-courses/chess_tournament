@@ -20,6 +20,7 @@ Pygments==2.10.0
 pyparsing==2.4.7
 pytest==6.2.5
 regex==2021.8.28
+tinydb==4.5.2
 toml==0.10.2
 tomli==1.2.1
 typing-extensions==3.10.0.2
