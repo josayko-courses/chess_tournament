@@ -4,8 +4,8 @@ with a Swiss-system for pairing the players
 """
 
 import sys, os
-from models import Tournament
-from views import welcome, show_all_players
+from models import Tournament, Player
+from views import welcome, show_players, show_all_tournaments
 from controllers import Application
 
 
@@ -32,8 +32,11 @@ def main():
         elif select == 4:
             app.generate_round(Tournament.t_list[0].players)
 
+        elif select == 6:
+            show_all_tournaments()
+
         elif select == 7:
-            show_all_players()
+            show_players(Player.p_list)
 
         elif select == 0:  # quit the  program
             print('Quit')

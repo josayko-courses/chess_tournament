@@ -2,12 +2,10 @@
 
 """
 
-from models import Player
 
-
-def show_all_players():
+def show_players(players):
     print("+ Player list +")
-    select = input("Sorted by :\n    1 alphabetical order\n    2 rank order\n    Select ? (1 - 2) ")
+    select = input("Players sorted by :\n    [1] alphabetical order\n    [2] rank order\n    Select ? [1 ~ 2] ")
     print()
 
     try:
@@ -18,11 +16,11 @@ def show_all_players():
         return
 
     if select == 1:
-        alpha_list = sorted(Player.p_list, key=lambda x: x.surname + x.name)
+        alpha_list = sorted(players, key=lambda x: x.surname + x.name)
         for player in alpha_list:
             print(f"[id: {player.id}] [rank: {player.rank}] {player.surname}, {player.name}")
     elif select == 2:
-        rank_list = sorted(Player.p_list, key=lambda x: x.rank)
+        rank_list = sorted(players, key=lambda x: x.rank)
         for player in rank_list:
             print(f"[id: {player.id}] [rank: {player.rank}] {player.surname}, {player.name}")
     else:

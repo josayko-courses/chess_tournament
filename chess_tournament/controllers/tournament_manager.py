@@ -35,7 +35,7 @@ class TournamentManager:
 
         # Rating choice. Loop until user enter a valid option
         while True:
-            rating = input("Rating type :\n    1 rapid\n    2 blitz\n    3 bullet\n    Rating ? (1 - 3) ")
+            rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? [1 ~ 3] ")
             try:
                 rating = int(rating)
                 if rating > 0 and rating <= 3:
@@ -95,7 +95,7 @@ class TournamentManager:
                 self.print_error("No tournament available")
                 return
             for i, t in enumerate(tour_lst):
-                print(f'    [ {i + 1} ] {t.name}, {t.location}, {t.rating} === ', end="")
+                print(f'    [{i + 1}] {t.name}, {t.location}, {t.rating} === ', end="")
                 nb = len(tour_lst[i].players)
                 print(f'{nb}/8 Players')
             select = input("Select tournament: ")

@@ -26,7 +26,7 @@ class PlayerManager:
         gender = input("Gender ? ")
 
         while True:
-            rank = input("Rank ? (1 - 99+) ")
+            rank = input("Rank ? [1 ~ 99+] ")
             try:
                 rank = int(rank)
             except ValueError:
