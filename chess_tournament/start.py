@@ -2,10 +2,11 @@
 
 with a Swiss-system for pairing the players
 """
-from models import Tournament, Player
-from views import welcome
-from controllers import Application
+
 import sys, os
+from models import Tournament
+from views import welcome, show_all_players
+from controllers import Application
 
 
 def main():
@@ -22,10 +23,6 @@ def main():
         if select == 1:
             app.tm.create_tournament()
 
-        elif select == 0:  # quit the  program
-            print('Quit')
-            break
-
         elif select == 2:
             app.pm.create_player()
 
@@ -35,6 +32,12 @@ def main():
         elif select == 4:
             app.generate_round(Tournament.t_list[0].players)
 
+        elif select == 7:
+            show_all_players()
+
+        elif select == 0:  # quit the  program
+            print('Quit')
+            break
         else:
             continue
 

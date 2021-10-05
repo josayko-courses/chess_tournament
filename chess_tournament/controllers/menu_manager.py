@@ -16,7 +16,7 @@ class MenuManager:
             print("    [ 4 ] Generate round")
             print("    [ 5 ] Add results")
             print()
-            print("    [ 6 ] Tournament results")
+            print("    [ 6 ] Tournament list")
             print("    [ 7 ] Player list")
             print()
             print("    [ 0 ] Quit\n")
