@@ -24,11 +24,16 @@ class Application:
             Player.p_list.append(player)
 
         tournaments = db.table('tournaments')
+
+        # Loading tournaments
         for t in tournaments.all():
             tournament = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['start'], t['end'], t['desc'])
 
-            # TODO: Add players to tournament's local data from db's doc_ids
-
+            # Loading players and scores in each tournament => [<Player>, score]
+            for p in t['players']:
+                player = [x for x in Player.p_list if x.id == p[0]]
+                player.append(p[1])
+                tournament.players.append(player)
             Tournament.t_list.append(tournament)
 
     def generate_round(players):

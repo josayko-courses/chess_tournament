@@ -117,7 +117,8 @@ class TournamentManager:
             print()
             print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
             while True:
-                player_lst = [player for player in Player.p_list if player not in Tournament.t_list[select].players]
+                players_id = [p[0].id for p in Tournament.t_list[select].players]
+                player_lst = [player for player in Player.p_list if player.id not in players_id]
                 if len(player_lst) == 0:
                     self.print_error("Not enough players")
                     return
@@ -133,11 +134,11 @@ class TournamentManager:
                 except ValueError:
                     continue
 
-            Tournament.t_list[select].players.append(player_lst[p_select])
+            Tournament.t_list[select].players.append((player_lst[p_select], 0))
 
             tournament = self.table.get(doc_id=Tournament.t_list[select].id)
             p_list = tournament['players']
-            p_list.append(player_lst[p_select].id)
+            p_list.append((player_lst[p_select].id, 0))
             self.table.update(
                 {'players': p_list},
                 doc_ids=[Tournament.t_list[select].id],
