@@ -57,6 +57,27 @@ class Application:
             round = Round("Round 1", games)
             Tournament.t_list[select].rounds.append(round)
 
+            # Update DB
+            table = self.tm.table
+            tournament = table.get(doc_id=Tournament.t_list[select].id)
+            r_list = tournament['rounds']
+
+            serialized_games = []
+            for game in games:
+                player1 = [game[0][0].id, game[0][1]]
+                player2 = [game[1][0].id, game[1][1]]
+                serialized_games.append((player1, player2))
+
+            serialized_round = {'name': round.name, 'start': round.start, 'end': round.end, 'games': serialized_games}
+            r_list.append(serialized_round)
+
+            table.update(
+                {'rounds': r_list},
+                doc_ids=[Tournament.t_list[select].id],
+            )
+
         # next rounds
+        elif len(Tournament.t_list[select].rounds) < Tournament.t_list[select].nb_rounds:
+            print(Tournament.t_list[select].rounds[-1])
 
         input("Press ENTER to continue...\n")

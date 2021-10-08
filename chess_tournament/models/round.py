@@ -11,7 +11,6 @@ class Round:
         self.start = datetime.today().strftime('%Y-%m-%d %H:%M')
         self.end = ""
         self.games = games
-        return
 
     def __repr__(self):
         return f"<{self.name}, {self.start}, {self.end}, {self.games}>"
