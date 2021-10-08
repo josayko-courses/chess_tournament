@@ -4,6 +4,7 @@
 
 from models import Tournament
 from .player_list import show_players
+from views import error_msg
 
 
 def show_all_tournaments():
@@ -16,12 +17,10 @@ def show_all_tournaments():
     try:
         select = int(select) - 1
         if select < 0 or select >= len(Tournament.t_list):
-            print("Error: invalid input")
-            input("Press ENTER to cancel...")
+            error_msg("invalid input")
             return
     except ValueError:
-        print("Error: invalid input")
-        input("Press ENTER to cancel...")
+        error_msg("invalid input")
         return
 
     print(f"Choose option for {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
@@ -32,8 +31,7 @@ def show_all_tournaments():
     try:
         option = int(option)
     except ValueError:
-        print("Error: invalid input")
-        input("Press ENTER to cancel...")
+        error_msg("invalid input")
         return
 
     if option == 1:

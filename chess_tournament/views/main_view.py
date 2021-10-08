@@ -10,3 +10,8 @@ def welcome():
     print("|   Chess tournament manager     |")
     print("|                                |")
     print("+================================+\n")
+
+
+def error_msg(str):
+    print("Error: " + str)
+    input("Press ENTER to cancel...")

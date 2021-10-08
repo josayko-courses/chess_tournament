@@ -2,6 +2,8 @@
 
 """
 
+from views import error_msg
+
 
 class MenuManager:
     @staticmethod
@@ -19,11 +21,10 @@ class MenuManager:
             print("    [0] Quit\n")
             print("+================================+\n")
             select = input("Select ? [0 ~ 7] ")
-            print()
+
             try:
                 val = int(select)
                 return val
             except ValueError:
-                print("*** Error: invalid input ***")
-                input("Press ENTER to continue...")
+                error_msg("invalid input")
                 continue

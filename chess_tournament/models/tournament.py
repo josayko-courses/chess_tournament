@@ -29,7 +29,7 @@ class Tournament:
 
     def print_players(self):
         if len(self.players) == 0:
-            print("<This tournament is empty>")
+            print("*** This tournament is empty ***")
         else:
             for p in self.players:
                 print(p)

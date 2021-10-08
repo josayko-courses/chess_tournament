@@ -4,6 +4,7 @@
 
 from controllers import TinyDB
 from models import Player
+from views import error_msg
 
 
 class PlayerManager:
@@ -16,23 +17,16 @@ class PlayerManager:
         """Get user input, create a new player and add it to the list"""
 
         print("+ Create player +")
-
         surname = input("Surname ? ")
-
         name = input("Name ? ")
-
         birthdate = input("Birth Date ? ")
-
         gender = input("Gender ? ")
-
-        while True:
-            rank = input("Rank ? [1 ~ 99+] ")
-            try:
-                rank = int(rank)
-            except ValueError:
-                continue
-            if rank > 0:
-                break
+        rank = input("Rank ? [1 ~ 99+] ")
+        try:
+            rank = int(rank)
+        except ValueError:
+            error_msg("invalid input")
+            return
 
         # Add to db
         id = self.table.insert(

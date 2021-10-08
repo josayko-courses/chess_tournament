@@ -2,17 +2,17 @@
 
 """
 
+from views import error_msg
+
 
 def show_players(players):
     print("+ Player list +")
     select = input("Players sorted by :\n    [1] alphabetical order\n    [2] rank order\n    Select ? [1 ~ 2] ")
-    print()
 
     try:
         select = int(select)
     except ValueError:
-        print("Error: invalid input")
-        input("Press ENTER to cancel...")
+        error_msg("invalid input")
         return
 
     if select == 1:
@@ -24,9 +24,6 @@ def show_players(players):
         for player in rank_list:
             print(f"[id: {player.id}] [rank: {player.rank}] {player.surname}, {player.name}")
     else:
-        print("Error: invalid input")
-        input("Press ENTER to cancel...")
+        error_msg("invalid input")
         return
-
-    print()
     input("Press ENTER to continue...")
