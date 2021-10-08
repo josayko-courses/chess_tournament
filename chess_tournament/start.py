@@ -27,7 +27,7 @@ def main():
         elif select == 4:
             app.generate_round()
         elif select == 5:
-            print("Add results")
+            app.add_results()
         elif select == 6:
             app.terminate_round()
         elif select == 7:

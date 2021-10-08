@@ -113,3 +113,53 @@ class Application:
                     return error_msg("There are some games with no results. Please add results before.")
 
         input("Press ENTER to continue...\n")
+
+    def add_results(self):
+        print("+ Add results +")
+        select = select_tournament()
+        rounds = Tournament.t_list[select].rounds
+
+        for index, round in enumerate(rounds):
+            if round.end:
+                print(f"    [{index + 1}] {round.name}, {round.start}, {round.end}")
+            else:
+                print(f"    [{index + 1}] {round.name}, {round.start} ~ ONGOING ~")
+
+        select = input("Enter round number: ")
+        try:
+            select = int(select) - 1
+            if select < 0 or select >= len(rounds):
+                return error_msg("invalid input")
+        except ValueError:
+            return error_msg("invalid input")
+
+        print(f"Name: {rounds[select].name}")
+        print(f"Start: {rounds[select].start}")
+        if rounds[select].end:
+            print(f"End: {rounds[select].end}")
+        else:
+            print(f"End: ~ ONGOING ~")
+        for i, game in enumerate(rounds[select].games):
+            print(
+                f"    [{i + 1}] {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+                end="",
+            )
+            print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
+
+        nb = input("    Enter game number: ")
+        try:
+            nb = int(nb) - 1
+            if nb < 0 or nb >= len(rounds[select].games):
+                return error_msg("invalid input")
+        except ValueError:
+            return error_msg("invalid input")
+
+        for i, player in enumerate(rounds[select].games[nb]):
+            print(f"        Player {i + 1} == {player}")
+
+        print(f"        [1] WIN  Player 1, LOSE Player 2")
+        print(f"        [2] LOSE Player 1, WIN  Player 2")
+        print(f"        [3] DRAW")
+        nb = input("        Select result: ")
+
+        input("Press ENTER to continue...\n")

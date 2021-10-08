@@ -6,6 +6,8 @@ from .main_view import error_msg
 
 
 def show_rounds(rounds):
+    if not rounds:
+        return error_msg("There is no round generated")
     for index, round in enumerate(rounds):
         print(f"    [{index + 1}] {round.name}")
     select = input("Enter round number: ")
@@ -20,7 +22,11 @@ def show_rounds(rounds):
     print(f"Name: {rounds[select].name}")
     print(f"Start: {rounds[select].start}")
     print(f"End: {rounds[select].end}")
-    for game in rounds[select].games:
-        print(f"{game[0][0]} [score: {game[0][1]}] vs. {game[1][0]}")
+    for i, game in enumerate(rounds[select].games):
+        print(
+            f"    [{i}] {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+            end="",
+        )
+        print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
 
     input("Press ENTER to continue...\n")
