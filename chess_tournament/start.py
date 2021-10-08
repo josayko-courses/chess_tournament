@@ -4,7 +4,7 @@ with a Swiss-system for pairing the players
 """
 
 import sys, os
-from models import Tournament, Player
+from models import Player
 from views import welcome, show_players, show_all_tournaments
 from controllers import Application
 
@@ -18,26 +18,22 @@ def main():
     welcome()  # print welcome header on program start
     while True:
         select = app.mm.main_menu()  # main menu selection
-
-        # create a new tournament
         if select == 1:
             app.tm.create_tournament()
-
         elif select == 2:
             app.pm.create_player()
-
         elif select == 3:
             app.tm.add_player()
-
         elif select == 4:
             app.generate_round()
-
+        elif select == 5:
+            print("Add results")
         elif select == 6:
-            show_all_tournaments()
-
+            app.terminate_round()
         elif select == 7:
+            show_all_tournaments()
+        elif select == 8:
             show_players(Player.p_list)
-
         elif select == 0:  # quit the  program
             print('Quit')
             break

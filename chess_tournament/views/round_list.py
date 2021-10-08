@@ -12,8 +12,7 @@ def show_rounds(rounds):
     try:
         select = int(select) - 1
         if select < 0 or select >= len(rounds):
-            error_msg("invalid input")
-            return
+            return error_msg("invalid input")
     except ValueError:
         error_msg("invalid input")
         return

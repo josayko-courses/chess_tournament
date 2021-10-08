@@ -91,6 +91,25 @@ class Application:
 
         # next rounds
         elif len(Tournament.t_list[select].rounds) < Tournament.t_list[select].nb_rounds:
-            print(Tournament.t_list[select].rounds[-1])
+            if Tournament.t_list[select].rounds[-1].end:
+                self.swiss_round_algo()
+            else:
+                print('The actual round is not marked as finish')
+
+        input("Press ENTER to continue...\n")
+
+    def swiss_round_algo(self):
+        print('Round finished: ok')
+        input("Press ENTER to continue...\n")
+
+    def terminate_round(self):
+        print("+ Terminate round +")
+        select = select_tournament()
+
+        if not Tournament.t_list[select].rounds[-1].end:
+            r_list = Tournament.t_list[select].rounds[-1]
+            for game in r_list.games:
+                if game[0][1] == 0 and game[1][1] == 0:
+                    return error_msg("There are some games with no results. Please add results before.")
 
         input("Press ENTER to continue...\n")
