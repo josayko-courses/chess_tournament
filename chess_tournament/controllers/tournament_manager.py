@@ -36,7 +36,7 @@ class TournamentManager:
         rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? [1 ~ 3] ")
         try:
             rating = int(rating)
-            if rating < 1 and rating > 3:
+            if rating < 1 or rating > 3:
                 error_msg("invalid input")
                 return
         except ValueError:
