@@ -6,7 +6,9 @@ from controllers import TinyDB
 from .tournament_manager import TournamentManager
 from .menu_manager import MenuManager
 from .player_manager import PlayerManager
-from models import Round, Tournament, Player
+from models import Tournament, Player
+from views import error_msg, select_tournament
+from models import Tournament, Round
 
 
 class Application:
@@ -36,17 +38,25 @@ class Application:
                 tournament.players.append(player)
             Tournament.t_list.append(tournament)
 
-    def generate_round(players):
-        new_round = Round()
-        first_players = [p for i, p in enumerate(players) if i % 2 != 0]
-        second_players = [p for i, p in enumerate(players) if i % 2 == 0]
-        paired_players = zip(first_players, second_players)
+    def generate_round(self):
+        select = select_tournament()
+        if select == None:
+            return
 
-        for p1, p2 in list(paired_players):
-            new_round.create_game(p1, p2)
+        # First round
+        if len(Tournament.t_list[select].rounds) == 0:
+            players = [p for p in Tournament.t_list[select].players]
+            rank_list = sorted(players, key=lambda x: x[0].rank)
 
-        print("Round created with the following games: ")
-        for game in new_round.games:
-            print(game)
+            # Create pairs
+            first_players = rank_list[:4]
+            second_players = rank_list[4:]
+            paired_players = zip(first_players, second_players)
+
+            games = [g for g in paired_players]
+            round = Round("Round 1", games)
+            Tournament.t_list[select].rounds.append(round)
+
+        # next rounds
 
         input("Press ENTER to continue...\n")

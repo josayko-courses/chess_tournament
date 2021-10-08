@@ -30,7 +30,7 @@ def main():
             app.tm.add_player()
 
         elif select == 4:
-            app.generate_round(Tournament.t_list[0].players)
+            app.generate_round()
 
         elif select == 6:
             show_all_tournaments()
