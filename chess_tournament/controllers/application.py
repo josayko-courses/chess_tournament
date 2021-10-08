@@ -38,6 +38,19 @@ class Application:
                 tournament.players.append(player)
             Tournament.t_list.append(tournament)
 
+            # Loading rounds and games
+            for r in t['rounds']:
+                deserialized_games = []
+                for g in r['games']:
+                    p1 = [x for x in Player.p_list if x.id == g[0][0]]
+                    p1.append(g[0][1])
+                    p2 = [x for x in Player.p_list if x.id == g[1][0]]
+                    p2.append(g[1][1])
+                    deserialized_games.append((p1, p2))
+
+                deserialized_round = Round(r['name'], deserialized_games, r['start'], r['end'])
+                tournament.rounds.append(deserialized_round)
+
     def generate_round(self):
         select = select_tournament()
         if select == None:

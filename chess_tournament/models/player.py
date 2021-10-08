@@ -16,4 +16,4 @@ class Player:
         self.rank = rank
 
     def __repr__(self):
-        return f'<Player: {self.surname}, {self.name}, {self.birthdate}, {self.gender}, {self.rank}>'
+        return f'<id: {self.id}, {self.surname}, {self.name}, {self.birthdate}, {self.gender}, rank: {self.rank}>'
