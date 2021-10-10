@@ -94,5 +94,3 @@ class PlayerManager:
             {'players': p_list},
             doc_ids=[db_tournament.doc_id],
         )
-
-        input("Press ENTER to continue...\n")

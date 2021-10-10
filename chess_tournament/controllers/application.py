@@ -101,11 +101,13 @@ class Application:
 
     def swiss_round_algo(self):
         print('Round finished: ok')
-        input("Press ENTER to continue...\n")
 
     def terminate_round(self):
         print("+ Terminate round +")
         select = select_tournament()
+
+        if select == None:
+            return
 
         if not Tournament.t_list[select].rounds[-1].end:
             r_list = Tournament.t_list[select].rounds[-1]
@@ -113,6 +115,29 @@ class Application:
                 if game[0][1] == 0 and game[1][1] == 0:
                     return error_msg("There are some games with no results. Please add results before.")
             r_list.end = datetime.today().strftime('%Y-%m-%d %H:%M')
+
+            tournaments = self.tm.table
+            for t in tournaments:
+                if t.doc_id == Tournament.t_list[select].id:
+                    rounds = t['rounds']
+
+            r_list = []
+            updated_round = {}
+            for i, round in enumerate(rounds):
+                if i == len(rounds) - 1:
+                    updated_round['name'] = round['name']
+                    updated_round['start'] = round['start']
+                    updated_round['end'] = datetime.today().strftime('%Y-%m-%d %H:%M')
+                    updated_round['games'] = round['games']
+                    r_list.append(updated_round)
+                else:
+                    r_list.append(round)
+
+            tournaments.update(
+                {'rounds': r_list},
+                doc_ids=[Tournament.t_list[select].id],
+            )
+
         else:
             return error_msg("There is no ongoing round.")
 
