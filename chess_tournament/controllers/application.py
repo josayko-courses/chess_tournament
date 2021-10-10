@@ -121,8 +121,10 @@ class Application:
     def add_results(self):
         print("+ Add results +")
         select = select_tournament()
-        rounds = Tournament.t_list[select].rounds
+        if select == None:
+            return
 
+        rounds = Tournament.t_list[select].rounds
         for index, round in enumerate(rounds):
             if round.end:
                 print(f"    [{index + 1}] {round.name}, {round.start}, {round.end}")
@@ -174,29 +176,29 @@ class Application:
         result = input("        Select result: ")
 
         try:
-            result = int(result)
-            if result < 1 or result > 6:
+            result = int(result) - 1
+            if result < 0 or result > 5:
                 return error_msg("invalid input")
         except ValueError:
             return error_msg("invalid input")
 
-        self.edit_scores(result, rounds[select].games[nb])
+        self.edit_scores(result, rounds[select].games[nb], select, nb)
 
         input("Press ENTER to continue...\n")
 
-    def edit_scores(self, result, game):
-        if result == 1:
+    def edit_scores(self, result, game, select, nb):
+        if result == 0:
             game[0][1] += 1
-        if result == 2:
+        if result == 1:
             game[1][1] += 1
-        if result == 3:
+        if result == 2:
             game[0][1] += 0.5
             game[1][1] += 0.5
-        if result == 4:
+        if result == 3:
             game[0][1] -= 1
-        if result == 5:
+        if result == 4:
             game[1][1] -= 1
-        if result == 6:
+        if result == 5:
             game[0][1] -= 0.5
             game[1][1] -= 0.5
 
@@ -205,3 +207,32 @@ class Application:
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
+
+        # Update DB
+        table = self.tm.table
+        tournament = table.get(doc_id=Tournament.t_list[select].id)
+        games = tournament['rounds'][select]['games']
+        serialized_games = []
+        for i, g in enumerate(games):
+            if i == nb:
+                player1 = [g[0][0], game[0][1]]
+                self.pm.edit_player_score(tournament, g[0][0])
+                player2 = [g[1][0], game[1][1]]
+                self.pm.edit_player_score(tournament, g[1][0])
+            else:
+                player1 = [g[0][0], g[0][1]]
+                player2 = [g[1][0], g[1][1]]
+            serialized_games.append((player1, player2))
+
+        r_list = []
+        for i, r in enumerate(tournament['rounds']):
+            if i == select:
+                serialized_round = {'name': r['name'], 'start': r['start'], 'end': r['end'], 'games': serialized_games}
+            else:
+                serialized_round = r
+            r_list.append(serialized_round)
+
+        # table.update(
+        #     {'rounds': r_list},
+        #     doc_ids=[Tournament.t_list[select].id],
+        # )
