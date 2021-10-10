@@ -9,6 +9,7 @@ from .player_manager import PlayerManager
 from models import Tournament, Player
 from views import error_msg, select_tournament
 from models import Tournament, Round
+from datetime import datetime
 
 
 class Application:
@@ -111,6 +112,9 @@ class Application:
             for game in r_list.games:
                 if game[0][1] == 0 and game[1][1] == 0:
                     return error_msg("There are some games with no results. Please add results before.")
+            r_list.end = datetime.today().strftime('%Y-%m-%d %H:%M')
+        else:
+            return error_msg("There is no ongoing round.")
 
         input("Press ENTER to continue...\n")
 

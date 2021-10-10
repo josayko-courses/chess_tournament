@@ -33,7 +33,7 @@ def select_tournament():
 
 
 def show_all_tournaments():
-    print("+ Tournament list +")
+    print("+ Tournament information +")
     for i, t in enumerate(Tournament.t_list):
         print(f'    [{i + 1}] {t.name}, {t.location}, {t.rating} === ', end="")
         nb = len(Tournament.t_list[i].players)

@@ -6,7 +6,7 @@ from views import error_msg
 
 
 def show_players(players):
-    print("+ Player list +")
+    print("+ Player information +")
     select = input("Players sorted by :\n    [1] alphabetical order\n    [2] rank order\n    Select ? [1 ~ 2] ")
 
     try:
