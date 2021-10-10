@@ -154,12 +154,50 @@ class Application:
         except ValueError:
             return error_msg("invalid input")
 
-        for i, player in enumerate(rounds[select].games[nb]):
-            print(f"        Player {i + 1} == {player}")
+        game = rounds[select].games[nb]
+        print(
+            f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+            end="",
+        )
+        print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
 
-        print(f"        [1] WIN  Player 1, LOSE Player 2")
-        print(f"        [2] LOSE Player 1, WIN  Player 2")
-        print(f"        [3] DRAW")
-        nb = input("        Select result: ")
+        print(f"        [1] +1, +0")
+        print(f"        [2] +0, +1")
+        print(f"        [3] +0.5, +0.5")
+        print(f"        [4] -1, -0")
+        print(f"        [5] -0, -1")
+        print(f"        [6] -0.5, -0.5")
+        result = input("        Select result: ")
+
+        try:
+            result = int(result)
+            if result < 1 or result > 6:
+                return error_msg("invalid input")
+        except ValueError:
+            return error_msg("invalid input")
+
+        self.edit_scores(result, rounds[select].games[nb])
 
         input("Press ENTER to continue...\n")
+
+    def edit_scores(self, result, game):
+        if result == 1:
+            game[0][1] += 1
+        if result == 2:
+            game[1][1] += 1
+        if result == 3:
+            game[0][1] += 0.5
+            game[1][1] += 0.5
+        if result == 4:
+            game[0][1] -= 1
+        if result == 5:
+            game[1][1] -= 1
+        if result == 6:
+            game[0][1] -= 0.5
+            game[1][1] -= 0.5
+
+        print(
+            f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+            end="",
+        )
+        print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
