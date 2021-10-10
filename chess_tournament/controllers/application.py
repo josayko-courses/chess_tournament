@@ -216,9 +216,8 @@ class Application:
         for i, g in enumerate(games):
             if i == nb:
                 player1 = [g[0][0], game[0][1]]
-                self.pm.edit_player_score(tournament['players'], Tournament.t_list[select].players, g[0][0])
                 player2 = [g[1][0], game[1][1]]
-                self.pm.edit_player_score(tournament['players'], Tournament.t_list[select].players, g[1][0])
+                self.pm.edit_players_score(tournament, Tournament.t_list[select], [player1, player2], result)
             else:
                 player1 = [g[0][0], g[0][1]]
                 player2 = [g[1][0], g[1][1]]
