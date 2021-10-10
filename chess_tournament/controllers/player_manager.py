@@ -39,9 +39,12 @@ class PlayerManager:
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
 
-    def edit_player_score(self, tournament, id):
-        players = tournament['players']
-        for p in players:
+    def edit_player_score(self, db_players, l_players, id):
+        # l_players: local storage
+        # db_players: db storage
+
+        print(l_players)
+        for p in db_players:
             if p[0] == id:
                 print(p)
         # Edit players total scores
