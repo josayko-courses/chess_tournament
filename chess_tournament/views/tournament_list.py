@@ -49,12 +49,13 @@ def show_all_tournaments():
         return
 
     print(f"Choose option for {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
-    print("[1] players")
-    print("[2] rounds")
-    option = input("Select ? [1 ~ 2] ")
+    print("[1] Players")
+    print("[2] Rounds")
+    print("[3] Leaderboard results")
+    option = input("Select ? [1 ~ 3] ")
     try:
         option = int(option)
-        if option != 1 and option != 2:
+        if option < 1 or option > 3:
             error_msg("invalid input")
             return
     except ValueError:
@@ -68,3 +69,13 @@ def show_all_tournaments():
     if option == 2:
         rounds = [r for r in Tournament.t_list[select].rounds]
         show_rounds(rounds)
+
+    if option == 3:
+        players = [p for p in Tournament.t_list[select].players]
+        leaderboard = sorted(players, key=lambda x: x[1], reverse=True)
+
+        print("         /* Leaderboard results */")
+        for i, player in enumerate(leaderboard):
+            print(f"    {i + 1}. {player[0].surname}, {player[0].name}, <rank: {player[0].rank}, score: {player[1]}>")
+
+        input("Press ENTER to continue...")
