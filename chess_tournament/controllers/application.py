@@ -93,12 +93,12 @@ class Application:
 
         # next rounds
         elif len(Tournament.t_list[select].rounds) < Tournament.t_list[select].nb_rounds:
-            # if Tournament.t_list[select].rounds[-1].end:
-            if len(Tournament.t_list[select].rounds) >= Tournament.t_list[select].nb_rounds:
-                return error_msg('Maximum number of rounds reached')
-            self.swiss_round_algo(Tournament.t_list[select])
-        # else:
-        #     return error_msg('The actual round is not marked as finish')
+            if Tournament.t_list[select].rounds[-1].end:
+                if len(Tournament.t_list[select].rounds) >= Tournament.t_list[select].nb_rounds:
+                    return error_msg('Maximum number of rounds reached')
+                self.swiss_round_algo(Tournament.t_list[select])
+            else:
+                return error_msg('The actual round is not marked as finish')
 
         input("Press ENTER to continue...\n")
 
@@ -125,7 +125,6 @@ class Application:
         for r in l_rounds:
             for g in r.games:
                 combos.append([g[0][0].id, g[1][0].id])
-        print(combos)
 
         # Create pairs
         p_ids = [x[0].id for x in sorted_players]
@@ -147,18 +146,17 @@ class Application:
         for pair in id_games:
             p1 = [x for x in sorted_players if x[0].id == pair[0]]
             p2 = [x for x in sorted_players if x[0].id == pair[1]]
-            l_pair.append((p1[0], p2[0]))
-            db_pair.append(([pair[0], p1[0][1]], [pair[1], p2[0][1]]))
+            l_pair.append(([p1[0][0], 0], [p2[0][0], 0]))
+            db_pair.append(([pair[0], 0], [pair[1], 0]))
 
         nb = len(tournament.rounds) + 1
         round = Round(f"Round {nb}", l_pair)
         tournament.rounds.append(round)
-        print(tournament.rounds)
 
         # DB
         table = self.tm.table
-        tournament = table.get(doc_id=tournament.id)
-        r_list = tournament['rounds']
+        db_tournament = table.get(doc_id=tournament.id)
+        r_list = db_tournament['rounds']
 
         serialized_round = {'name': round.name, 'start': round.start, 'end': round.end, 'games': db_pair}
         r_list.append(serialized_round)
