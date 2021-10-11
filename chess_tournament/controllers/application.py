@@ -63,8 +63,9 @@ class Application:
             rank_list = sorted(players, key=lambda x: x[0].rank)
 
             # Create pairs
-            first_players = rank_list[:4]
-            second_players = rank_list[4:]
+            half = int(len(players) / 2)
+            first_players = rank_list[:half]
+            second_players = rank_list[half:]
             paired_players = zip(first_players, second_players)
 
             games = [g for g in paired_players]
@@ -93,14 +94,65 @@ class Application:
         # next rounds
         elif len(Tournament.t_list[select].rounds) < Tournament.t_list[select].nb_rounds:
             if Tournament.t_list[select].rounds[-1].end:
-                self.swiss_round_algo()
+                if len(Tournament.t_list[select].rounds) >= Tournament.t_list[select].nb_rounds:
+                    return error_msg('Maximum number of rounds reached')
+                self.swiss_round_algo(Tournament.t_list[select])
             else:
-                print('The actual round is not marked as finish')
+                return error_msg('The actual round is not marked as finish')
 
         input("Press ENTER to continue...\n")
 
-    def swiss_round_algo(self):
-        print('Round finished: ok')
+    def swiss_round_algo(self, tournament):
+        print('Swiss round algo')
+
+        # Sort players by score and rank
+        players = [p for p in tournament.players]
+        p_games = sorted(players, key=lambda x: x[1], reverse=True)
+
+        # bubble sort: if scores are equals, sort by rank (ascending)
+        i = 1
+        while i < len(p_games):
+            if p_games[i][1] == p_games[i - 1][1]:
+                if p_games[i][0].rank < p_games[i - 1][0].rank:
+                    p_games[i], p_games[i - 1] = p_games[i - 1], p_games[i]
+                    i = 1
+                    continue
+            i += 1
+
+        # Get all previous games combinations
+        l_rounds = tournament.rounds
+        combos = []
+        for r in l_rounds:
+            for g in r.games:
+                combos.append([g[0][0].id, g[1][0].id])
+        print(combos)
+
+        # Create pairs
+        p_ids = [x[0].id for x in p_games]
+        db_games = []
+        l_games = []
+        while len(p_ids) >= 2:
+            p1 = p_ids[0]
+            i = 1
+            while i < len(p_ids):
+                p2 = p_ids[i]
+                if p1 != p2 and [p1, p2] not in combos and [p2, p1] not in combos:
+                    db_games.append([p1, p2])
+                    p_ids.remove(p1)
+                    p_ids.remove(p2)
+                    break
+                i += 1
+
+        print(db_games)
+        # games = [g for g in paired_players]
+        # round = Round("Round 1", games)
+        # tournament.rounds.append(round)
+
+        # DB
+        table = self.tm.table
+        for t in table:
+            if t.doc_id == tournament.id:
+                db_rounds = t['rounds']
 
     def terminate_round(self):
         print("+ Terminate round +")
