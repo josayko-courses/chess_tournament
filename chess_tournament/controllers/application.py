@@ -271,11 +271,11 @@ class Application:
         except ValueError:
             return error_msg("invalid input")
 
-        self.edit_scores(result, rounds[r_index].games[nb], select, r_index)
+        self.edit_scores(result, rounds[r_index].games[nb], select, r_index, nb)
 
         input("Press ENTER to continue...\n")
 
-    def edit_scores(self, result, game, select, r_index):
+    def edit_scores(self, result, game, select, r_index, nb):
         if result == 0:
             game[0][1] += 1
         if result == 1:
@@ -306,7 +306,7 @@ class Application:
         print(games)
         serialized_games = []
         for i, g in enumerate(games):
-            if i == r_index:
+            if i == nb:
                 player1 = [g[0][0], game[0][1]]
                 player2 = [g[1][0], game[1][1]]
                 self.pm.edit_players_score(tournament, Tournament.t_list[select], [player1, player2], result)
