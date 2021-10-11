@@ -220,21 +220,21 @@ class Application:
             else:
                 print(f"    [{index + 1}] {round.name}, {round.start} ~ ONGOING ~")
 
-        select = input("Enter round number: ")
+        r_index = input("Enter round number: ")
         try:
-            select = int(select) - 1
-            if select < 0 or select >= len(rounds):
+            r_index = int(r_index) - 1
+            if r_index < 0 or r_index >= len(rounds):
                 return error_msg("invalid input")
         except ValueError:
             return error_msg("invalid input")
 
-        print(f"Name: {rounds[select].name}")
-        print(f"Start: {rounds[select].start}")
-        if rounds[select].end:
-            print(f"End: {rounds[select].end}")
+        print(f"Name: {rounds[r_index].name}")
+        print(f"Start: {rounds[r_index].start}")
+        if rounds[r_index].end:
+            print(f"End: {rounds[r_index].end}")
         else:
             print(f"End: ~ ONGOING ~")
-        for i, game in enumerate(rounds[select].games):
+        for i, game in enumerate(rounds[r_index].games):
             print(
                 f"    [{i + 1}] {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
                 end="",
@@ -244,12 +244,12 @@ class Application:
         nb = input("    Enter game number: ")
         try:
             nb = int(nb) - 1
-            if nb < 0 or nb >= len(rounds[select].games):
+            if nb < 0 or nb >= len(rounds[r_index].games):
                 return error_msg("invalid input")
         except ValueError:
             return error_msg("invalid input")
 
-        game = rounds[select].games[nb]
+        game = rounds[r_index].games[nb]
         print(
             f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
             end="",
@@ -271,11 +271,11 @@ class Application:
         except ValueError:
             return error_msg("invalid input")
 
-        self.edit_scores(result, rounds[select].games[nb], select, nb)
+        self.edit_scores(result, rounds[r_index].games[nb], select, r_index)
 
         input("Press ENTER to continue...\n")
 
-    def edit_scores(self, result, game, select, nb):
+    def edit_scores(self, result, game, select, r_index):
         if result == 0:
             game[0][1] += 1
         if result == 1:
@@ -299,11 +299,14 @@ class Application:
 
         # Update DB
         table = self.tm.table
-        tournament = table.get(doc_id=Tournament.t_list[select].id)
-        games = tournament['rounds'][select]['games']
+        for t in table:
+            if t.doc_id == Tournament.t_list[select].id:
+                tournament = t
+        games = tournament['rounds'][r_index]['games']
+        print(games)
         serialized_games = []
         for i, g in enumerate(games):
-            if i == nb:
+            if i == r_index:
                 player1 = [g[0][0], game[0][1]]
                 player2 = [g[1][0], game[1][1]]
                 self.pm.edit_players_score(tournament, Tournament.t_list[select], [player1, player2], result)
@@ -314,7 +317,7 @@ class Application:
 
         r_list = []
         for i, r in enumerate(tournament['rounds']):
-            if i == select:
+            if i == r_index:
                 serialized_round = {'name': r['name'], 'start': r['start'], 'end': r['end'], 'games': serialized_games}
             else:
                 serialized_round = r
