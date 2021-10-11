@@ -94,11 +94,11 @@ class Application:
         # next rounds
         elif len(Tournament.t_list[select].rounds) < Tournament.t_list[select].nb_rounds:
             if Tournament.t_list[select].rounds[-1].end:
-                if len(Tournament.t_list[select].rounds) >= Tournament.t_list[select].nb_rounds:
-                    return error_msg('Maximum number of rounds reached')
                 self.swiss_round_algo(Tournament.t_list[select])
             else:
                 return error_msg('The actual round is not marked as finish')
+        else:
+            return error_msg('Maximum number of rounds reached')
 
         input("Press ENTER to continue...\n")
 
