@@ -177,6 +177,9 @@ class Application:
         if select == None:
             return
 
+        if not Tournament.t_list[select].rounds:
+            return error_msg("No rounds available")
+
         if not Tournament.t_list[select].rounds[-1].end:
             r_list = Tournament.t_list[select].rounds[-1]
             for game in r_list.games:
