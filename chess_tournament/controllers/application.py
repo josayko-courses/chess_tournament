@@ -286,6 +286,7 @@ class Application:
         input("Press ENTER to continue...\n")
 
     def edit_scores(self, result, game, select, r_index, nb):
+
         if result == 0:
             game[0][1] += 1
         elif result == 1:
@@ -315,10 +316,11 @@ class Application:
         games = tournament['rounds'][r_index]['games']
         serialized_games = []
         for i, g in enumerate(games):
+            # TODO: DEBUG HERE
             if i == nb:
                 player1 = [g[0][0], game[0][1]]
                 player2 = [g[1][0], game[1][1]]
-                self.pm.edit_players_score(tournament, Tournament.t_list[select], [player1, player2], result)
+                self.edit_players_score(tournament, [player1, player2], select, result)
             else:
                 player1 = [g[0][0], g[0][1]]
                 player2 = [g[1][0], g[1][1]]
@@ -335,4 +337,59 @@ class Application:
         table.update(
             {'rounds': r_list},
             doc_ids=[Tournament.t_list[select].id],
+        )
+
+    def edit_players_score(self, db_tournament, players, select, result):
+        # l_players: local storage
+        # db_players: db storage
+
+        p1_index = 0
+        p2_index = 0
+        print("players[0]: ", players[0])
+        print("players[1]: ", players[1])
+        for i, p in enumerate(Tournament.t_list[select].players):
+            print("p[0].id: ", p[0].id)
+            if p[0].id == players[0][0]:
+                print("Player 1: ", p)
+                p1_index = i
+            if p[0].id == players[1][0]:
+                print("Player 2: ", p)
+                p2_index = i
+
+        # database
+        for p in db_tournament['players']:
+            if p[0] == players[0][0]:
+                db_p1 = p
+            elif p[0] == players[1][0]:
+                db_p2 = p
+
+        if result == 0:
+            db_p1[1] += 1
+            print(Tournament.t_list[select].players[p1_index][1])
+            Tournament.t_list[select].players[p1_index][1] += 1
+        elif result == 1:
+            db_p2[1] += 1
+        elif result == 2:
+            db_p1[1] += 0.5
+            db_p2[1] += 0.5
+        elif result == 3:
+            db_p1[1] -= 1
+        elif result == 4:
+            db_p2[1] -= 1
+        elif result == 5:
+            db_p1[1] -= 0.5
+            db_p2[1] -= 0.5
+
+        p_list = []
+        for p in db_tournament['players']:
+            if p[0] == players[0][0]:
+                p_list.append(db_p1)
+            elif p[0] == players[1][0]:
+                p_list.append(db_p2)
+            else:
+                p_list.append(p)
+
+        self.tm.table.update(
+            {'players': p_list},
+            doc_ids=[db_tournament.doc_id],
         )

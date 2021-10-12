@@ -3,7 +3,7 @@
 """
 
 from controllers import TinyDB
-from models import Player
+from models import Player, Tournament
 from views import error_msg
 
 
@@ -39,43 +39,3 @@ class PlayerManager:
 
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
-
-    def edit_players_score(self, db_tournament, l_tournament, players, result):
-        # l_players: local storage
-        # db_players: db storage
-
-        # database
-        for p in db_tournament['players']:
-            if p[0] == players[0][0]:
-                db_p1 = p
-            elif p[0] == players[1][0]:
-                db_p2 = p
-
-        if result == 0:
-            db_p1[1] += 1
-        elif result == 1:
-            db_p2[1] += 1
-        elif result == 2:
-            db_p1[1] += 0.5
-            db_p2[1] += 0.5
-        elif result == 3:
-            db_p1[1] -= 1
-        elif result == 4:
-            db_p2[1] -= 1
-        elif result == 5:
-            db_p1[1] -= 0.5
-            db_p2[1] -= 0.5
-
-        p_list = []
-        for p in db_tournament['players']:
-            if p[0] == players[0][0]:
-                p_list.append(db_p1)
-            elif p[0] == players[1][0]:
-                p_list.append(db_p2)
-            else:
-                p_list.append(p)
-
-        self.table_tournaments.update(
-            {'players': p_list},
-            doc_ids=[db_tournament.doc_id],
-        )
