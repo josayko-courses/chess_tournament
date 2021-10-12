@@ -57,6 +57,10 @@ class Application:
         if select == None:
             return
 
+        nb_players = len(Tournament.t_list[select].players)
+        if nb_players == 0 or nb_players % 2 != 0:
+            return error_msg("Not enough players for game pairing")
+
         # First round
         if len(Tournament.t_list[select].rounds) == 0:
             players = [p for p in Tournament.t_list[select].players]
