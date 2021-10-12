@@ -139,6 +139,7 @@ class Application:
         # Create pairs
         p_ids = [x[0].id for x in sorted_players]
         id_games = []
+        counter = len(p_ids)
         while len(p_ids) >= 2:
             p1 = p_ids[0]
             i = 1
@@ -150,6 +151,9 @@ class Application:
                     p_ids.remove(p2)
                     break
                 i += 1
+            counter -= 1
+            if counter == 0:
+                return print("All possible pairings already played")
 
         l_pair = []
         db_pair = []
