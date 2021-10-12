@@ -117,7 +117,7 @@ class TournamentManager:
                 return
 
             for i, p in enumerate(player_lst):
-                print(f'    [ {i + 1} ] {p.surname}, {p.name}, {p.rank}')
+                print(f'    [{i + 1}] {p.surname}, {p.name}, {p.rank}')
             p_select = input("Player ? ")
             try:
                 p_select = int(p_select) - 1

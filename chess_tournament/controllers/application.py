@@ -303,7 +303,6 @@ class Application:
             if t.doc_id == Tournament.t_list[select].id:
                 tournament = t
         games = tournament['rounds'][r_index]['games']
-        print(games)
         serialized_games = []
         for i, g in enumerate(games):
             if i == nb:
