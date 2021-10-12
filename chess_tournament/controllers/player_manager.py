@@ -44,13 +44,6 @@ class PlayerManager:
         # l_players: local storage
         # db_players: db storage
 
-        # local data
-        for i, p in enumerate(l_tournament.players):
-            if p[0].id == players[0][0]:
-                l_p1 = p
-            elif p[0].id == players[1][0]:
-                l_p2 = p
-
         # database
         for p in db_tournament['players']:
             if p[0] == players[0][0]:
@@ -59,25 +52,17 @@ class PlayerManager:
                 db_p2 = p
 
         if result == 0:
-            l_p1[1] += 1
             db_p1[1] += 1
         elif result == 1:
-            l_p2[2] += 1
             db_p2[1] += 1
         elif result == 2:
-            l_p1[1] += 0.5
-            l_p2[1] += 0.5
             db_p1[1] += 0.5
             db_p2[1] += 0.5
         elif result == 3:
-            l_p1[1] -= 1
             db_p1[1] -= 1
         elif result == 4:
-            l_p2[1] -= 1
             db_p2[1] -= 1
         elif result == 5:
-            l_p1[1] -= 0.5
-            l_p2[1] -= 0.5
             db_p1[1] -= 0.5
             db_p2[1] -= 0.5
 

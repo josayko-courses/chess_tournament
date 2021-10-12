@@ -288,16 +288,16 @@ class Application:
     def edit_scores(self, result, game, select, r_index, nb):
         if result == 0:
             game[0][1] += 1
-        if result == 1:
+        elif result == 1:
             game[1][1] += 1
-        if result == 2:
+        elif result == 2:
             game[0][1] += 0.5
             game[1][1] += 0.5
-        if result == 3:
+        elif result == 3:
             game[0][1] -= 1
-        if result == 4:
+        elif result == 4:
             game[1][1] -= 1
-        if result == 5:
+        elif result == 5:
             game[0][1] -= 0.5
             game[1][1] -= 0.5
 
