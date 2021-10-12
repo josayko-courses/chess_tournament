@@ -47,7 +47,7 @@ class Application:
                     p1.append(g[0][1])
                     p2 = [x for x in Player.p_list if x.id == g[1][0]]
                     p2.append(g[1][1])
-                    deserialized_games.append((p1, p2))
+                    deserialized_games.append((p1.copy(), p2.copy()))
 
                 deserialized_round = Round(r['name'], deserialized_games, r['start'], r['end'])
                 tournament.rounds.append(deserialized_round)
@@ -63,7 +63,13 @@ class Application:
 
         # First round
         if len(Tournament.t_list[select].rounds) == 0:
-            players = [p for p in Tournament.t_list[select].players]
+            players = []
+            for p in Tournament.t_list[select].players:
+                print("tournamen list players: ", p, id(p))
+                players.append(p.copy())
+            print("In generate round: ", p)
+            for p in players:
+                print("player id in players: ", p, id(p))
             rank_list = sorted(players, key=lambda x: x[0].rank)
 
             # Create pairs
@@ -287,6 +293,7 @@ class Application:
 
     def edit_scores(self, result, game, select, r_index, nb):
 
+        print("before result check, game: ", game)
         if result == 0:
             game[0][1] += 1
         elif result == 1:
@@ -301,6 +308,7 @@ class Application:
         elif result == 5:
             game[0][1] -= 0.5
             game[1][1] -= 0.5
+        print("after result check, game: ", game)
 
         print(
             f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
@@ -315,16 +323,19 @@ class Application:
                 tournament = t
         games = tournament['rounds'][r_index]['games']
         serialized_games = []
+        print("nb: ", nb)
         for i, g in enumerate(games):
             # TODO: DEBUG HERE
+            print("g: ", g)
             if i == nb:
-                player1 = [g[0][0], game[0][1]]
-                player2 = [g[1][0], game[1][1]]
-                self.edit_players_score(tournament, [player1, player2], select, result)
+                print("in if:")
+                print("game[0]: ", game[0], "id: ", id(game[0]))
+                print("game[1]: ", game[1], "id: ", id(game[1]))
+                print("game: ", game)
+                self.edit_players_score(tournament, [g[0], g[1]], select, result)
+                serialized_games.append(([g[0][0], game[0][1]], [g[1][0], game[1][1]]))
             else:
-                player1 = [g[0][0], g[0][1]]
-                player2 = [g[1][0], g[1][1]]
-            serialized_games.append((player1, player2))
+                serialized_games.append((g[0], g[1]))
 
         r_list = []
         for i, r in enumerate(tournament['rounds']):
@@ -350,7 +361,7 @@ class Application:
         for i, p in enumerate(Tournament.t_list[select].players):
             print("p[0].id: ", p[0].id)
             if p[0].id == players[0][0]:
-                print("Player 1: ", p)
+                print("Player 1: ", p, "id: ", id(p))
                 p1_index = i
             if p[0].id == players[1][0]:
                 print("Player 2: ", p)
@@ -364,19 +375,25 @@ class Application:
                 db_p2 = p
 
         if result == 0:
-            db_p1[1] += 1
-            print(Tournament.t_list[select].players[p1_index][1])
             Tournament.t_list[select].players[p1_index][1] += 1
+            db_p1[1] += 1
         elif result == 1:
+            Tournament.t_list[select].players[p2_index][1] += 1
             db_p2[1] += 1
         elif result == 2:
+            Tournament.t_list[select].players[p1_index][1] += 0.5
+            Tournament.t_list[select].players[p2_index][1] += 0.5
             db_p1[1] += 0.5
             db_p2[1] += 0.5
         elif result == 3:
+            Tournament.t_list[select].players[p1_index][1] -= 1
             db_p1[1] -= 1
         elif result == 4:
+            Tournament.t_list[select].players[p2_index][1] -= 1
             db_p2[1] -= 1
         elif result == 5:
+            Tournament.t_list[select].players[p1_index][1] -= 0.5
+            Tournament.t_list[select].players[p2_index][1] -= 0.5
             db_p1[1] -= 0.5
             db_p2[1] -= 0.5
 
