@@ -19,7 +19,6 @@ class TournamentManager:
         print("+ Create tournament +")
         # Rating choices, default is 'rapid'
         ratings = ('rapid', 'blitz', 'bullet')
-        option = 0
 
         # Tournament name and location
         name = input("Name ? ")
@@ -35,14 +34,11 @@ class TournamentManager:
         # Rating choice
         rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? [1 ~ 3] ")
         try:
-            rating = int(rating)
-            if rating < 1 or rating > 3:
-                error_msg("invalid input")
-                return
+            rating = int(rating) - 1
+            if rating < 0 or rating > 2:
+                return error_msg("invalid input")
         except ValueError:
-            error_msg("invalid input")
-            return
-        option = int(option) - 1
+            return error_msg("invalid input")
 
         start = input("Start date ? ")
         end = input("End date ? ")
@@ -53,7 +49,7 @@ class TournamentManager:
             {
                 'name': name,
                 'location': location,
-                'rating': ratings[option],
+                'rating': ratings[rating],
                 'nb_rounds': 4,
                 'rounds': [],
                 'players': [],
@@ -64,7 +60,7 @@ class TournamentManager:
         )
 
         # Add to local data
-        t = Tournament(id, name, location, ratings[option], start, end, desc)
+        t = Tournament(id, name, location, ratings[rating], start, end, desc)
         Tournament.t_list.append(t)
 
         print("Tournament creation successful !")
@@ -74,17 +70,13 @@ class TournamentManager:
         """Add players to tournament"""
 
         print("+ Add player to tournament +")
-        if not Tournament.t_list:
-            error_msg("No tournament available")
-            return
-        elif not Player.p_list:
+        if not Player.p_list:
             error_msg("No players available")
             return
         else:
             tour_lst = [tour for tour in Tournament.t_list]
             if len(tour_lst) == 0:
-                error_msg("No tournament available")
-                return
+                return error_msg("No tournament available")
 
             for i, t in enumerate(tour_lst):
                 print(f'    [{i + 1}] {t.name}, {t.location}, {t.rating} === ', end="")
@@ -95,20 +87,20 @@ class TournamentManager:
             try:
                 select = int(select) - 1
                 if select < 0 or select >= len(Tournament.t_list):
-                    error_msg("invalid input")
-                    return
+                    return error_msg("invalid input")
             except ValueError:
-                error_msg("invalid input")
-                return
+                return error_msg("invalid input")
 
             if len(Tournament.t_list[select].players) >= 8:
-                error_msg("This tournament is full")
-                return
+                return error_msg("This tournament is full")
+            elif len(Tournament.t_list[select].rounds) > 0:
+                return error_msg("This tournament has already started")
 
             print("\n*** Registered players ***")
-            Tournament.t_list[select].print_players()
-            print()
-            print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
+            if len(Tournament.t_list[select].players):
+                Tournament.t_list[select].print_players()
+            else:
+                print("/* No players */")
 
             players_id = [p[0].id for p in Tournament.t_list[select].players]
             player_lst = [player for player in Player.p_list if player.id not in players_id]
@@ -116,6 +108,8 @@ class TournamentManager:
                 error_msg("Not enough players")
                 return
 
+            print()
+            print(f"Choose player to add to {Tournament.t_list[select].name}, {Tournament.t_list[select].location}: ")
             for i, p in enumerate(player_lst):
                 print(f'    [{i + 1}] {p.surname}, {p.name}, {p.rank}')
             p_select = input("Player ? ")

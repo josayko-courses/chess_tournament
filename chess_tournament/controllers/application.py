@@ -218,6 +218,9 @@ class Application:
             return
 
         rounds = Tournament.t_list[select].rounds
+        if len(rounds) == 0:
+            return error_msg("No rounds are available")
+
         for index, round in enumerate(rounds):
             if round.end:
                 print(f"    [{index + 1}] {round.name}, {round.start}, {round.end}")

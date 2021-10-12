@@ -18,11 +18,15 @@ def show_players(players):
     if select == 1:
         alpha_list = sorted(players, key=lambda x: x.surname + x.name)
         for player in alpha_list:
-            print(f"[id: {player.id}] [rank: {player.rank}] {player.surname}, {player.name}")
+            print(
+                f"id: {player.id}, name: {player.surname} {player.name}, birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}"
+            )
     elif select == 2:
         rank_list = sorted(players, key=lambda x: x.rank)
         for player in rank_list:
-            print(f"[id: {player.id}] [rank: {player.rank}] {player.surname}, {player.name}")
+            print(
+                f"id: {player.id}, name: {player.surname} {player.name}, birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}"
+            )
     else:
         error_msg("invalid input")
         return

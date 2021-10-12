@@ -76,6 +76,6 @@ def show_all_tournaments():
 
         print("         /* Leaderboard results */")
         for i, player in enumerate(leaderboard):
-            print(f"    {i + 1}. {player[0].surname}, {player[0].name}, <rank: {player[0].rank}, score: {player[1]}>")
+            print(f"    {i + 1}) id: {player[0].id}, name: {player[0].surname} {player[0].name}, rank: {player[0].rank}, score: {player[1]}")
 
         input("Press ENTER to continue...")

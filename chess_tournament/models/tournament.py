@@ -32,4 +32,6 @@ class Tournament:
             print("*** This tournament is empty ***")
         else:
             for p in self.players:
-                print(p)
+                print(
+                    f"id: {p[0].id}, name: {p[0].surname} {p[0].name}, birthdate: {p[0].birthdate}, gender: {p[0].gender}, rank: {p[0].rank}"
+                )
