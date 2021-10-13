@@ -65,11 +65,7 @@ class Application:
         if len(Tournament.t_list[select].rounds) == 0:
             players = []
             for p in Tournament.t_list[select].players:
-                print("tournamen list players: ", p, id(p))
                 players.append(p.copy())
-            print("In generate round: ", p)
-            for p in players:
-                print("player id in players: ", p, id(p))
             rank_list = sorted(players, key=lambda x: x[0].rank)
 
             # Create pairs
@@ -113,7 +109,7 @@ class Application:
         input("Press ENTER to continue...\n")
 
     def swiss_round_algo(self, tournament):
-        print('Swiss round algo')
+        print('Swiss round algorithm...')
 
         # Sort players by score and rank
         players = [p for p in tournament.players]
@@ -296,8 +292,6 @@ class Application:
         input("Press ENTER to continue...\n")
 
     def edit_scores(self, result, game, select, r_index, nb):
-
-        print("before result check, game: ", game)
         if result == 0:
             game[0][1] += 1
         elif result == 1:
@@ -312,7 +306,6 @@ class Application:
         elif result == 5:
             game[0][1] -= 0.5
             game[1][1] -= 0.5
-        print("after result check, game: ", game)
 
         print(
             f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
@@ -327,15 +320,8 @@ class Application:
                 tournament = t
         games = tournament['rounds'][r_index]['games']
         serialized_games = []
-        print("nb: ", nb)
         for i, g in enumerate(games):
-            # TODO: DEBUG HERE
-            print("g: ", g)
             if i == nb:
-                print("in if:")
-                print("game[0]: ", game[0], "id: ", id(game[0]))
-                print("game[1]: ", game[1], "id: ", id(game[1]))
-                print("game: ", game)
                 self.edit_players_score(tournament, [g[0], g[1]], select, result)
                 serialized_games.append(([g[0][0], game[0][1]], [g[1][0], game[1][1]]))
             else:
@@ -360,15 +346,10 @@ class Application:
 
         p1_index = 0
         p2_index = 0
-        print("players[0]: ", players[0])
-        print("players[1]: ", players[1])
         for i, p in enumerate(Tournament.t_list[select].players):
-            print("p[0].id: ", p[0].id)
             if p[0].id == players[0][0]:
-                print("Player 1: ", p, "id: ", id(p))
                 p1_index = i
             if p[0].id == players[1][0]:
-                print("Player 2: ", p)
                 p2_index = i
 
         # database

@@ -21,6 +21,7 @@ class MenuManager:
 
             print("    [7] Tournament information")
             print("    [8] Player information")
+            print("    [9] Edit player rank")
             print("    [0] Quit\n")
             print("+================================+\n")
             select = input("Select ? [0 ~ 7] ")

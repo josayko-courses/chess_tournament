@@ -15,8 +15,8 @@ def main():
     app = Application(filepath[0])
     app.load_db()
 
-    welcome()  # print welcome header on program start
     while True:
+        welcome()  # print welcome header on program start
         select = app.mm.main_menu()  # main menu selection
         if select == 1:
             app.tm.create_tournament()
