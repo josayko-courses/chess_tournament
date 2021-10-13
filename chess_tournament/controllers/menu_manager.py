@@ -24,7 +24,7 @@ class MenuManager:
             print("    [9] Edit player rank")
             print("    [0] Quit\n")
             print("+================================+\n")
-            select = input("Select ? [0 ~ 7] ")
+            select = input("Select ? [0 ~ 9] ")
 
             try:
                 val = int(select)

@@ -15,3 +15,4 @@ def welcome():
 def error_msg(str):
     print("Error: " + str)
     input("Press ENTER to cancel...")
+    return 0

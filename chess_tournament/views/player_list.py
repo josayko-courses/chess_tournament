@@ -12,8 +12,7 @@ def show_players(players):
     try:
         select = int(select)
     except ValueError:
-        error_msg("invalid input")
-        return
+        return error_msg("invalid input")
 
     if select == 1:
         alpha_list = sorted(players, key=lambda x: x.surname + x.name)
@@ -28,6 +27,6 @@ def show_players(players):
                 f"id: {player.id}, name: {player.surname} {player.name}, birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}"
             )
     else:
-        error_msg("invalid input")
-        return
+        return error_msg("invalid input")
+
     input("Press ENTER to continue...")

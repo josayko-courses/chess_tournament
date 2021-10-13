@@ -66,16 +66,18 @@ def show_all_tournaments():
         players = [p[0] for p in Tournament.t_list[select].players]
         show_players(players)
 
-    if option == 2:
+    elif option == 2:
         rounds = [r for r in Tournament.t_list[select].rounds]
         show_rounds(rounds)
 
-    if option == 3:
+    elif option == 3:
         players = [p for p in Tournament.t_list[select].players]
         leaderboard = sorted(players, key=lambda x: x[1], reverse=True)
 
         print("         /* Leaderboard results */")
         for i, player in enumerate(leaderboard):
-            print(f"    {i + 1}) id: {player[0].id}, name: {player[0].surname} {player[0].name}, rank: {player[0].rank}, score: {player[1]}")
+            print(
+                f"    {i + 1}) id: {player[0].id}, name: {player[0].surname} {player[0].name}, rank: {player[0].rank}, score: {player[1]}"
+            )
 
         input("Press ENTER to continue...")

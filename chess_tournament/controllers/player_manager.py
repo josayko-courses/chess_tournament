@@ -3,8 +3,8 @@
 """
 
 from controllers import TinyDB
-from models import Player, Tournament
-from views import error_msg
+from models import Player
+from views import error_msg, show_players
 
 
 class PlayerManager:
@@ -22,12 +22,11 @@ class PlayerManager:
         name = input("Name ? ")
         birthdate = input("Birth Date ? ")
         gender = input("Gender ? ")
-        rank = input("Rank ? [1 ~ 99+] ")
+        rank = input("Rank ? ")
         try:
             rank = int(rank)
         except ValueError:
-            error_msg("invalid input")
-            return
+            return error_msg("invalid input")
 
         # Add to db
         id = self.table_players.insert(
@@ -39,3 +38,36 @@ class PlayerManager:
 
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
+
+    def edit_player_rank(self):
+        print("+ Edit player rank +")
+        id_list = [x.id for x in Player.p_list]
+        show_players(Player.p_list)
+
+        id = input("Select player id: ")
+        try:
+            id = int(id)
+            if id not in id_list:
+                return error_msg("invalid id")
+        except ValueError:
+            ("ERROR")
+            return error_msg("invalid input")
+
+        for p in Player.p_list:
+            new_rank = ""
+            if p.id == id:
+                print(f"    /* Edit {p.surname} {p.name}, rank: {p.rank} */")
+                old_rank = p.rank
+                new_rank = input("New rank ? ")
+                break
+
+        try:
+            new_rank = int(new_rank)
+            p.rank = new_rank
+            print(f"    {p.surname} {p.name}, rank: {old_rank} => rank: {new_rank}")
+        except ValueError:
+            return error_msg("invalid input")
+
+        self.table_players.update({'rank': new_rank}, doc_ids=[id])
+
+        input("Press ENTER to continue...")

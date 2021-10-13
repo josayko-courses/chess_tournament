@@ -34,6 +34,8 @@ def main():
             show_all_tournaments()
         elif select == 8:
             show_players(Player.p_list)
+        elif select == 9:
+            app.pm.edit_player_rank()
         elif select == 0:  # quit the  program
             print('Quit')
             break
