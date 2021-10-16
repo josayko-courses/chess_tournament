@@ -3,7 +3,8 @@
 with a Swiss-system for pairing the players
 """
 
-import sys, os
+import sys
+import os
 from models import Player
 from views import welcome, show_players, show_all_tournaments
 from controllers import Application

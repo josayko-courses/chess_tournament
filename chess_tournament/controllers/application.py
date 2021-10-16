@@ -6,9 +6,8 @@ from controllers import TinyDB
 from .tournament_manager import TournamentManager
 from .menu_manager import MenuManager
 from .player_manager import PlayerManager
-from models import Tournament, Player
+from models import Tournament, Player, Round
 from views import error_msg, select_tournament
-from models import Tournament, Round
 from datetime import datetime
 
 
@@ -61,7 +60,7 @@ class Application:
         """Generate a round / players pairing"""
 
         select = select_tournament()
-        if select == None:
+        if select is None:
             return
         nb_players = len(Tournament.t_list[select].players)
         if nb_players == 0 or nb_players % 2 != 0:
@@ -181,7 +180,7 @@ class Application:
 
         print("+ Terminate round +")
         select = select_tournament()
-        if select == None:
+        if select is None:
             return
         if not Tournament.t_list[select].rounds:
             return error_msg("No rounds available")
@@ -219,7 +218,7 @@ class Application:
 
         print("+ Add results +")
         select = select_tournament()
-        if select == None:
+        if select is None:
             return
         rounds = Tournament.t_list[select].rounds
         if len(rounds) == 0:
@@ -245,13 +244,13 @@ class Application:
         if rounds[r_index].end:
             print(f"End: {rounds[r_index].end}")
         else:
-            print(f"End: ~ ONGOING ~")
+            print("End: ~ ONGOING ~")
         for i, game in enumerate(rounds[r_index].games):
             print(
-                f"    [{i + 1}] {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+                f"    [{i+ 1}] {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}>",
                 end="",
             )
-            print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
+            print(f" vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
         nb = input("    Enter game number: ")
         try:
             nb = int(nb) - 1
@@ -267,12 +266,12 @@ class Application:
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
-        print(f"        [1] +1, +0")
-        print(f"        [2] +0, +1")
-        print(f"        [3] +0.5, +0.5")
-        print(f"        [4] -1, -0")
-        print(f"        [5] -0, -1")
-        print(f"        [6] -0.5, -0.5")
+        print("        [1] +1, +0")
+        print("        [2] +0, +1")
+        print("        [3] +0.5, +0.5")
+        print("        [4] -1, -0")
+        print("        [5] -0, -1")
+        print("        [6] -0.5, -0.5")
         result = input("        Select result: ")
         try:
             result = int(result) - 1

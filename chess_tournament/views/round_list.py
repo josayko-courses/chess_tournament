@@ -27,7 +27,7 @@ def show_rounds(rounds):
     print(f"End: {rounds[select].end}")
     for i, game in enumerate(rounds[select].games):
         print(
-            f"    Game {i + 1}: {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
+            f"    Game {i+1}: {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")

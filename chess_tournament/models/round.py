@@ -10,11 +10,11 @@ class Round:
 
     def __init__(self, name, games, start=None, end=None):
         self.name = name
-        if start == None:
+        if start is None:
             self.start = datetime.today().strftime('%Y-%m-%d %H:%M')
         else:
             self.start = start
-        if end == None:
+        if end is None:
             self.end = ""
         else:
             self.end = end
