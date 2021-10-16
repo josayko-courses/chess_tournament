@@ -124,6 +124,7 @@ class TournamentManager:
             new_player = [player_lst[p_select], 0]
             Tournament.t_list[select].players.append(new_player)
 
+            # Update database
             tournament = self.table.get(doc_id=Tournament.t_list[select].id)
             p_list = tournament['players']
             p_list.append((player_lst[p_select].id, 0))
@@ -131,6 +132,5 @@ class TournamentManager:
                 {'players': p_list},
                 doc_ids=[Tournament.t_list[select].id],
             )
-
             print("Player registration successful !")
             input("Press ENTER to continue...\n")

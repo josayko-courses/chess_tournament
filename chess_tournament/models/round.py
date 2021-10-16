@@ -6,6 +6,8 @@ from datetime import datetime
 
 
 class Round:
+    """Holds round information"""
+
     def __init__(self, name, games, start=None, end=None):
         self.name = name
         if start == None:

@@ -6,9 +6,10 @@ from views import error_msg
 
 
 def show_players(players):
+    """Show players by alphabetical order or rank order"""
+
     print("+ Player information +")
     select = input("Players sorted by :\n    [1] alphabetical order\n    [2] rank order\n    Select ? [1 ~ 2] ")
-
     try:
         select = int(select)
     except ValueError:
@@ -28,5 +29,4 @@ def show_players(players):
             )
     else:
         return error_msg("invalid input")
-
     input("Press ENTER to continue...")

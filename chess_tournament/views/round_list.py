@@ -6,6 +6,10 @@ from .main_view import error_msg
 
 
 def show_rounds(rounds):
+    """Show rounds information.
+
+    Params: list of all rounds or list of rounds in a tournament
+    """
     if not rounds:
         return error_msg("There is no round generated")
     for index, round in enumerate(rounds):
@@ -16,8 +20,7 @@ def show_rounds(rounds):
         if select < 0 or select >= len(rounds):
             return error_msg("invalid input")
     except ValueError:
-        error_msg("invalid input")
-        return
+        return error_msg("invalid input")
 
     print(f"Name: {rounds[select].name}")
     print(f"Start: {rounds[select].start}")
@@ -28,5 +31,4 @@ def show_rounds(rounds):
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
-
     input("Press ENTER to continue...\n")

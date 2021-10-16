@@ -4,6 +4,7 @@
 
 
 class Player:
+    """Holds player information"""
 
     p_list = []
 

@@ -1,4 +1,4 @@
-"""Get tournament initialization details from User
+"""Tournaments initialization and core features of the program
 
 """
 
@@ -13,6 +13,11 @@ from datetime import datetime
 
 
 class Application:
+    """This class is the heart of all important features of the program:
+
+    Data loading, Swiss round pairing algorithm and game results editing
+    """
+
     def __init__(self, dirname):
         self.db_path = dirname + '/db.json'
         self.tm = TournamentManager(self.db_path)
@@ -20,12 +25,12 @@ class Application:
         self.mm = MenuManager
 
     def load_db(self):
+        """Loading databse or create a new one"""
         db = TinyDB(self.db_path)
         players = db.table('players')
         for p in players.all():
             player = Player(p.doc_id, p['surname'], p['name'], p['birthdate'], p['gender'], p['rank'])
             Player.p_list.append(player)
-
         tournaments = db.table('tournaments')
 
         # Loading tournaments
@@ -53,10 +58,11 @@ class Application:
                 tournament.rounds.append(deserialized_round)
 
     def generate_round(self):
+        """Generate a round / players pairing"""
+
         select = select_tournament()
         if select == None:
             return
-
         nb_players = len(Tournament.t_list[select].players)
         if nb_players == 0 or nb_players % 2 != 0:
             return error_msg("Not enough players for game pairing")
@@ -88,10 +94,8 @@ class Application:
                 player1 = [game[0][0].id, game[0][1]]
                 player2 = [game[1][0].id, game[1][1]]
                 serialized_games.append((player1, player2))
-
             serialized_round = {'name': round.name, 'start': round.start, 'end': round.end, 'games': serialized_games}
             r_list.append(serialized_round)
-
             table.update(
                 {'rounds': r_list},
                 doc_ids=[Tournament.t_list[select].id],
@@ -105,10 +109,10 @@ class Application:
                 return error_msg('The actual round is not marked as finish')
         else:
             return error_msg('Maximum number of rounds reached')
-
         input("Press ENTER to continue...\n")
 
     def swiss_round_algo(self, tournament):
+        """Swiss round algorithm to use to generate rounds after the first one"""
         print('Swiss round algorithm...')
 
         # Sort players by score and rank
@@ -150,7 +154,6 @@ class Application:
             counter -= 1
             if counter == 0:
                 return print("All possible pairings already played")
-
         l_pair = []
         db_pair = []
         for pair in id_games:
@@ -158,7 +161,6 @@ class Application:
             p2 = [x for x in sorted_players if x[0].id == pair[1]]
             l_pair.append(([p1[0][0], 0], [p2[0][0], 0]))
             db_pair.append(([pair[0], 0], [pair[1], 0]))
-
         nb = len(tournament.rounds) + 1
         round = Round(f"Round {nb}", l_pair)
         tournament.rounds.append(round)
@@ -167,37 +169,32 @@ class Application:
         table = self.tm.table
         db_tournament = table.get(doc_id=tournament.id)
         r_list = db_tournament['rounds']
-
         serialized_round = {'name': round.name, 'start': round.start, 'end': round.end, 'games': db_pair}
         r_list.append(serialized_round)
-
         table.update(
             {'rounds': r_list},
             doc_ids=[tournament.id],
         )
 
     def terminate_round(self):
+        """Mark a round as finished"""
+
         print("+ Terminate round +")
         select = select_tournament()
-
         if select == None:
             return
-
         if not Tournament.t_list[select].rounds:
             return error_msg("No rounds available")
-
         if not Tournament.t_list[select].rounds[-1].end:
             r_list = Tournament.t_list[select].rounds[-1]
             for game in r_list.games:
                 if game[0][1] == 0 and game[1][1] == 0:
                     return error_msg("There are some games with no results. Please add results before.")
             r_list.end = datetime.today().strftime('%Y-%m-%d %H:%M')
-
             tournaments = self.tm.table
             for t in tournaments:
                 if t.doc_id == Tournament.t_list[select].id:
                     rounds = t['rounds']
-
             r_list = []
             updated_round = {}
             for i, round in enumerate(rounds):
@@ -209,33 +206,31 @@ class Application:
                     r_list.append(updated_round)
                 else:
                     r_list.append(round)
-
             tournaments.update(
                 {'rounds': r_list},
                 doc_ids=[Tournament.t_list[select].id],
             )
-
         else:
             return error_msg("There is no ongoing round.")
-
         input("Press ENTER to continue...\n")
 
     def add_results(self):
+        """Add game results"""
+
         print("+ Add results +")
         select = select_tournament()
         if select == None:
             return
-
         rounds = Tournament.t_list[select].rounds
         if len(rounds) == 0:
             return error_msg("No rounds are available")
 
+        # Prints rounds list
         for index, round in enumerate(rounds):
             if round.end:
                 print(f"    [{index + 1}] {round.name}, {round.start}, {round.end}")
             else:
                 print(f"    [{index + 1}] {round.name}, {round.start} ~ ONGOING ~")
-
         r_index = input("Enter round number: ")
         try:
             r_index = int(r_index) - 1
@@ -244,6 +239,7 @@ class Application:
         except ValueError:
             return error_msg("invalid input")
 
+        # Log selected round info + prompt for game to update
         print(f"Name: {rounds[r_index].name}")
         print(f"Start: {rounds[r_index].start}")
         if rounds[r_index].end:
@@ -256,7 +252,6 @@ class Application:
                 end="",
             )
             print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
-
         nb = input("    Enter game number: ")
         try:
             nb = int(nb) - 1
@@ -265,13 +260,13 @@ class Application:
         except ValueError:
             return error_msg("invalid input")
 
+        # Prompt for game results
         game = rounds[r_index].games[nb]
         print(
             f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
-
         print(f"        [1] +1, +0")
         print(f"        [2] +0, +1")
         print(f"        [3] +0.5, +0.5")
@@ -279,19 +274,19 @@ class Application:
         print(f"        [5] -0, -1")
         print(f"        [6] -0.5, -0.5")
         result = input("        Select result: ")
-
         try:
             result = int(result) - 1
             if result < 0 or result > 5:
                 return error_msg("invalid input")
         except ValueError:
             return error_msg("invalid input")
-
-        self.edit_scores(result, rounds[r_index].games[nb], select, r_index, nb)
-
+        self.edit_game_scores(result, rounds[r_index].games[nb], select, r_index, nb)
         input("Press ENTER to continue...\n")
 
-    def edit_scores(self, result, game, select, r_index, nb):
+    def edit_game_scores(self, result, game, select, r_index, nb):
+        """Edit game scores locally and in the database"""
+
+        # Update local data
         if result == 0:
             game[0][1] += 1
         elif result == 1:
@@ -307,13 +302,14 @@ class Application:
             game[0][1] -= 0.5
             game[1][1] -= 0.5
 
+        # Updated confirmation log
         print(
             f"        >> {game[0][0].surname}, {game[0][0].name} <rank: {game[0][0].rank}, score: {game[0][1]}> ",
             end="",
         )
         print(f"vs. {game[1][0].surname}, {game[1][0].name}, <rank: {game[1][0].rank}, score: {game[1][1]}>")
 
-        # Update DB
+        # Serialization + update total scores
         table = self.tm.table
         for t in table:
             if t.doc_id == Tournament.t_list[select].id:
@@ -322,11 +318,12 @@ class Application:
         serialized_games = []
         for i, g in enumerate(games):
             if i == nb:
-                self.edit_players_score(tournament, [g[0], g[1]], select, result)
+                self.edit_total_scores(tournament, [g[0], g[1]], select, result)
                 serialized_games.append(([g[0][0], game[0][1]], [g[1][0], game[1][1]]))
             else:
                 serialized_games.append((g[0], g[1]))
 
+        # Update database
         r_list = []
         for i, r in enumerate(tournament['rounds']):
             if i == r_index:
@@ -334,16 +331,15 @@ class Application:
             else:
                 serialized_round = r
             r_list.append(serialized_round)
-
         table.update(
             {'rounds': r_list},
             doc_ids=[Tournament.t_list[select].id],
         )
 
-    def edit_players_score(self, db_tournament, players, select, result):
-        # l_players: local storage
-        # db_players: db storage
+    def edit_total_scores(self, db_tournament, players, select, result):
+        """Edit players total scores in both local data and database"""
 
+        # Local data
         p1_index = 0
         p2_index = 0
         for i, p in enumerate(Tournament.t_list[select].players):
@@ -352,13 +348,14 @@ class Application:
             if p[0].id == players[1][0]:
                 p2_index = i
 
-        # database
+        # Database
         for p in db_tournament['players']:
             if p[0] == players[0][0]:
                 db_p1 = p
             elif p[0] == players[1][0]:
                 db_p2 = p
 
+        # Edit scores
         if result == 0:
             Tournament.t_list[select].players[p1_index][1] += 1
             db_p1[1] += 1
@@ -382,6 +379,7 @@ class Application:
             db_p1[1] -= 0.5
             db_p2[1] -= 0.5
 
+        # Update Database - serialization
         p_list = []
         for p in db_tournament['players']:
             if p[0] == players[0][0]:
@@ -390,7 +388,6 @@ class Application:
                 p_list.append(db_p2)
             else:
                 p_list.append(p)
-
         self.tm.table.update(
             {'players': p_list},
             doc_ids=[db_tournament.doc_id],

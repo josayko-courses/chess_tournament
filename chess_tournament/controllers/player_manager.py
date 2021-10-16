@@ -8,6 +8,8 @@ from views import error_msg, show_players
 
 
 class PlayerManager:
+    """Handle player creation and rank update"""
+
     def __init__(self, db_path):
         self.db_path = db_path
         self.db = TinyDB(self.db_path)
@@ -32,14 +34,14 @@ class PlayerManager:
         id = self.table_players.insert(
             {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank}
         )
-
         p = Player(id, surname, name, birthdate, gender, rank)
         Player.p_list.append(p)
-
         print("Player creation successful !")
         input("Press ENTER to continue...\n")
 
     def edit_player_rank(self):
+        """Edit player rank"""
+
         print("+ Edit player rank +")
         id_list = [x.id for x in Player.p_list]
         show_players(Player.p_list)
@@ -60,14 +62,11 @@ class PlayerManager:
                 old_rank = p.rank
                 new_rank = input("New rank ? ")
                 break
-
         try:
             new_rank = int(new_rank)
             p.rank = new_rank
             print(f"    {p.surname} {p.name}, rank: {old_rank} => rank: {new_rank}")
         except ValueError:
             return error_msg("invalid input")
-
         self.table_players.update({'rank': new_rank}, doc_ids=[id])
-
         input("Press ENTER to continue...")
