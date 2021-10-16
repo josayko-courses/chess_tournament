@@ -73,6 +73,6 @@ def show_all_tournaments():
         leaderboard = sorted(players, key=lambda x: x[1], reverse=True)
         print("         /* Leaderboard results */")
         for i, player in enumerate(leaderboard):
-            print(f"    {i + 1}) id: {player[0].id}, name: {player[0].surname} {player[0].name}, ")
+            print(f"    {i + 1}) id: {player[0].id}, name: {player[0].surname} {player[0].name}, ", end="")
             print(f"rank: {player[0].rank}, score: {player[1]}")
         input("Press ENTER to continue...")
