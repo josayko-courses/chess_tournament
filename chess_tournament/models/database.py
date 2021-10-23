@@ -16,3 +16,14 @@ class Database:
             if t.doc_id == tournament_id:
                 t['players'].append(player)
                 self.tournaments.update(t, doc_ids=[tournament_id])
+
+    def add_tournament(self, input):
+        new_tournament = {
+            'name': input['name'],
+            'location': input['location'],
+            'rating': input['rating'],
+            'desc': input['desc'],
+            'start': input['start'],
+            'end': input['end'],
+        }
+        return self.tournaments.insert(new_tournament)

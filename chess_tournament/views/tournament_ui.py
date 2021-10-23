@@ -75,7 +75,8 @@ class TournamentUI:
                 'start': start,
                 'end': end,
                 'desc': desc,
-            }
+            },
+            self.dirname,
         )
 
     def add_player(self, tournament):

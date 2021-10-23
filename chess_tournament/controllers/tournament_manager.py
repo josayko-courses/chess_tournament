@@ -8,10 +8,14 @@ from models import Tournament, Player, Database
 
 
 class TournamentManager:
-    def create_tournament(input):
+    def create_tournament(input, dirname):
         # Add to db first and get id
+        db = Database(dirname)
+        id = db.add_tournament(input)
+
+        # Update local data
         new_tournament = Tournament(
-            0, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
+            id, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
         )
         App.tournaments.append(new_tournament)
         print(App.tournaments)
