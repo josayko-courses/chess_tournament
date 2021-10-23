@@ -8,7 +8,10 @@ from views import PlayerUI
 
 
 class TournamentUI:
-    def select():
+    def __init__(self, dirname):
+        self.dirname = dirname
+
+    def select(self):
         """Tournament list selection"""
         while True:
             print("+++++++ Select tournament ++++++++")
@@ -23,12 +26,11 @@ class TournamentUI:
                 continue
             return index
 
-    @classmethod
-    def menu(cls, id):
+    def menu(self, id):
         """Tournament menu"""
         t = App.tournaments[id]
 
-        options = ["Exit", cls.add_player]
+        options = ["Exit", self.add_player]
         while True:
             print("\n+=== Tournament Menu ===+")
             print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
@@ -46,11 +48,11 @@ class TournamentUI:
             except ValueError:
                 continue
 
-    def create():
+    def create(self):
         print("+++++++ Create Tournament ++++++++")
         App.create_tournament()
 
-    def add_player(tournament):
+    def add_player(self, tournament):
         print("+++++++ Add Player ++++++++")
         while True:
             if len(tournament.players) >= 8:
@@ -63,7 +65,7 @@ class TournamentUI:
             if index == -1:
                 break
             if App.players[index].id not in players_ids:
-                TournamentManager.add_player(index, tournament)
+                TournamentManager.add_player(index, tournament, self.dirname)
                 print(f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             else:

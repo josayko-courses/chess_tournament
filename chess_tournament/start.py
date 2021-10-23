@@ -13,8 +13,9 @@ from bcolors import Color
 def main():
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
+    tournament = TournamentUI(filename[0])
 
-    options = ["Exit", TournamentUI.select, TournamentUI.create]
+    options = ["Exit", tournament.select, tournament.create]
     while True:
         index = main_menu()
         if index == 0:
@@ -23,7 +24,7 @@ def main():
         elif index >= 0 and index < 3:
             id = options[index]()
             if id is not None:
-                TournamentUI.menu(id)
+                tournament.menu(id)
             else:
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
     return sys.exit(0)
