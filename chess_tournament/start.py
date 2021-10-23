@@ -5,8 +5,9 @@ chess tournament
 
 import sys
 import os
-from views import menu
+from views import main_menu, TournamentUI
 from controllers import App, TournamentManager
+from bcolors import Color
 
 
 def main():
@@ -15,14 +16,18 @@ def main():
     print(App.players)
     print(App.tournaments)
 
-    options = ["Exit", TournamentManager.create_tournament]
+    options = ["Exit", TournamentUI.select, TournamentManager.create_tournament]
     while True:
-        index = menu()
+        index = main_menu()
         if index == 0:
             print(options[index])
             break
-        else:
-            options[index]()
+        elif index >= 0 and index < 3:
+            id = options[index]()
+            if id is not None:
+                TournamentUI.menu(id)
+            else:
+                input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
     return sys.exit(0)
 
 

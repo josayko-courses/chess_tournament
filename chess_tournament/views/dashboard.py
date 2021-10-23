@@ -2,16 +2,22 @@
 
 """
 
+from bcolors import Color
 
-def menu():
-    print("\n+================================+")
-    print("|                                |")
-    print("|   Chess tournament manager     |")
-    print("|                                |")
-    print("+================================+\n")
-    select = input("Select ? ")
-    try:
-        select = int(select)
-    except ValueError:
-        return
-    return select
+
+def main_menu():
+    while True:
+        print("\n+================================+")
+        print("|                                |")
+        print("|   Chess tournament manager     |")
+        print("|                                |")
+        print("+================================+\n")
+        print("[1] Select Tournament")
+        print("[2] Create Tournament")
+        print("[0] Exit")
+        select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
+        try:
+            select = int(select)
+        except ValueError:
+            continue
+        return select

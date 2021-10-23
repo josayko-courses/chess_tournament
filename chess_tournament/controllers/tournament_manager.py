@@ -2,10 +2,7 @@
 
 """
 
-from controllers import App
-from views import create_ui
 
-
-class TournamentManager(App):
+class TournamentManager:
     def create_tournament():
-        create_ui()
+        return

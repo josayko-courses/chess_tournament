@@ -1,2 +1,2 @@
-from .dashboard import menu
-from .tournament_ui import create_ui
+from .tournament_ui import TournamentUI
+from .dashboard import main_menu
