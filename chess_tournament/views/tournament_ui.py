@@ -2,6 +2,7 @@
 
 """
 
+import sys
 from controllers import App, TournamentManager
 from bcolors import Color
 from views import PlayerUI
@@ -36,11 +37,14 @@ class TournamentUI:
             print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
             print("+=======================+")
             print("[1] Add player")
-            print("[0] Main Menu")
+            print("[9] Main menu")
+            print("[0] Exit")
             select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
                 select = int(select)
                 if select == 0:
+                    sys.exit(0)
+                elif select == 9:
                     return
                 elif select > 0 and select < 2:
                     if options[select](t) is None:

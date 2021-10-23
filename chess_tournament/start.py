@@ -10,12 +10,7 @@ from views import main_menu, TournamentUI
 from bcolors import Color
 
 
-def main():
-    filename = os.path.split(os.path.abspath(__file__))
-    App.program_initialization(filename[0])
-    tournament = TournamentUI(filename[0])
-
-    options = ["Exit", tournament.select, tournament.create]
+def main_loop(options, tournament):
     while True:
         index = main_menu()
         if index == 0:
@@ -27,6 +22,17 @@ def main():
                 tournament.menu(id)
             else:
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
+
+
+def main():
+    filename = os.path.split(os.path.abspath(__file__))
+    App.program_initialization(filename[0])
+    tournament = TournamentUI(filename[0])
+    options = ["Exit", tournament.select, tournament.create]
+
+    if App.tournaments:
+        tournament.menu(len(App.tournaments) - 1)
+    main_loop(options, tournament)
     return sys.exit(0)
 
 
