@@ -14,6 +14,8 @@ class TournamentUI:
 
     def select(self):
         """Tournament list selection"""
+        if not App.tournaments:
+            return print(f"{Color.FAIL}No tournament{Color.FAIL}")
         while True:
             print("+++++++ Select tournament ++++++++")
             for i, t in enumerate(App.tournaments):
