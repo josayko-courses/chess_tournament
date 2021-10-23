@@ -13,8 +13,6 @@ from bcolors import Color
 def main():
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
-    print(App.players)
-    print(App.tournaments)
 
     options = ["Exit", TournamentUI.select, TournamentUI.create]
     while True:

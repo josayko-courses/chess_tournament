@@ -4,24 +4,28 @@
 
 from controllers import App, TournamentManager
 from bcolors import Color
+from views import PlayerUI
 
 
 class TournamentUI:
     def select():
+        """Tournament list selection"""
         while True:
+            print("+++++++ Select tournament ++++++++")
             for i, t in enumerate(App.tournaments):
                 print(f"[{i + 1}] {t}")
-            select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
+            index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
-                select = int(select) - 1
-                if select < 0 or select >= len(App.tournaments):
+                index = int(index) - 1
+                if index < 0 or index >= len(App.tournaments):
                     continue
             except ValueError:
                 continue
-            return select
+            return index
 
     @classmethod
     def menu(cls, id):
+        """Tournament menu"""
         t = App.tournaments[id]
 
         options = ["Exit", cls.add_player]
@@ -31,14 +35,14 @@ class TournamentUI:
             print("+=======================+")
             print("[1] Add player")
             print("[0] Main Menu")
-            index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
+            select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
-                index = int(index)
-                if index == 0:
+                select = int(select)
+                if select == 0:
                     return
-                elif index > 0 and index < 2:
-                    options[index]()
-                    input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
+                elif select > 0 and select < 2:
+                    if options[select](t) is None:
+                        input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             except ValueError:
                 continue
 
@@ -46,6 +50,23 @@ class TournamentUI:
         print("+++++++ Create Tournament ++++++++")
         App.create_tournament()
 
-    def add_player():
-        TournamentManager.add_player()
-        return
+    def add_player(tournament):
+        print("+++++++ Add Player ++++++++")
+        while True:
+            if len(tournament.players) >= 8:
+                print(f"{Color.FAIL}This tournament is full{Color.ENDC}")
+                index = None
+                break
+            players_ids = [x[0] for x in tournament.players]
+            print(f"Registered players ids: {players_ids}")
+            index = PlayerUI.select()
+            if index == -1:
+                break
+            if App.players[index].id not in players_ids:
+                TournamentManager.add_player(index, tournament)
+                print(f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}")
+                input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
+            else:
+                print(f"{Color.FAIL}{App.players[index]} is already registered to the tournament{Color.ENDC}")
+                input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
+        return index

@@ -17,8 +17,11 @@ class Tournament:
         else:
             self.end = end
 
+        self.players = []
+
     def deserialize(t):
         inst = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['desc'], t['start'], t['end'])
+        inst.players = t['players']
         return inst
 
     def __repr__(self) -> str:
