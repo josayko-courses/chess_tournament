@@ -1,8 +1,8 @@
-"""Tournament manager
+"""Tournament Manager
 
 """
 
 
 class TournamentManager:
-    def create_tournament():
-        return
+    def add_player():
+        print("add player")

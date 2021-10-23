@@ -2,7 +2,7 @@
 
 """
 
-from controllers import App
+from controllers import App, TournamentManager
 from bcolors import Color
 
 
@@ -20,22 +20,32 @@ class TournamentUI:
                 continue
             return select
 
-    def menu(id):
+    @classmethod
+    def menu(cls, id):
         t = App.tournaments[id]
-        print("\n+=== Tournament Menu ===+")
-        print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
-        print("+=======================+")
+
+        options = ["Exit", cls.add_player]
         while True:
+            print("\n+=== Tournament Menu ===+")
+            print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
+            print("+=======================+")
+            print("[1] Add player")
             print("[0] Main Menu")
             index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
                 index = int(index)
                 if index == 0:
                     return
-                elif index >= 0 and index < 1:
-                    continue
+                elif index > 0 and index < 2:
+                    options[index]()
+                    input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             except ValueError:
                 continue
 
-    def create(tournaments):
+    def create():
         print("+++++++ Create Tournament ++++++++")
+        App.create_tournament()
+
+    def add_player():
+        TournamentManager.add_player()
+        return
