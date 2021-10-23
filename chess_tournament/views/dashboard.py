@@ -14,6 +14,7 @@ def main_menu():
         print("+================================+\n")
         print("[1] Select Tournament")
         print("[2] Create Tournament")
+        print("[3] Create Player")
         print("[0] Exit")
         select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
         try:

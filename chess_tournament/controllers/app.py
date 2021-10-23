@@ -23,6 +23,3 @@ class App:
             inst = model.deserialize(el)
             app_data.append(inst)
 
-    def create_tournament():
-        print("In App.create_tournament")
-        return

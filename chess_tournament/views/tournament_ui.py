@@ -50,7 +50,33 @@ class TournamentUI:
 
     def create(self):
         print("+++++++ Create Tournament ++++++++")
-        App.create_tournament()
+        ratings = ('rapid', 'blitz', 'bullet')
+        name = input("Name ? ")
+        if len(name) < 2:
+            return print(f"{Color.FAIL}input must be more than 1 character{Color.FAIL}")
+        location = input("Location ? ")
+        if len(location) < 2:
+            return print(f"{Color.FAIL}input must be more than 1 character{Color.FAIL}")
+        rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? ")
+        try:
+            rating = int(rating) - 1
+            if rating < 0 or rating > 2:
+                return print(f"{Color.FAIL}invalid input{Color.FAIL}")
+        except ValueError:
+            return print(f"{Color.FAIL}invalid input{Color.FAIL}")
+        start = input("Start date ? ")
+        end = input("End date ? ")
+        desc = input("Description ? ")
+        TournamentManager.create_tournament(
+            {
+                'name': name,
+                'location': location,
+                'rating': ratings[rating],
+                'start': start,
+                'end': end,
+                'desc': desc,
+            }
+        )
 
     def add_player(self, tournament):
         print("+++++++ Add Player ++++++++")
