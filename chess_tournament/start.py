@@ -12,6 +12,9 @@ from controllers import App
 def main():
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
+    print(App.players)
+    print(App.tournaments)
+
     while True:
         print("+===+ Chess tournament +===+")
         select = menu()
