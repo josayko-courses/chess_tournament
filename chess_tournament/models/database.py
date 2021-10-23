@@ -18,12 +18,18 @@ class Database:
                 self.tournaments.update(t, doc_ids=[tournament_id])
 
     def add_tournament(self, input):
+        if not input['end']:
+            input['end'] = input['start']
+
         new_tournament = {
             'name': input['name'],
             'location': input['location'],
             'rating': input['rating'],
-            'desc': input['desc'],
+            'nb_rounds': 4,
+            'rounds': [],
+            'players': [],
             'start': input['start'],
             'end': input['end'],
+            'desc': input['desc'],
         }
         return self.tournaments.insert(new_tournament)

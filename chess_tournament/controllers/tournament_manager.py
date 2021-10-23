@@ -14,6 +14,7 @@ class TournamentManager:
         id = db.add_tournament(input)
 
         # Update local data
+        print("input = ", input)
         new_tournament = Tournament(
             id, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
         )
