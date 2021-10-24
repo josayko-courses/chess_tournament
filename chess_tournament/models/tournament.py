@@ -2,6 +2,8 @@
 
 """
 
+from .round import Round
+
 
 class Tournament:
     def __init__(self, id, name, location, rating, desc, start, end=None):
@@ -24,12 +26,12 @@ class Tournament:
 
     def deserialize(t):
         inst = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['desc'], t['start'], t['end'])
+
+        for r in t['rounds']:
+            round = Round(r['name'], r['games'], r['start'], r['end'])
+            inst.rounds.append(round)
         inst.players = t['players']
         return inst
-
-    def serialize(t, table):
-        data = []
-        return data
 
     def __repr__(self) -> str:
         str1 = f"Tournament(id={self.id}, name={self.name}, location={self.location}, rating={self.rating}, "

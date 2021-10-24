@@ -27,3 +27,6 @@ class TournamentManager:
         # Update database
         db = Database(dirname)
         db.add_player_to_tournament(new_player, tournament.id)
+
+    def create_round(tournament, dirname):
+        print("create round")

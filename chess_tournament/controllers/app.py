@@ -22,4 +22,3 @@ class App:
         for el in table.all():
             inst = model.deserialize(el)
             app_data.append(inst)
-

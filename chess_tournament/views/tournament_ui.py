@@ -30,14 +30,12 @@ class TournamentUI:
             return index
 
     def start(self, tournament):
-        print(tournament)
-        print(tournament.rounds)
         if tournament.rounds:
             return print(f"{Color.FAIL}Tournament had already started{Color.ENDC}")
         elif not tournament.players or len(tournament.players) % 2 != 0:
             return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
-        print("start tournament")
-        return
+
+        TournamentManager.create_round(tournament, self.dirname)
 
     def menu(self, id):
         """Tournament menu"""
