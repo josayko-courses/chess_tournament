@@ -36,7 +36,7 @@ class PlayerUI:
             try:
                 rank = int(rank)
             except ValueError:
-                return print("invalid input")
+                return print(f"{Color.FAIL}Error: invalid input{Color.ENDC}")
 
             PlayerManager.create(
                 {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank},

@@ -5,7 +5,7 @@
 import sys
 from controllers import App, TournamentManager
 from bcolors import Color
-from views import PlayerUI
+from views import PlayerUI, RoundUI
 
 
 class TournamentUI:
@@ -37,38 +37,31 @@ class TournamentUI:
             return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
         TournamentManager.create_first_round(tournament, self.dirname)
         print(f"{Color.OKGREEN}Tournament sucessfully started at {tournament.rounds[0].start}{Color.ENDC}")
-        players = tournament.get_players(App.players)
+        players = tournament.get_players_instance(App.players)
 
         # Print games info
         print(f"{Color.WARNING}Next games: ")
         for i, game in enumerate(tournament.rounds[0].games):
             for p in players:
                 if game[0][0] == p.id:
-                    p1 = f"{p.surname} {p.name}, rank: {p.rank}"
+                    p1 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}"
                 if game[1][0] == p.id:
-                    p2 = f"{p.surname} {p.name}, rank: {p.rank}"
+                    p2 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}"
             print(f"Game {i + 1} | {p1} vs. {p2}")
         print(f"{Color.ENDC}", end="")
-
-    def edit_round(self, tournament):
-        print("edit round")
-        return
-
-    def terminate_round(self, tournament):
-        print("terminate round")
-        return
 
     def menu(self, id):
         """Tournament menu"""
         t = App.tournaments[id]
         player = PlayerUI(self.dirname)
+        round = RoundUI(self.dirname)
 
-        options = ["Exit", self.edit_round, self.terminate_round, self.start, player.create, self.add_player]
+        options = ["Exit", round.edit, round.terminate, self.start, player.create, self.add_player]
         while True:
             print("\n+=== Tournament Menu ===+")
             print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
             print("+=======================+")
-            print("[1] Edit Round Results")
+            print("[1] Edit Round")
             print("[2] Terminate Round")
             print("[3] Start Tournament")
             print("[4] Create Player")

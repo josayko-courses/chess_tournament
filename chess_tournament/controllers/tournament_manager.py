@@ -30,7 +30,7 @@ class TournamentManager:
 
     def create_first_round(tournament, dirname):
         # sort players by rank
-        players = tournament.get_players(App.players)
+        players = tournament.get_players_instance(App.players)
         players_by_rank = sorted(players, key=lambda x: x.rank)
 
         # create pairs locally

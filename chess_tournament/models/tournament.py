@@ -33,7 +33,8 @@ class Tournament:
         inst.players = t['players']
         return inst
 
-    def get_players(self, all_players):
+    def get_players_instance(self, all_players):
+        """Get players instance from ids"""
         players_ids = [x[0] for x in self.players]
         players = []
         for id in players_ids:
@@ -41,6 +42,17 @@ class Tournament:
                 if p.id == id:
                     players.append(p)
         return players
+
+    def get_players_with_score(self, all_players):
+        """Get players instance and their score"""
+        players = self.get_players_instance(all_players)
+        scores = []
+        for p_inst in players:
+            for p_lst in self.players:
+                if p_lst[0] == p_inst.id:
+                    score = [p_inst, p_lst[1]]
+                    scores.append(score)
+        return scores
 
     def __repr__(self) -> str:
         str1 = f"Tournament(id={self.id}, name={self.name}, location={self.location}, rating={self.rating}, "
