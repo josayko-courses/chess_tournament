@@ -2,7 +2,6 @@
 
 """
 
-import os
 from controllers import App
 from models import Tournament, Player, Database
 
@@ -11,15 +10,13 @@ class TournamentManager:
     def create_tournament(input, dirname):
         # Add to db first and get id
         db = Database(dirname)
-        id = db.add_tournament(input)
+        id = db.create_tournament(input)
 
         # Update local data
-        print("input = ", input)
         new_tournament = Tournament(
             id, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
         )
         App.tournaments.append(new_tournament)
-        print(App.tournaments)
         return
 
     def add_player(index, tournament, dirname):

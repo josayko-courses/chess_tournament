@@ -2,12 +2,15 @@
 
 """
 
-from controllers import App
+from controllers import App, TournamentManager, PlayerManager
 from bcolors import Color
 
 
 class PlayerUI:
-    def select():
+    def __init__(self, dirname):
+        self.dirname = dirname
+
+    def select(self):
         while True:
             print("+++++++ Select player ++++++++")
             for i, t in enumerate(App.players):
@@ -21,3 +24,22 @@ class PlayerUI:
             except ValueError:
                 continue
             return index
+
+    def create(self, tournament):
+        print("+++++++ Create player ++++++++")
+        surname = input("Surname ? ")
+        name = input("Name ? ")
+        birthdate = input("Birth Date ? ")
+        gender = input("Gender ? ")
+        rank = input("Rank ? ")
+        try:
+            rank = int(rank)
+        except ValueError:
+            return print("invalid input")
+
+        print(tournament)
+        PlayerManager.create(
+            {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank}, self.dirname
+        )
+
+        return

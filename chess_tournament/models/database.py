@@ -17,7 +17,7 @@ class Database:
                 t['players'].append(player)
                 self.tournaments.update(t, doc_ids=[tournament_id])
 
-    def add_tournament(self, input):
+    def create_tournament(self, input):
         if not input['end']:
             input['end'] = input['start']
 
@@ -33,3 +33,13 @@ class Database:
             'desc': input['desc'],
         }
         return self.tournaments.insert(new_tournament)
+
+    def create_player(self, input):
+        new_player = {
+            'surname': input['surname'],
+            'name': input['name'],
+            'birthdate': input['birthdate'],
+            'gender': input['gender'],
+            'rank': input['rank'],
+        }
+        return self.players.insert(new_player)
