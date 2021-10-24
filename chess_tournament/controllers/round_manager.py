@@ -28,17 +28,28 @@ class RoundManager:
         db = Database(dirname)
         for t in db.tournaments:
             if t.doc_id == tournament_id:
-                games_on_db = t['rounds'][-1]['games']
                 break
-        print(games_on_db)
+
         updated_games = []
-        for i, g in enumerate(games_on_db):
+        for i, g in enumerate(t['rounds'][-1]['games']):
             if i == game_index:
                 updated_games.append(game)
             else:
                 updated_games.append(g)
-        print(updated_games)
-        db.tournaments.update({'rounds': updated_games}, doc_ids=[tournament_id])
+
+        updated_rounds = []
+        print("game_index: ", game_index)
+        for i, r in enumerate(t['rounds']):
+            if i == len(t['rounds']) - 1:
+                serialized_round = {'name': r['name'], 'start': r['start'], 'end': r['end'], 'games': updated_games}
+                updated_rounds.append(serialized_round)
+            else:
+                updated_rounds.append(r)
+
+        db.tournaments.update(
+            {'rounds': updated_rounds},
+            doc_ids=[tournament_id],
+        )
 
         # Update total scores on db
         return
