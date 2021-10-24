@@ -23,7 +23,6 @@ class RoundManager:
             game[1][1] = 0
 
         # Update total scores locally
-        print(App.tournaments[-1].players)
 
         # Update game on db
         db = Database(dirname)
@@ -32,6 +31,14 @@ class RoundManager:
                 games_on_db = t['rounds'][-1]['games']
                 break
         print(games_on_db)
+        updated_games = []
+        for i, g in enumerate(games_on_db):
+            if i == game_index:
+                updated_games.append(game)
+            else:
+                updated_games.append(g)
+        print(updated_games)
+        db.tournaments.update({'rounds': updated_games}, doc_ids=[tournament_id])
 
         # Update total scores on db
         return
