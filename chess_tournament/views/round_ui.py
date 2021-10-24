@@ -83,9 +83,7 @@ class RoundUI:
             g = self.get_games_with_players_instance(games[game_index], players)
             result = self.select_result(game_index, g)
             if result != 0:
-                print(games[game_index])
-                RoundManager.update_results(self.dirname, result, games[game_index])
-                print(games[game_index])
+                RoundManager.update_results(self.dirname, result, games[game_index], game_index, tournament.id)
                 print(f"{Color.OKGREEN}Results updated{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
                 continue
