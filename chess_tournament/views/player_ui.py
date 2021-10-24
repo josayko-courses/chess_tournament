@@ -26,20 +26,34 @@ class PlayerUI:
             return index
 
     def create(self, tournament):
-        print("+++++++ Create player ++++++++")
-        surname = input("Surname ? ")
-        name = input("Name ? ")
-        birthdate = input("Birth Date ? ")
-        gender = input("Gender ? ")
-        rank = input("Rank ? ")
-        try:
-            rank = int(rank)
-        except ValueError:
-            return print("invalid input")
+        while True:
+            print("+++++++ Create player ++++++++")
+            surname = input("Surname ? ")
+            name = input("Name ? ")
+            birthdate = input("Birth Date ? ")
+            gender = input("Gender ? ")
+            rank = input("Rank ? ")
+            try:
+                rank = int(rank)
+            except ValueError:
+                return print("invalid input")
 
-        print(tournament)
-        PlayerManager.create(
-            {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank}, self.dirname
-        )
+            PlayerManager.create(
+                {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank},
+                self.dirname,
+            )
+            print(f"{Color.OKGREEN}New {App.players[-1]} has been created{Color.ENDC}")
 
-        return
+            if len(tournament.players) < 8:
+                index = len(App.players) - 1
+                while True:
+                    select = input(f"Add new Player to this tournament ? (y/n, default=y) ")
+                    if select.capitalize() == 'N':
+                        break
+                    elif not select or select.capitalize() == 'Y':
+                        TournamentManager.add_player(index, tournament, self.dirname)
+                        print(f"{Color.OKGREEN}{App.players[index]} has been registered to the tournament{Color.ENDC}")
+                        break
+            cancel = input("Add another player ? (y/n, default=y) ")
+            if cancel.capitalize() == 'N':
+                return -1

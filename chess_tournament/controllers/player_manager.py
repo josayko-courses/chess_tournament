@@ -13,7 +13,6 @@ class PlayerManager:
 
         # Add to db
         id = db.create_player(input)
-        print("input = ", input)
         new_player = Player(
             id,
             input['surname'],
@@ -23,5 +22,4 @@ class PlayerManager:
             input['rank'],
         )
         App.players.append(new_player)
-        print(App.players)
         return
