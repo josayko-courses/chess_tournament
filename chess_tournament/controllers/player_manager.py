@@ -8,7 +8,6 @@ from models import Player, Database
 
 class PlayerManager:
     def create(input, dirname):
-        print("create_player")
         db = Database(dirname)
 
         # Add to db

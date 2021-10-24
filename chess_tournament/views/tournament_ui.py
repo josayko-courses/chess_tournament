@@ -29,18 +29,29 @@ class TournamentUI:
                 continue
             return index
 
+    def start(self, tournament):
+        print(tournament)
+        print(tournament.rounds)
+        if tournament.rounds:
+            return print(f"{Color.FAIL}Tournament had already started{Color.ENDC}")
+        elif not tournament.players or len(tournament.players) % 2 != 0:
+            return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
+        print("start tournament")
+        return
+
     def menu(self, id):
         """Tournament menu"""
         t = App.tournaments[id]
         player = PlayerUI(self.dirname)
 
-        options = ["Exit", self.add_player, player.create]
+        options = ["Exit", self.start, player.create, self.add_player]
         while True:
             print("\n+=== Tournament Menu ===+")
             print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
             print("+=======================+")
-            print("[1] Add player")
+            print("[1] Start")
             print("[2] Create Player")
+            print("[3] Add player")
             print("[9] Main menu")
             print("[0] Exit")
             select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
@@ -50,7 +61,7 @@ class TournamentUI:
                     sys.exit(0)
                 elif select == 9:
                     return
-                elif select > 0 and select < 3:
+                elif select > 0 and select < 4:
                     if options[select](t) is None:
                         input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             except ValueError:
