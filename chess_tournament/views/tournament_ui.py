@@ -30,6 +30,7 @@ class TournamentUI:
             return index
 
     def start(self, tournament):
+        print("+++++++ Start tournament ++++++++")
         if tournament.rounds:
             return print(f"{Color.FAIL}Tournament had already started{Color.ENDC}")
         elif not tournament.players or len(tournament.players) % 2 != 0:
@@ -49,20 +50,30 @@ class TournamentUI:
             print(f"Game {i + 1} | {p1} vs. {p2}")
         print(f"{Color.ENDC}", end="")
 
+    def edit_round(self, tournament):
+        print("edit round")
+        return
+
+    def terminate_round(self, tournament):
+        print("terminate round")
+        return
+
     def menu(self, id):
         """Tournament menu"""
         t = App.tournaments[id]
         player = PlayerUI(self.dirname)
 
-        options = ["Exit", self.start, player.create, self.add_player]
+        options = ["Exit", self.edit_round, self.terminate_round, self.start, player.create, self.add_player]
         while True:
             print("\n+=== Tournament Menu ===+")
             print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
             print("+=======================+")
-            print("[1] Start")
-            print("[2] Create Player")
-            print("[3] Add player")
-            print("[9] Main menu")
+            print("[1] Edit Round Results")
+            print("[2] Terminate Round")
+            print("[3] Start Tournament")
+            print("[4] Create Player")
+            print("[5] Add Player")
+            print("[9] Main Menu")
             print("[0] Exit")
             select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
@@ -71,7 +82,7 @@ class TournamentUI:
                     sys.exit(0)
                 elif select == 9:
                     return
-                elif select > 0 and select < 4:
+                elif select > 0 and select < 6:
                     if options[select](t) is None:
                         input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             except ValueError:
@@ -110,6 +121,9 @@ class TournamentUI:
 
     def add_player(self, tournament):
         print("+++++++ Add Player ++++++++")
+        if tournament.rounds:
+            print(f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}")
+            return None
         player = PlayerUI(self.dirname)
         while True:
             if len(tournament.players) >= 8:
