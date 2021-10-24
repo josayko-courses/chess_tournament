@@ -36,6 +36,18 @@ class TournamentUI:
             return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
         TournamentManager.create_first_round(tournament, self.dirname)
         print(f"{Color.OKGREEN}Tournament sucessfully started at {tournament.rounds[0].start}{Color.ENDC}")
+        players = tournament.get_players(App.players)
+
+        # Print games info
+        print(f"{Color.WARNING}Next games: ")
+        for i, game in enumerate(tournament.rounds[0].games):
+            for p in players:
+                if game[0][0] == p.id:
+                    p1 = f"{p.surname} {p.name}, rank: {p.rank}"
+                if game[1][0] == p.id:
+                    p2 = f"{p.surname} {p.name}, rank: {p.rank}"
+            print(f"Game {i + 1} | {p1} vs. {p2}")
+        print(f"{Color.ENDC}", end="")
 
     def menu(self, id):
         """Tournament menu"""
