@@ -33,6 +33,15 @@ class Tournament:
         inst.players = t['players']
         return inst
 
+    def get_players(self, all_players):
+        players_ids = [x[0] for x in self.players]
+        players = []
+        for id in players_ids:
+            for p in all_players:
+                if p.id == id:
+                    players.append(p)
+        return players
+
     def __repr__(self) -> str:
         str1 = f"Tournament(id={self.id}, name={self.name}, location={self.location}, rating={self.rating}, "
         str2 = f"desc={self.desc}, start={self.start}, end={self.end})"

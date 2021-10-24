@@ -20,5 +20,8 @@ class Round:
             self.end = end
         self.games = games
 
+    def serialize(self):
+        return {'name': self.name, 'start': self.start, 'end': self.end, 'games': self.games}
+
     def __repr__(self):
         return f"Round({self.name}, {self.start}, {self.end}, {self.games})"

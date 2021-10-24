@@ -35,7 +35,7 @@ class TournamentUI:
         elif not tournament.players or len(tournament.players) % 2 != 0:
             return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
 
-        TournamentManager.create_round(tournament, self.dirname)
+        TournamentManager.create_first_round(tournament, self.dirname)
 
     def menu(self, id):
         """Tournament menu"""

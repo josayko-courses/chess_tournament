@@ -2,7 +2,7 @@
 
 """
 
-from models import Tournament, Player, Round, Database
+from models import Tournament, Player, Database
 
 
 class App:

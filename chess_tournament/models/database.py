@@ -43,3 +43,9 @@ class Database:
             'rank': input['rank'],
         }
         return self.players.insert(new_player)
+
+    def add_round_to_tournament(self, round, tournament_id):
+        for t in self.tournaments:
+            if t.doc_id == tournament_id:
+                t['rounds'].append(round)
+                self.tournaments.update(t, doc_ids=[tournament_id])
