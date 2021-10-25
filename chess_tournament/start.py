@@ -17,9 +17,9 @@ def main_loop(options, tournament):
             print(options[index])
             break
         elif index >= 0 and index < 3:
-            id = options[index]()
+            i = options[index]()
             if id is not None:
-                tournament.menu(id)
+                tournament.menu(i)
             else:
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
 
@@ -28,7 +28,7 @@ def main():
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
     tournament = TournamentUI(filename[0])
-    options = ["Exit", tournament.select, tournament.create]
+    options = ["Exit", tournament.create, tournament.select]
 
     if App.tournaments:
         tournament.menu(len(App.tournaments) - 1)

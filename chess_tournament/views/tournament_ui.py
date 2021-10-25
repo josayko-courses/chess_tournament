@@ -50,16 +50,16 @@ class TournamentUI:
             print(f"Game {i + 1} | {p1} vs. {p2}")
         print(f"{Color.ENDC}", end="")
 
-    def menu(self, id):
+    def menu(self, index):
         """Tournament menu"""
-        t = App.tournaments[id]
+        t = App.tournaments[index]
         player = PlayerUI(self.dirname)
         round = RoundUI(self.dirname)
 
         options = ["Exit", round.edit, round.terminate, self.start, player.create, self.add_player]
         while True:
             print("\n+=== Tournament Menu ===+")
-            print(f"{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}")
+            print(f"{Color.HEADER}{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}{Color.ENDC}")
             print("+=======================+")
             print("[1] Edit Round")
             print("[2] Terminate Round")
@@ -111,6 +111,9 @@ class TournamentUI:
             },
             self.dirname,
         )
+        print(f"{Color.OKGREEN}New tournament created{Color.ENDC}")
+        input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
+        return len(App.tournaments) - 1
 
     def add_player(self, tournament):
         print("+++++++ Add Player ++++++++")
