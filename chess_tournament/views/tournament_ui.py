@@ -61,7 +61,7 @@ class TournamentUI:
             print("\n+=== Tournament Menu ===+")
             print(f"{Color.HEADER}{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}{Color.ENDC}")
             if t.rounds:
-                ongoing_round = f"{t.rounds[-1].name}, start: {t.rounds[-1].start}"
+                ongoing_round = f"{t.rounds[-1].name}, start: {t.rounds[-1].start}, end: {t.rounds[-1].end}"
             else:
                 ongoing_round = "Not Started"
             print(f"{Color.HEADER}{ongoing_round}{Color.ENDC}")

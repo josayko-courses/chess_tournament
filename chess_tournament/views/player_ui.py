@@ -50,10 +50,13 @@ class PlayerUI:
                     select = input(f"Add new Player to this tournament ? (y/n, default=y) ")
                     if select.capitalize() == 'N':
                         break
+                    if tournament.rounds:
+                        print(f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}")
+                        break
                     elif not select or select.capitalize() == 'Y':
                         TournamentManager.add_player(index, tournament, self.dirname)
                         print(f"{Color.OKGREEN}{App.players[index]} has been registered to the tournament{Color.ENDC}")
                         break
-            cancel = input("Add another player ? (y/n, default=y) ")
+            cancel = input("Create another player ? (y/n, default=y) ")
             if cancel.capitalize() == 'N':
                 return -1
