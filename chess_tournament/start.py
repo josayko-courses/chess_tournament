@@ -6,7 +6,7 @@ chess tournament
 import sys
 import os
 from controllers import App
-from views import main_menu, TournamentUI
+from views import main_menu, all_tournaments_report, TournamentUI
 from bcolors import Color
 
 
@@ -16,7 +16,10 @@ def main_loop(options, tournament):
         if index == 0:
             print(options[index])
             break
-        elif index >= 0 and index < 3:
+        if index == 9:
+            if App.tournaments:
+                tournament.menu(len(App.tournaments) - 1)
+        elif index >= 0 and index < 4:
             i = options[index]()
             if i is not None:
                 tournament.menu(i)
@@ -28,7 +31,7 @@ def main():
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
     tournament = TournamentUI(filename[0])
-    options = ["Exit", tournament.create, tournament.select]
+    options = ["Exit", tournament.create, tournament.select, all_tournaments_report]
 
     if App.tournaments:
         tournament.menu(len(App.tournaments) - 1)
