@@ -3,6 +3,8 @@
 """
 
 from bcolors import Color
+from .player_ui import PlayerUI
+from .tournament_ui import TournamentUI
 from controllers import App
 
 
@@ -27,9 +29,26 @@ def main_menu():
 
 
 def all_tournaments_report():
-    print("+++++++ All Tournaments report ++++++++")
-    tournaments = App.tournaments
-    players = App.players
-    print(tournaments)
-    print(players)
-    return
+    print(f"{Color.WARNING}+++++++ All Tournaments report ++++++++{Color.ENDC}")
+
+    print(f"{Color.BOLD}\n+=== All players by rank ===+{Color.ENDC}")
+    PlayerUI.print_players_by_rank(App.players)
+
+    print(f"{Color.BOLD}\n+=== All players by name ===+{Color.ENDC}")
+    PlayerUI.print_players_by_name(App.players)
+
+    print(f"{Color.BOLD}\n+=== Tournaments ===+{Color.ENDC}")
+    for t in App.tournaments:
+        print(
+            f"{Color.HEADER}| {t.id}. {t.name}, {t.location}, rating: {t.rating}, dates: {t.start} - {t.end} |{Color.ENDC}"
+        )
+        print(f"\"{t.desc}\"")
+        print(f"{Color.BOLD}+ Players by rank +{Color.ENDC}")
+        PlayerUI.print_players_by_rank(t.get_players_instance(App.players))
+
+        print(f"{Color.BOLD}+ Players by name +{Color.ENDC}")
+        PlayerUI.print_players_by_name(t.get_players_instance(App.players))
+
+        print(f"{Color.BOLD}+ Players leaderboard +{Color.ENDC}")
+        TournamentUI.print_leaderboard(t)
+        print()

@@ -60,3 +60,16 @@ class PlayerUI:
             cancel = input("Create another player ? (y/n, default=y) ")
             if cancel.capitalize() == 'N':
                 return -1
+
+    def print_players_by_rank(players):
+        rank_list = sorted(players, key=lambda x: x.rank)
+        for player in rank_list:
+            print(f"id: {player.id}, name: {player.surname} {player.name}, ", end="")
+            print(f"birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}")
+        return
+
+    def print_players_by_name(players):
+        alpha_list = sorted(players, key=lambda x: x.surname + x.name)
+        for player in alpha_list:
+            print(f"id: {player.id}, name: {player.surname} {player.name}, ", end="")
+            print(f"birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}")

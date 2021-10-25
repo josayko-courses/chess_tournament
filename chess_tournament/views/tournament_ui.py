@@ -144,3 +144,12 @@ class TournamentUI:
                 print(f"{Color.FAIL}{App.players[index]} is already registered to the tournament{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
         return index
+
+    def print_leaderboard(tournament):
+        players = tournament.get_players_with_score(App.players)
+        sorted_players = sorted(players, key=lambda x: x[1], reverse=True)
+
+        for i, p in enumerate(sorted_players):
+            print(f"<{i + 1}> score: {p[1]} | id: {p[0].id} - {p[0].surname} {p[0].name}, ", end="")
+            print(f"{p[0].birthdate}, {p[0].gender} - rank: {p[0].rank}")
+        return
