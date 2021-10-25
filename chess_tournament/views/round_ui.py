@@ -94,4 +94,9 @@ class RoundUI:
 
     def terminate(self, tournament):
         print("+++++++ Terminate round ++++++++")
+        if len(tournament.rounds) == 0:
+            return print(f"{Color.FAIL}Please start tournament first{Color.FAIL}")
+        elif tournament.rounds[-1].end:
+            return print(f"{Color.FAIL}The tournament is over{Color.FAIL}")
+
         return

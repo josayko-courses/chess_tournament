@@ -18,7 +18,7 @@ def main_loop(options, tournament):
             break
         elif index >= 0 and index < 3:
             i = options[index]()
-            if id is not None:
+            if i is not None:
                 tournament.menu(i)
             else:
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
