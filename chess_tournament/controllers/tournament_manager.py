@@ -102,6 +102,6 @@ class TournamentManager:
         tournament.rounds.append(round)
 
         # Update db
-        db = Database(dirname, tournament)
+        db = Database(dirname)
         db.add_round_to_tournament(round.serialize(), tournament.id)
         return
