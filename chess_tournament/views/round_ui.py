@@ -67,9 +67,9 @@ class RoundUI:
 
     def edit(self, tournament):
         if len(tournament.rounds) == 0:
-            return print(f"{Color.FAIL}Please start tournament first{Color.FAIL}")
+            return print(f"{Color.FAIL}Please start tournament first{Color.ENDC}")
         elif tournament.rounds[-1].end:
-            return print(f"{Color.FAIL}The tournament is over{Color.FAIL}")
+            return print(f"{Color.FAIL}The tournament is over{Color.ENDC}")
 
         games = tournament.rounds[-1].games
 
@@ -97,12 +97,29 @@ class RoundUI:
     def terminate(self, tournament):
         print("+++++++ Terminate round ++++++++")
         if len(tournament.rounds) == 0:
-            return print(f"{Color.FAIL}Please start tournament first{Color.FAIL}")
+            return print(f"{Color.FAIL}Please start tournament first{Color.ENDC}")
         elif tournament.rounds[-1].end:
-            return print(f"{Color.FAIL}The tournament is over{Color.FAIL}")
+            return print(f"{Color.FAIL}The tournament is over{Color.ENDC}")
 
-        # RoundManager.terminate(self.dirname, tournament)
+        for game in tournament.rounds[-1].games:
+            if game[0][1] == 0 and game[1][1] == 0:
+                return print(f"{Color.FAIL}Cannot terminate round: all games must have a result{Color.ENDC}")
+        RoundManager.terminate(self.dirname, tournament)
+        print(f"{Color.WARNING}Ending current round. Creating next round with new games...{Color.ENDC}")
 
         # Create next round
-        TournamentManager.create_next_round(self.dirname, tournament)
-        return
+        if TournamentManager.create_next_round(self.dirname, tournament) == -1:
+            return print(f"{Color.FAIL}All possible games have been played: tournament is over{Color.ENDC}")
+        print(f"{Color.WARNING}{tournament.rounds[-1].name} start... {Color.ENDC}")
+
+        # Print games info
+        players = tournament.get_players_instance(App.players)
+        print(f"{Color.WARNING}Next games: ")
+        for i, game in enumerate(tournament.rounds[-1].games):
+            for p in players:
+                if game[0][0] == p.id:
+                    p1 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}"
+                if game[1][0] == p.id:
+                    p2 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}"
+            print(f"Game {i + 1} | {p1} vs. {p2}")
+        print(f"{Color.ENDC}", end="")
