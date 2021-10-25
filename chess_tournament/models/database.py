@@ -88,3 +88,11 @@ class Database:
             doc_ids=[tournament.id],
         )
         return
+
+    def set_round_end(self, tournament):
+        for t in self.tournaments:
+            if t.doc_id == tournament.id:
+                t['rounds'][-1]['end'] = tournament.rounds[-1].end
+                self.tournaments.update(t, doc_ids=[tournament.id])
+
+        return

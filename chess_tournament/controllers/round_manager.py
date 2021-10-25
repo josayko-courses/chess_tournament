@@ -3,10 +3,15 @@
 """
 
 from models import Database
-from controllers import App
+from datetime import datetime
 
 
 class RoundManager:
+    def terminate(dirname, tournament):
+        tournament.rounds[-1].end = datetime.today().strftime('%Y-%m-%d %H:%M')
+        db = Database(dirname)
+        db.set_round_end(tournament)
+
     def reset_game_results(game, player1, player2):
         """Reset game results to 0 for both players"""
         if game[0][1] == 1:

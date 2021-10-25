@@ -48,3 +48,58 @@ class TournamentManager:
         # update DB
         db = Database(dirname)
         db.add_round_to_tournament(new_round.serialize(), tournament.id)
+
+    def create_next_round(dirname, tournament):
+        # 1st step: sort by scores
+        players = tournament.get_players_with_score(App.players)
+        sorted_players = sorted(players, key=lambda x: x[1], reverse=True)
+
+        # 2nd step: bubble sort, if scores are equals, sort by rank (ascending)
+        i = 1
+        while i < len(sorted_players):
+            if sorted_players[i][1] == sorted_players[i - 1][1]:
+                if sorted_players[i][0].rank < sorted_players[i - 1][0].rank:
+                    sorted_players[i], sorted_players[i - 1] = sorted_players[i - 1], sorted_players[i]
+                    i = 1
+                    continue
+            i += 1
+
+        # Get all previous games combinations
+        combos = []
+        for r in tournament.rounds:
+            for g in r.games:
+                combos.append([g[0][0], g[1][0]])
+
+        # Create new pairings
+        p_ids = [x[0].id for x in sorted_players]
+        pairing = []
+        counter = len(p_ids)
+        while len(p_ids) >= 2:
+            p1 = p_ids[0]
+            i = 1
+            while i < len(p_ids):
+                p2 = p_ids[i]
+                if p1 != p2 and [p1, p2] not in combos and [p2, p1] not in combos:
+                    pairing.append([p1, p2])
+                    p_ids.remove(p1)
+                    p_ids.remove(p2)
+                    break
+                i += 1
+            counter -= 1
+            if counter == 0:
+                return -1
+
+        # Create games
+        next_games = []
+        for p in pairing:
+            p1 = [x[0].id for x in sorted_players if x[0].id == p[0]]
+            p2 = [x[0].id for x in sorted_players if x[0].id == p[1]]
+            next_games.append([[p1[0], 0], [p2[0], 0]])
+
+        # Create new round
+        nb = len(tournament.rounds) + 1
+        round = Round(f"Round {nb}", next_games)
+        tournament.rounds.append(round)
+
+        # Update db
+        return

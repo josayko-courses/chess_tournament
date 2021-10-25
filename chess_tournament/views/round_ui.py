@@ -2,7 +2,7 @@
 
 """
 
-from controllers import App, RoundManager
+from controllers import App, TournamentManager, RoundManager
 from bcolors import Color
 
 
@@ -13,6 +13,8 @@ class RoundUI:
     def print_games(self, tournament, games):
         players = tournament.get_players_instance(App.players)
         for i, game in enumerate(games):
+            p1 = ""
+            p2 = ""
             for p in players:
                 if game[0][0] == p.id:
                     p1 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}, score: {game[0][1]}"
@@ -99,4 +101,8 @@ class RoundUI:
         elif tournament.rounds[-1].end:
             return print(f"{Color.FAIL}The tournament is over{Color.FAIL}")
 
+        # RoundManager.terminate(self.dirname, tournament)
+
+        # Create next round
+        TournamentManager.create_next_round(self.dirname, tournament)
         return
