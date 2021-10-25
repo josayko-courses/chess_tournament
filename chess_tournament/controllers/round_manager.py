@@ -46,12 +46,13 @@ class RoundManager:
             game[0][1] = 0.5
             game[1][1] = 0.5
 
-        # Update game on db
+        # Update db
         db = Database(dirname)
         for t in db.tournaments:
             if t.doc_id == tournament.id:
                 break
 
+        # Edit game
         updated_games = []
         for i, g in enumerate(t['rounds'][-1]['games']):
             if i == game_index:
@@ -59,6 +60,7 @@ class RoundManager:
             else:
                 updated_games.append(g)
 
+        # Edit round with updated game
         updated_rounds = []
         for i, r in enumerate(t['rounds']):
             if i == len(t['rounds']) - 1:
@@ -67,19 +69,17 @@ class RoundManager:
             else:
                 updated_rounds.append(r)
 
-        # Update total scores on db
+        # Edit players total score
         updated_players = []
         for p in t['players']:
             if p[0] == player1[0]:
                 updated_players.append(player1)
-            if p[0] == player2[0]:
+            elif p[0] == player2[0]:
                 updated_players.append(player2)
             else:
                 updated_players.append(p)
-        print(updated_rounds)
-        print(updated_players)
-        return
 
+        # Save to db
         db.tournaments.update(
             {'rounds': updated_rounds, 'players': updated_players},
             doc_ids=[tournament.id],
