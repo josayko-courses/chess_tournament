@@ -10,7 +10,7 @@ class PlayerUI:
     def __init__(self, dirname):
         self.dirname = dirname
 
-    def select(self):
+    def select():
         while True:
             print("+++++++ Select player ++++++++")
             for i, t in enumerate(App.players):

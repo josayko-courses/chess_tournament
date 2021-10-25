@@ -3,7 +3,7 @@
 """
 
 import sys
-from controllers import App, TournamentManager
+from controllers import App, PlayerManager, TournamentManager
 from bcolors import Color
 from views import PlayerUI, RoundUI
 
@@ -152,4 +152,23 @@ class TournamentUI:
         for i, p in enumerate(sorted_players):
             print(f"<{i + 1}> score: {p[1]} | id: {p[0].id} - {p[0].surname} {p[0].name}, ", end="")
             print(f"{p[0].birthdate}, {p[0].gender} - rank: {p[0].rank}")
+        return
+
+    def edit_player_rank(self):
+        print(f"{Color.WARNING}+++++++ Edit player rank ++++++++{Color.ENDC}")
+        index = PlayerUI.select()
+
+        player = App.players[index]
+        print(f"    /* Edit {player.surname} {player.name}, rank: {player.rank} */")
+        old_rank = player.rank
+
+        new_rank = input("New rank ? ")
+        try:
+            new_rank = int(new_rank)
+            player.rank = new_rank
+            print(f"    {player.surname} {player.name}, rank: {old_rank} => rank: {new_rank}")
+        except ValueError:
+            return print(f"{Color.FAIL}Error: invalid input{Color.ENDC}")
+
+        PlayerManager.update_rank(player.id, new_rank, self.dirname)
         return

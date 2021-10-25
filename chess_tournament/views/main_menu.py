@@ -6,7 +6,8 @@ from bcolors import Color
 from .player_ui import PlayerUI
 from .tournament_ui import TournamentUI
 from .round_ui import RoundUI
-from controllers import App
+from controllers import App, PlayerManager
+from models import Database
 
 
 def main_menu():
@@ -19,6 +20,7 @@ def main_menu():
         print("[1] Create Tournament")
         print("[2] Select Tournament")
         print("[3] All Tournaments Report")
+        print("[4] Edit Player Rank")
         print("[9] Back")
         print("[0] Exit")
         select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
