@@ -5,6 +5,7 @@
 from bcolors import Color
 from .player_ui import PlayerUI
 from .tournament_ui import TournamentUI
+from .round_ui import RoundUI
 from controllers import App
 
 
@@ -51,4 +52,7 @@ def all_tournaments_report():
 
         print(f"{Color.BOLD}+ Players leaderboard +{Color.ENDC}")
         TournamentUI.print_leaderboard(t)
+
+        print(f"{Color.BOLD}+ Rounds +{Color.ENDC}")
+        RoundUI.print_rounds(t.rounds)
         print()

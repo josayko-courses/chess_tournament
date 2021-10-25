@@ -119,3 +119,23 @@ class RoundUI:
                     p2 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}"
             print(f"Game {i + 1} | {p1} vs. {p2}")
         print(f"{Color.ENDC}", end="")
+
+    def print_rounds(rounds):
+        win = Color.OKGREEN
+        end = Color.ENDC
+        for r in rounds:
+            print(f"{Color.WARNING}{r.name}, start: {r.start}, end: {r.end}{Color.ENDC}")
+            for i, game in enumerate(r.games):
+                for p in App.players:
+                    if game[0][0] == p.id:
+                        if game[0][1] == 1:
+                            p1 = f"{win}id: {p.id}, {p.surname} {p.name}, rank: {p.rank}, score: {game[0][1]}{end}"
+                        else:
+                            p1 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}, score: {game[0][1]}"
+                    if game[1][0] == p.id:
+                        if game[1][1] == 1:
+                            p2 = f"{win}id: {p.id}, {p.surname} {p.name}, rank: {p.rank}, score: {game[1][1]}{end}"
+                        else:
+                            p2 = f"id: {p.id}, {p.surname} {p.name}, rank: {p.rank}, score: {game[1][1]}"
+                print(f"Game {i + 1} | {p1} vs. {p2}")
+        return
