@@ -36,9 +36,7 @@ class TournamentUI:
         elif not tournament.players or len(tournament.players) % 2 != 0:
             return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
         TournamentManager.create_first_round(tournament, self.dirname)
-        print(
-            f"{Color.OKGREEN}Tournament sucessfully started at {tournament.rounds[0].start}{Color.ENDC}"
-        )
+        print(f"{Color.OKGREEN}Tournament sucessfully started at {tournament.rounds[0].start}{Color.ENDC}")
 
         # Print games info
         players = tournament.get_players_instance(App.players)
@@ -68,9 +66,7 @@ class TournamentUI:
         ]
         while True:
             print("\n+=== Tournament Menu ===+")
-            print(
-                f"{Color.HEADER}{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}{Color.ENDC}"
-            )
+            print(f"{Color.HEADER}{t.name}, {t.location}, {t.rating}, {t.start}, {t.end}{Color.ENDC}")
             if t.rounds:
                 ongoing_round = f"{t.rounds[-1].name}, start: {t.rounds[-1].start}, end: {t.rounds[-1].end}"
             else:
@@ -106,9 +102,7 @@ class TournamentUI:
         location = input("Location ? ")
         if len(location) < 2:
             return print(f"{Color.FAIL}input must be more than 1 character{Color.FAIL}")
-        rating = input(
-            "Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? "
-        )
+        rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? ")
         try:
             rating = int(rating) - 1
             if rating < 0 or rating > 2:
@@ -136,9 +130,7 @@ class TournamentUI:
     def add_player(self, tournament):
         print("+++++++ Add Player ++++++++")
         if tournament.rounds:
-            print(
-                f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}"
-            )
+            print(f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}")
             return None
         player = PlayerUI(self.dirname)
         while True:
@@ -150,19 +142,15 @@ class TournamentUI:
             if not App.players:
                 return print(f"{Color.FAIL}No players{Color.ENDC}")
             print(f"Registered players ids: {players_ids}")
-            index = player.select()
+            index = PlayerUI.select()
             if index == -1:
                 break
             if App.players[index].id not in players_ids:
                 TournamentManager.add_player(index, tournament, self.dirname)
-                print(
-                    f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}"
-                )
+                print(f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             else:
-                print(
-                    f"{Color.FAIL}{App.players[index]} is already registered to the tournament{Color.ENDC}"
-                )
+                print(f"{Color.FAIL}{App.players[index]} is already registered to the tournament{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
         return index
 
@@ -194,9 +182,7 @@ class TournamentUI:
         try:
             new_rank = int(new_rank)
             player.rank = new_rank
-            print(
-                f"    {player.surname} {player.name}, rank: {old_rank} => rank: {new_rank}"
-            )
+            print(f"    {player.surname} {player.name}, rank: {old_rank} => rank: {new_rank}")
         except ValueError:
             return print(f"{Color.FAIL}Error: invalid input{Color.ENDC}")
 
