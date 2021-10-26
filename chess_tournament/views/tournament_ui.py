@@ -183,6 +183,8 @@ class TournamentUI:
         if not App.players:
             return print(f"{Color.FAIL}No players{Color.ENDC}")
         index = PlayerUI.select()
+        if index == -1:
+            return -1
 
         player = App.players[index]
         print(f"    /* Edit {player.surname} {player.name}, rank: {player.rank} */")
