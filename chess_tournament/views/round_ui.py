@@ -104,6 +104,8 @@ class RoundUI:
         print(f"{Color.WARNING}Ending current round. Creating next round with new games...{Color.ENDC}")
 
         # Create next round
+        if len(tournament.rounds) >= tournament.nb_rounds:
+            return print(f"{Color.FAIL}Maximum nb of rounds (4) reached. Tournament is over{Color.ENDC}")
         if TournamentManager.create_next_round(self.dirname, tournament) == -1:
             return print(f"{Color.FAIL}All possible games have been played: tournament is over{Color.ENDC}")
         print(f"{Color.WARNING}{tournament.rounds[-1].name} start... {Color.ENDC}")
