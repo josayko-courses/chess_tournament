@@ -132,7 +132,6 @@ class TournamentUI:
         if tournament.rounds:
             print(f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}")
             return None
-        player = PlayerUI(self.dirname)
         while True:
             if len(tournament.players) >= 8:
                 print(f"{Color.FAIL}This tournament is full{Color.ENDC}")
