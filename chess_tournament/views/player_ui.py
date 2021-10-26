@@ -1,4 +1,4 @@
-"""Player related views 
+"""Player related views
 
 """
 
@@ -15,7 +15,7 @@ class PlayerUI:
             print("+++++++ Select player ++++++++")
             for i, t in enumerate(App.players):
                 print(f"[{i + 1}] {t}")
-            print(f"[0] Cancel")
+            print("[0] Cancel")
             index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
             try:
                 index = int(index) - 1
@@ -47,7 +47,7 @@ class PlayerUI:
             if len(tournament.players) < 8:
                 index = len(App.players) - 1
                 while True:
-                    select = input(f"Add new Player to this tournament ? (y/n, default=y) ")
+                    select = input("Add new Player to this tournament ? (y/n, default=y) ")
                     if select.capitalize() == 'N':
                         break
                     if tournament.rounds:

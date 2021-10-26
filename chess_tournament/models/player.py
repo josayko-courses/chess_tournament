@@ -17,4 +17,6 @@ class Player:
         return inst
 
     def __repr__(self):
-        return f"Player(id={self.id}, surname={self.surname}, name={self.name}, birthdate={self.birthdate}, gender={self.gender}, rank={self.rank})"
+        str1 = f"Player(id={self.id}, surname={self.surname}, name={self.name}, "
+        str2 = f"birthdate={self.birthdate}, gender={self.gender}, rank={self.rank})"
+        return str1 + str2

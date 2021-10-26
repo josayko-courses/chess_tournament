@@ -17,7 +17,7 @@ class Tournament:
         self.players = []
 
         self.start = start
-        if end == None:
+        if end is None:
             self.end = start
         else:
             self.end = end

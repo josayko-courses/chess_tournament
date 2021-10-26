@@ -42,9 +42,8 @@ def all_tournaments_report():
 
     print(f"{Color.BOLD}\n+=== Tournaments ===+{Color.ENDC}")
     for t in App.tournaments:
-        print(
-            f"{Color.HEADER}| {t.id}. {t.name}, {t.location}, rating: {t.rating}, dates: {t.start} - {t.end} |{Color.ENDC}"
-        )
+        print(f"{Color.HEADER}| {t.id}. {t.name}, {t.location}, rating: {t.rating}, ", end="")
+        print(f"dates: {t.start} - {t.end} |{Color.ENDC}")
         print(f"\"{t.desc}\"")
         print(f"{Color.BOLD}+ Players by rank +{Color.ENDC}")
         PlayerUI.print_players_by_rank(t.get_players_instance(App.players))
