@@ -77,6 +77,12 @@ class TournamentManager:
         while len(p_ids) >= 2:
             p1 = p_ids[0]
             i = 1
+            if len(p_ids) == 2:
+                p2 = p_ids[i]
+                pairing.append([p1, p2])
+                p_ids.remove(p1)
+                p_ids.remove(p2)
+                break
             while i < len(p_ids):
                 p2 = p_ids[i]
                 if p1 != p2 and [p1, p2] not in combos and [p2, p1] not in combos:

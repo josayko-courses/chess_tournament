@@ -63,6 +63,7 @@ class TournamentUI:
             self.start,
             player.create,
             self.add_player,
+            self.tournament_report,
         ]
         while True:
             print("\n+=== Tournament Menu ===+")
@@ -78,6 +79,7 @@ class TournamentUI:
             print("[3] Start Tournament")
             print("[4] Create Player")
             print("[5] Add Player")
+            print("[6] Tournament Report")
             print("[9] Main Menu")
             print("[0] Exit")
             select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
@@ -87,7 +89,7 @@ class TournamentUI:
                     sys.exit(0)
                 elif select == 9:
                     return
-                elif select > 0 and select < 6:
+                elif select > 0 and select < 7:
                     if options[select](t) is None:
                         input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             except ValueError:
@@ -187,3 +189,21 @@ class TournamentUI:
 
         PlayerManager.update_rank(player.id, new_rank, self.dirname)
         return
+
+    def tournament_report(self, t):
+        print(f"{Color.WARNING}+++++++ Tournament report ++++++++{Color.ENDC}")
+        print(f"{Color.HEADER}| {t.id}. {t.name}, {t.location}, rating: {t.rating}, ", end="")
+        print(f"dates: {t.start} - {t.end} |{Color.ENDC}")
+        print(f"\"{t.desc}\"")
+        print(f"{Color.BOLD}+ Players by rank +{Color.ENDC}")
+        PlayerUI.print_players_by_rank(t.get_players_instance(App.players))
+
+        print(f"{Color.BOLD}+ Players by name +{Color.ENDC}")
+        PlayerUI.print_players_by_name(t.get_players_instance(App.players))
+
+        print(f"{Color.BOLD}+ Players leaderboard +{Color.ENDC}")
+        TournamentUI.print_leaderboard(t)
+
+        print(f"{Color.BOLD}+ Rounds +{Color.ENDC}")
+        RoundUI.print_rounds(t.rounds)
+        print()

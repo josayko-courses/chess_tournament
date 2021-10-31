@@ -11,6 +11,7 @@ from bcolors import Color
 
 
 def main_loop(options, tournament):
+    """Main menu loop"""
     while True:
         index = main_menu()
         if index == 0:
@@ -28,13 +29,20 @@ def main_loop(options, tournament):
 
 
 def main():
+    """Main function, program initialization"""
     filename = os.path.split(os.path.abspath(__file__))
     App.program_initialization(filename[0])
     tournament = TournamentUI(filename[0])
     options = ["Exit", tournament.create, tournament.select, all_tournaments_report, tournament.edit_player_rank]
 
     if App.tournaments:
-        tournament.menu(len(App.tournaments) - 1)
+        if not App.tournaments[-1].rounds or not App.tournaments[-1].rounds[-1].end:
+            tournament.menu(len(App.tournaments) - 1)
+    else:
+        print(f"{Color.WARNING}No tournament available...{Color.ENDC}")
+        i = tournament.create()
+        if i is not None:
+            tournament.menu(i)
     main_loop(options, tournament)
     return sys.exit(0)
 
