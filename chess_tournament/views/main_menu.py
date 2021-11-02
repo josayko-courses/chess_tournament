@@ -7,7 +7,6 @@ from .player_ui import PlayerUI
 from .tournament_ui import TournamentUI
 from .round_ui import RoundUI
 from controllers import App, PlayerManager
-from models import Database
 
 
 def main_menu():

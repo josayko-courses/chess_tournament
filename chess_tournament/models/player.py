@@ -34,3 +34,8 @@ class Player:
             'rank': self.rank,
         }
         return players_table.insert(new_player)
+
+    def update_player_to_db(self, new_rank, dirname):
+        db = TinyDB(dirname + '/db.json')
+        players_table = db.table('players')
+        players_table.update({'rank': new_rank}, doc_ids=[self.id])

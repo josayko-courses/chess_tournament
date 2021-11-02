@@ -37,7 +37,7 @@ class PlayerUI:
                 continue
 
             PlayerManager.create_player(
-                {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank},
+                {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': int(rank)},
                 self.dirname,
             )
             print(f"{Color.OKGREEN}New {App.players[-1]} has been created{Color.ENDC}")
@@ -67,7 +67,7 @@ class PlayerUI:
         return
 
     def print_players_by_name(players):
-        alpha_list = sorted(players, key=lambda x: x.surname + x.name)
+        alpha_list = sorted(players, key=lambda x: x.surname.capitalize() + x.name.capitalize())
         for player in alpha_list:
             print(f"id: {player.id}, name: {player.surname} {player.name}, ", end="")
             print(f"birthdate: {player.birthdate}, gender: {player.gender}, rank: {player.rank}")

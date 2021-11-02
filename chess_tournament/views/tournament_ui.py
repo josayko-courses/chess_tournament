@@ -134,6 +134,7 @@ class TournamentUI:
         while True:
             print("+++++++ Add Player ++++++++")
             if TournamentManager.is_full(tournament):
+                print(f"{Color.FAIL} Tournament is full{Color.ENDC}")
                 index = None
                 break
             elif PlayerManager.no_players():
@@ -170,7 +171,7 @@ class TournamentUI:
         print(f"{Color.WARNING}+++++++ Edit player rank ++++++++{Color.ENDC}")
         if not App.players:
             return print(f"{Color.FAIL}No players{Color.ENDC}")
-        index = PlayerUI.select()
+        index = PlayerUI.select_player()
         if index == -1:
             return -1
 
@@ -186,7 +187,7 @@ class TournamentUI:
         except ValueError:
             return print(f"{Color.FAIL}Error: invalid input{Color.ENDC}")
 
-        PlayerManager.update_rank(player.id, new_rank, self.dirname)
+        player.update_player_to_db(new_rank, self.dirname)
         return
 
     def tournament_report(self, t):

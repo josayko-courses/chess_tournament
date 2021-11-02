@@ -3,7 +3,7 @@
 """
 
 from controllers import App
-from models import Player, Database
+from models import Player
 
 
 class PlayerManager:
@@ -46,8 +46,3 @@ class PlayerManager:
         new_player.id = new_player.save_player_to_db(dirname)
         App.players.append(new_player)
         return
-
-    def update_rank(id, new_rank, dirname):
-        db = Database(dirname)
-        # Add to db
-        db.players.update({'rank': new_rank}, doc_ids=[id])

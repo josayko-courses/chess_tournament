@@ -90,22 +90,16 @@ class RoundUI:
 
     def terminate(self, tournament):
         print("+++++++ Terminate round ++++++++")
-        if len(tournament.rounds) == 0:
-            return print(f"{Color.FAIL}Please start tournament first{Color.ENDC}")
-        elif tournament.rounds[-1].end:
-            return print(f"{Color.FAIL}The tournament is over{Color.ENDC}")
-
-        for game in tournament.rounds[-1].games:
-            if game[0][1] == 0 and game[1][1] == 0:
-                return print(f"{Color.FAIL}Cannot terminate round: all games must have a result{Color.ENDC}")
-        RoundManager.terminate(self.dirname, tournament)
-        print(f"{Color.WARNING}Ending current round. Creating next round with new games...{Color.ENDC}")
+        error = RoundManager.terminate_round_error(tournament)
+        if error:
+            return print(f"{Color.FAIL}{error}{Color.ENDC}")
+        RoundManager.terminate_round(self.dirname, tournament)
 
         # Create next round
-        if len(tournament.rounds) >= tournament.nb_rounds:
-            return print(f"{Color.FAIL}Maximum nb of rounds (4) reached. Tournament is over{Color.ENDC}")
-        if TournamentManager.create_next_round(self.dirname, tournament) == -1:
-            return print(f"{Color.FAIL}All possible games have been played: tournament is over{Color.ENDC}")
+        print(f"{Color.WARNING}Ending current round. Creating next round with new games...{Color.ENDC}")
+        error = RoundManager.create_next_round(tournament, self.dirname)
+        if error:
+            return print(f"{Color.FAIL}{error}{Color.ENDC}")
         print(f"{Color.WARNING}{tournament.rounds[-1].name} start... {Color.ENDC}")
 
         # Print games info

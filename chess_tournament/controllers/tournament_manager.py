@@ -3,7 +3,7 @@
 """
 
 from controllers import App
-from models import Tournament, Round, Database
+from models import Tournament, Round
 
 
 class TournamentManager:
@@ -145,8 +145,6 @@ class TournamentManager:
         nb = len(tournament.rounds) + 1
         round = Round(f"Round {nb}", next_games)
         tournament.rounds.append(round)
+        tournament.update_tournament_rounds_db(round.serialize(), tournament.id, dirname)
 
-        # Update db
-        db = Database(dirname)
-        db.add_round_to_tournament(round.serialize(), tournament.id)
         return

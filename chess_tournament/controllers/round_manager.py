@@ -2,9 +2,8 @@
 
 """
 
-from models import Database
 from datetime import datetime
-from tinydb import TinyDB
+from .tournament_manager import TournamentManager
 
 
 class RoundManager:
@@ -15,10 +14,25 @@ class RoundManager:
             return "The tournament is over"
         return None
 
-    def terminate(dirname, tournament):
+    def terminate_round_error(tournament):
+        if len(tournament.rounds) == 0:
+            return "Please start tournament first"
+        elif tournament.rounds[-1].end:
+            return "The tournament is over"
+        for game in tournament.rounds[-1].games:
+            if game[0][1] == 0 and game[1][1] == 0:
+                return "Cannot terminate round: all games must have a result"
+        return None
+
+    def create_next_round(tournament, dirname):
+        if len(tournament.rounds) >= tournament.nb_rounds:
+            return "Maximum nb of rounds (4) reached. Tournament is over"
+        if TournamentManager.create_next_round(dirname, tournament) == -1:
+            return "All possible games have been played: tournament is over"
+
+    def terminate_round(dirname, tournament):
         tournament.rounds[-1].end = datetime.today().strftime('%Y-%m-%d %H:%M')
-        db = Database(dirname)
-        db.set_round_end(tournament)
+        tournament.update_round_end_db(tournament, dirname)
 
     def reset_game_results(game, player1, player2):
         """Reset game results to 0 for both players"""

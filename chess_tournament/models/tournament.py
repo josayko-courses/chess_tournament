@@ -139,3 +139,12 @@ class Tournament:
             doc_ids=[self.id],
         )
         return
+
+    def update_round_end_db(self, tournament, dirname):
+        db = TinyDB(dirname + '/db.json')
+        tournaments_table = db.table('tournaments')
+        for t in tournaments_table:
+            if t.doc_id == tournament.id:
+                t['rounds'][-1]['end'] = tournament.rounds[-1].end
+                tournaments_table.update(t, doc_ids=[tournament.id])
+        return
