@@ -83,17 +83,17 @@ class TournamentUI:
             print("[9] Main Menu")
             print("[0] Exit")
             select = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
-            try:
-                select = int(select)
-                if select == 0:
-                    sys.exit(0)
-                elif select == 9:
-                    return
-                elif select > 0 and select < 7:
-                    if options[select](t) is None:
-                        input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
-            except ValueError:
+            error = TournamentManager.menu_error(select)
+            if error:
                 continue
+            select = int(select)
+            if select == 0:
+                sys.exit(0)
+            elif select == 9:
+                return
+            elif select > 0 and select < 7:
+                if options[select](t) is None:
+                    input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
 
     def create(self):
         """Create a new tournament"""

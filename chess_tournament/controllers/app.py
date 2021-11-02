@@ -2,7 +2,7 @@
 
 """
 
-from models import Tournament, Player, Database
+from models import Tournament, Player
 from tinydb import TinyDB
 
 

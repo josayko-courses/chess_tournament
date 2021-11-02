@@ -7,6 +7,13 @@ from models import Tournament, Round, Database
 
 
 class TournamentManager:
+    def menu_error(select):
+        try:
+            select = int(select)
+        except ValueError:
+            return True
+        return False
+
     def create_error(name, location, rating):
         if len(name) < 2:
             return "name input must be more than 1 character"
