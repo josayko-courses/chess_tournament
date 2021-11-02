@@ -3,6 +3,7 @@
 """
 
 from models import Tournament, Player, Database
+from tinydb import TinyDB
 
 
 class App:
@@ -12,9 +13,11 @@ class App:
 
     @classmethod
     def program_initialization(cls, dirname):
-        db = Database(dirname)
-        cls.load_data_from_db(db.players, Player, cls.players)
-        cls.load_data_from_db(db.tournaments, Tournament, cls.tournaments)
+        db = TinyDB(dirname + '/db.json')
+        players_table = db.table('players')
+        tournaments_table = db.table('tournaments')
+        cls.load_data_from_db(players_table, Player, cls.players)
+        cls.load_data_from_db(tournaments_table, Tournament, cls.tournaments)
         return
 
     @staticmethod
