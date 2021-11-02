@@ -34,6 +34,9 @@ class Tournament:
         inst.players = t['players']
         return inst
 
+    def get_players_ids(self):
+        return [x[0] for x in self.players]
+
     def get_players_instance(self, all_players):
         """Get players instance from ids"""
         players_ids = [x[0] for x in self.players]

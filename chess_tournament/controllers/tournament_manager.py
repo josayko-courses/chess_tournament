@@ -7,6 +7,26 @@ from models import Tournament, Round, Database
 
 
 class TournamentManager:
+    def is_full(tournament):
+        if len(tournament.players) >= 8:
+            return True
+        return False
+
+    def add_player_check(index, tournament):
+        if App.players[index].id not in tournament.get_players_ids():
+            return None
+        else:
+            return f"{App.players[index]} is already registered to the tournament"
+
+    def select_tournament_error(index):
+        try:
+            index = int(index) - 1
+            if index < 0 or index >= len(App.tournaments):
+                return True
+        except ValueError:
+            return True
+        return False
+
     def menu_error(select):
         """Check user input form tournament menu"""
         try:

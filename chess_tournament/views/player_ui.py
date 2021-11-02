@@ -10,20 +10,18 @@ class PlayerUI:
     def __init__(self, dirname):
         self.dirname = dirname
 
-    def select():
+    def select_player():
         while True:
             print("+++++++ Select player ++++++++")
             for i, t in enumerate(App.players):
                 print(f"[{i + 1}] {t}")
             print("[0] Cancel")
             index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
-            try:
-                index = int(index) - 1
-                if index < -1 or index >= len(App.players):
-                    continue
-            except ValueError:
+            error = PlayerManager.select_player_error(index)
+            if error:
                 continue
-            return index
+            else:
+                return int(index) - 1
 
     def create(self, tournament):
         while True:

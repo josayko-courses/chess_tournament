@@ -7,6 +7,20 @@ from models import Player, Database
 
 
 class PlayerManager:
+    def select_player_error(index):
+        try:
+            index = int(index) - 1
+            if index < -1 or index >= len(App.players):
+                return True
+        except ValueError:
+            return True
+        return False
+
+    def no_players():
+        if not App.players:
+            return True
+        return False
+
     def create_error(surname, name, rank):
         if len(surname) < 2:
             return "surname input must be more than 1 character"

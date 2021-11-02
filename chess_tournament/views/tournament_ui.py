@@ -21,13 +21,11 @@ class TournamentUI:
             for i, t in enumerate(App.tournaments):
                 print(f"[{i + 1}] {t}")
             index = input(f"{Color.BOLD}>>> Select: {Color.ENDC}")
-            try:
-                index = int(index) - 1
-                if index < 0 or index >= len(App.tournaments):
-                    continue
-            except ValueError:
+            error = TournamentManager.select_tournament_error(index)
+            if error:
                 continue
-            return index
+            else:
+                return int(index) - 1
 
     def start(self, tournament):
         print("+++++++ Start tournament ++++++++")
@@ -129,28 +127,28 @@ class TournamentUI:
         return len(App.tournaments) - 1
 
     def add_player(self, tournament):
-        print("+++++++ Add Player ++++++++")
+        """Add a player to the tournament"""
         if tournament.rounds:
             print(f"{Color.FAIL}Cannot register player: tournament already started{Color.ENDC}")
             return None
         while True:
-            if len(tournament.players) >= 8:
-                print(f"{Color.FAIL}This tournament is full{Color.ENDC}")
+            print("+++++++ Add Player ++++++++")
+            if TournamentManager.is_full(tournament):
                 index = None
                 break
-            players_ids = [x[0] for x in tournament.players]
-            if not App.players:
+            elif PlayerManager.no_players():
                 return print(f"{Color.FAIL}No players{Color.ENDC}")
-            print(f"Registered players ids: {players_ids}")
-            index = PlayerUI.select()
+            print(f"Registered players ids: {tournament.get_players_ids()}")
+            index = PlayerUI.select_player()
             if index == -1:
                 break
-            if App.players[index].id not in players_ids:
-                TournamentManager.add_player(index, tournament, self.dirname)
-                print(f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}")
+            error = TournamentManager.add_player_check(index, tournament)
+            if error:
+                print(f"{Color.FAIL}{error}{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
             else:
-                print(f"{Color.FAIL}{App.players[index]} is already registered to the tournament{Color.ENDC}")
+                TournamentManager.add_player(index, tournament, self.dirname)
+                print(f"{Color.OKGREEN}{App.players[index]} successfully registered to the tournament{Color.ENDC}")
                 input(f"{Color.OKBLUE}Press ENTER to continue...{Color.ENDC}")
         return index
 
