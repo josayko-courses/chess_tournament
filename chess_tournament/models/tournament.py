@@ -86,3 +86,11 @@ class Tournament:
             if t.doc_id == tournament_id:
                 t['players'].append(player)
                 tournaments_table.update(t, doc_ids=[tournament_id])
+
+    def update_tournament_rounds_db(self, round, tournament_id, dirname):
+        db = TinyDB(dirname + '/db.json')
+        tournaments_table = db.table('tournaments')
+        for t in tournaments_table:
+            if t.doc_id == tournament_id:
+                t['rounds'].append(round)
+                tournaments_table.update(t, doc_ids=[tournament_id])

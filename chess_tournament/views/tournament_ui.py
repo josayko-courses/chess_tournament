@@ -27,12 +27,11 @@ class TournamentUI:
             else:
                 return int(index) - 1
 
-    def start(self, tournament):
+    def start_tournament(self, tournament):
         print("+++++++ Start tournament ++++++++")
-        if tournament.rounds:
-            return print(f"{Color.FAIL}Tournament had already started{Color.ENDC}")
-        elif not tournament.players or len(tournament.players) % 2 != 0:
-            return print(f"{Color.FAIL}Not enough players{Color.ENDC}")
+        error = TournamentManager.start_tournament_error(tournament)
+        if error:
+            return print(f"{Color.FAIL}{error}{Color.ENDC}")
         TournamentManager.create_first_round(tournament, self.dirname)
         print(f"{Color.OKGREEN}Tournament sucessfully started at {tournament.rounds[0].start}{Color.ENDC}")
 
@@ -58,7 +57,7 @@ class TournamentUI:
             "Exit",
             round.edit,
             round.terminate,
-            self.start,
+            self.start_tournament,
             player.create_player,
             self.add_player,
             self.tournament_report,
@@ -104,7 +103,7 @@ class TournamentUI:
             start = input("Start date ? ")
             end = input("End date ? ")
             desc = input("Description ? ")
-            error = TournamentManager.create_error(name, location, rating)
+            error = TournamentManager.create_tournament_error(name, location, rating)
             if error:
                 print(f"{Color.FAIL}{error}{Color.ENDC}")
                 continue

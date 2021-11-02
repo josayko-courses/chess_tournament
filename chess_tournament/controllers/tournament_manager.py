@@ -7,6 +7,13 @@ from models import Tournament, Round, Database
 
 
 class TournamentManager:
+    def start_tournament_error(tournament):
+        if tournament.rounds:
+            return "Tournament had already started"
+        elif not tournament.players or len(tournament.players) % 2 != 0:
+            return "Not enough players"
+        return None
+
     def is_full(tournament):
         if len(tournament.players) >= 8:
             return True
@@ -35,7 +42,7 @@ class TournamentManager:
             return True
         return False
 
-    def create_error(name, location, rating):
+    def create_tournament_error(name, location, rating):
         if len(name) < 2:
             return "name input must be more than 1 character"
         elif len(location) < 2:
@@ -79,10 +86,7 @@ class TournamentManager:
             games.append(new_game)
         new_round = Round("Round 1", games)
         tournament.rounds.append(new_round)
-
-        # update DB
-        db = Database(dirname)
-        db.add_round_to_tournament(new_round.serialize(), tournament.id)
+        tournament.update_tournament_rounds_db(new_round.serialize(), tournament.id, dirname)
 
     def create_next_round(dirname, tournament):
         # 1st step: sort by scores
