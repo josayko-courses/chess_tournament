@@ -21,6 +21,7 @@ class Round:
         self.games = games
 
     def serialize(self):
+        """Create data from round instance to save in db"""
         return {'name': self.name, 'start': self.start, 'end': self.end, 'games': self.games}
 
     def __repr__(self):

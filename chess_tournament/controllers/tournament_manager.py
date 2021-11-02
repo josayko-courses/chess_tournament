@@ -8,6 +8,7 @@ from models import Tournament, Round
 
 class TournamentManager:
     def start_tournament_error(tournament):
+        """Checks errors when starting tournament"""
         if tournament.rounds:
             return "Tournament had already started"
         elif not tournament.players or len(tournament.players) % 2 != 0:
@@ -15,17 +16,20 @@ class TournamentManager:
         return None
 
     def is_full(tournament):
+        """Checks if tournament is full"""
         if len(tournament.players) >= 8:
             return True
         return False
 
     def add_player_check(index, tournament):
+        """Checks if player is not registered"""
         if App.players[index].id not in tournament.get_players_ids():
             return None
         else:
             return f"{App.players[index]} is already registered to the tournament"
 
     def select_tournament_error(index):
+        """Checks user input errors when selecting tournament"""
         try:
             index = int(index) - 1
             if index < 0 or index >= len(App.tournaments):
@@ -43,6 +47,7 @@ class TournamentManager:
         return False
 
     def create_tournament_error(name, location, rating):
+        """Checks user input errors when creating new tournament"""
         if len(name) < 2:
             return "name input must be more than 1 character"
         elif len(location) < 2:
@@ -65,12 +70,14 @@ class TournamentManager:
         return
 
     def add_player(index, tournament, dirname):
+        """Add player to tournament and update to db"""
         players = App.players
         new_player = [players[index].id, 0]
         tournament.players.append(new_player)
         tournament.update_tournament_players_db(new_player, tournament.id, dirname)
 
     def create_first_round(tournament, dirname):
+        """Create first round and save to db"""
         # sort players by rank
         players = tournament.get_players_instance(App.players)
         players_by_rank = sorted(players, key=lambda x: x.rank)
@@ -89,6 +96,7 @@ class TournamentManager:
         tournament.update_tournament_rounds_db(new_round.serialize(), tournament.id, dirname)
 
     def create_next_round(dirname, tournament):
+        """Create next round and save to db"""
         # 1st step: sort by scores
         players = tournament.get_players_with_score(App.players)
         sorted_players = sorted(players, key=lambda x: x[1], reverse=True)

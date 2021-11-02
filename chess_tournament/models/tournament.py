@@ -26,6 +26,7 @@ class Tournament:
         self.desc = desc
 
     def deserialize(t):
+        """From data in db create new tournament instance"""
         inst = Tournament(t.doc_id, t['name'], t['location'], t['rating'], t['desc'], t['start'], t['end'])
 
         for r in t['rounds']:
@@ -35,10 +36,11 @@ class Tournament:
         return inst
 
     def get_players_ids(self):
+        """Returns list of players ids"""
         return [x[0] for x in self.players]
 
     def get_players_instance(self, all_players):
-        """Get players instance from ids"""
+        """Returns list of players instance from ids"""
         players_ids = [x[0] for x in self.players]
         players = []
         for id in players_ids:
@@ -48,7 +50,7 @@ class Tournament:
         return players
 
     def get_players_with_score(self, all_players):
-        """Get players instance and their score"""
+        """Returns list of players instance and their score"""
         players = self.get_players_instance(all_players)
         scores = []
         for p_inst in players:
@@ -141,6 +143,7 @@ class Tournament:
         return
 
     def update_round_end_db(self, tournament, dirname):
+        """Update round end date to db"""
         db = TinyDB(dirname + '/db.json')
         tournaments_table = db.table('tournaments')
         for t in tournaments_table:

@@ -11,6 +11,7 @@ class RoundUI:
         self.dirname = dirname
 
     def print_games(self, tournament, games):
+        """Log all games information in the round"""
         players = tournament.get_players_instance(App.players)
         for i, game in enumerate(games):
             p1 = ""
@@ -24,6 +25,7 @@ class RoundUI:
         return i
 
     def select_game(self, last_index):
+        """Get user input when selecting game to edit"""
         while True:
             game_index = input("Game nb. ? ")
             try:
@@ -36,6 +38,7 @@ class RoundUI:
         return game_index
 
     def select_result(self, game_index, g):
+        """Get user input when selecting game result"""
         while True:
             print(f"{Color.WARNING}Edit results for Game {game_index + 1}{Color.ENDC}: ")
             print(f"    [1] id: {g[0][0].id}, {g[0][0].surname} {g[0][0].name} {Color.OKGREEN}win{Color.ENDC}")
@@ -54,6 +57,7 @@ class RoundUI:
         return result
 
     def get_games_with_players_instance(self, game, players):
+        """Returns list of games with players instance instead of ids"""
         detailed_game = []
 
         for p in players:
@@ -66,6 +70,7 @@ class RoundUI:
         return detailed_game
 
     def edit(self, tournament):
+        """Get user input when editing game results"""
         error = RoundManager.edit_round_error(tournament)
         if error:
             return print(f"{Color.FAIL}{error}{Color.ENDC}")
@@ -89,6 +94,7 @@ class RoundUI:
                 continue
 
     def terminate(self, tournament):
+        """Get user input when terminating round and create next round"""
         print("+++++++ Terminate round ++++++++")
         error = RoundManager.terminate_round_error(tournament)
         if error:
@@ -115,6 +121,7 @@ class RoundUI:
         print(f"{Color.ENDC}", end="")
 
     def print_rounds(rounds):
+        """Log all rounds information"""
         win = Color.OKGREEN
         end = Color.ENDC
         for r in rounds:

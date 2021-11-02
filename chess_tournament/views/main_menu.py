@@ -6,10 +6,11 @@ from bcolors import Color
 from .player_ui import PlayerUI
 from .tournament_ui import TournamentUI
 from .round_ui import RoundUI
-from controllers import App, PlayerManager
+from controllers import App
 
 
 def main_menu():
+    """Main menu view"""
     while True:
         print("\n+================================+")
         print("|                                |")
@@ -31,6 +32,7 @@ def main_menu():
 
 
 def all_tournaments_report():
+    """All created tournaments report"""
     print(f"{Color.WARNING}+++++++ All Tournaments report ++++++++{Color.ENDC}")
 
     print(f"{Color.BOLD}\n+=== All players by rank ===+{Color.ENDC}")

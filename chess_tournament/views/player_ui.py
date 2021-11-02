@@ -11,6 +11,7 @@ class PlayerUI:
         self.dirname = dirname
 
     def select_player():
+        """Get user input to select player in list"""
         while True:
             print("+++++++ Select player ++++++++")
             for i, t in enumerate(App.players):
@@ -24,6 +25,7 @@ class PlayerUI:
                 return int(index) - 1
 
     def create_player(self, tournament):
+        """Get user input for creating new player"""
         while True:
             print("+++++++ Create player ++++++++")
             surname = input("Surname ? ")
@@ -60,6 +62,7 @@ class PlayerUI:
                 return -1
 
     def print_players_by_rank(players):
+        """Print players sorted by rank"""
         rank_list = sorted(players, key=lambda x: x.rank)
         for player in rank_list:
             print(f"id: {player.id}, name: {player.surname} {player.name}, ", end="")
@@ -67,6 +70,7 @@ class PlayerUI:
         return
 
     def print_players_by_name(players):
+        """Print players sorted by name"""
         alpha_list = sorted(players, key=lambda x: x.surname.capitalize() + x.name.capitalize())
         for player in alpha_list:
             print(f"id: {player.id}, name: {player.surname} {player.name}, ", end="")

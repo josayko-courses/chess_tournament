@@ -8,6 +8,7 @@ from .tournament_manager import TournamentManager
 
 class RoundManager:
     def edit_round_error(tournament):
+        """Checks errors when editing round results"""
         if len(tournament.rounds) == 0:
             return "Please start tournament first"
         elif tournament.rounds[-1].end:
@@ -15,6 +16,7 @@ class RoundManager:
         return None
 
     def terminate_round_error(tournament):
+        """Checks errors when setting round as finished"""
         if len(tournament.rounds) == 0:
             return "Please start tournament first"
         elif tournament.rounds[-1].end:
@@ -25,12 +27,14 @@ class RoundManager:
         return None
 
     def create_next_round(tournament, dirname):
+        """Create next round"""
         if len(tournament.rounds) >= tournament.nb_rounds:
             return "Maximum nb of rounds (4) reached. Tournament is over"
         if TournamentManager.create_next_round(dirname, tournament) == -1:
             return "All possible games have been played: tournament is over"
 
     def terminate_round(dirname, tournament):
+        """Set round as finished andupdate db"""
         tournament.rounds[-1].end = datetime.today().strftime('%Y-%m-%d %H:%M')
         tournament.update_round_end_db(tournament, dirname)
 
@@ -49,6 +53,7 @@ class RoundManager:
         return
 
     def update_results(dirname, result, games, game_index, tournament):
+        """Update game results and players scores. Then update in db"""
         # Get players total score reference
         game = games[game_index]
         for p in tournament.players:

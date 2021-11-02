@@ -15,6 +15,7 @@ class Player:
         self.rank = rank
 
     def deserialize(p):
+        """From data in db create new player instance"""
         inst = Player(p.doc_id, p['surname'], p['name'], p['birthdate'], p['gender'], p['rank'])
         return inst
 
@@ -24,6 +25,7 @@ class Player:
         return str1 + str2
 
     def save_player_to_db(self, dirname):
+        """Save player to db"""
         db = TinyDB(dirname + '/db.json')
         players_table = db.table('players')
         new_player = {
@@ -36,6 +38,7 @@ class Player:
         return players_table.insert(new_player)
 
     def update_player_to_db(self, new_rank, dirname):
+        """Update player rank to db"""
         db = TinyDB(dirname + '/db.json')
         players_table = db.table('players')
         players_table.update({'rank': new_rank}, doc_ids=[self.id])

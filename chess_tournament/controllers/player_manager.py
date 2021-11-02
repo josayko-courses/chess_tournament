@@ -8,6 +8,7 @@ from models import Player
 
 class PlayerManager:
     def select_player_error(index):
+        """Checks user input when player selection"""
         try:
             index = int(index) - 1
             if index < -1 or index >= len(App.players):
@@ -17,11 +18,13 @@ class PlayerManager:
         return False
 
     def no_players():
+        """Checks if players list is empty"""
         if not App.players:
             return True
         return False
 
     def create_error(surname, name, rank):
+        """Checks user input errors when create new player"""
         if len(surname) < 2:
             return "surname input must be more than 1 character"
         elif len(name) < 2:
@@ -35,6 +38,7 @@ class PlayerManager:
         return None
 
     def create_player(input, dirname):
+        """Create a new local player and save to db"""
         new_player = Player(
             0,
             input['surname'],
