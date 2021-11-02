@@ -8,6 +8,13 @@ from tinydb import TinyDB
 
 
 class RoundManager:
+    def edit_round_error(tournament):
+        if len(tournament.rounds) == 0:
+            return "Please start tournament first"
+        elif tournament.rounds[-1].end:
+            return "The tournament is over"
+        return None
+
     def terminate(dirname, tournament):
         tournament.rounds[-1].end = datetime.today().strftime('%Y-%m-%d %H:%M')
         db = Database(dirname)
@@ -52,7 +59,5 @@ class RoundManager:
             game[0][1] = 0.5
             game[1][1] = 0.5
 
-        # Update db
-        db = Database(dirname)
-        db.update_results(tournament, game, game_index, player1, player2)
+        tournament.update_tournament_results_db(game, game_index, player1, player2, dirname)
         return

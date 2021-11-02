@@ -64,6 +64,7 @@ class Tournament:
         return str1 + str2
 
     def save_tournament_to_db(self, dirname):
+        """save tournament to db"""
         db = TinyDB(dirname + '/db.json')
         tournaments_table = db.table('tournaments')
         new_tournament = {
@@ -80,6 +81,7 @@ class Tournament:
         return tournaments_table.insert(new_tournament)
 
     def update_tournament_players_db(self, player, tournament_id, dirname):
+        """Add updated players of tournament to db"""
         db = TinyDB(dirname + '/db.json')
         tournaments_table = db.table('tournaments')
         for t in tournaments_table:
@@ -88,9 +90,52 @@ class Tournament:
                 tournaments_table.update(t, doc_ids=[tournament_id])
 
     def update_tournament_rounds_db(self, round, tournament_id, dirname):
+        """Add updated rounds to db"""
         db = TinyDB(dirname + '/db.json')
         tournaments_table = db.table('tournaments')
         for t in tournaments_table:
             if t.doc_id == tournament_id:
                 t['rounds'].append(round)
                 tournaments_table.update(t, doc_ids=[tournament_id])
+
+    def update_tournament_results_db(self, game, game_index, player1, player2, dirname):
+        """Add updated game results in db"""
+        db = TinyDB(dirname + '/db.json')
+        tournaments_table = db.table('tournaments')
+        for t in tournaments_table:
+            if t.doc_id == self.id:
+                break
+
+        # Edit game
+        updated_games = []
+        for i, g in enumerate(t['rounds'][-1]['games']):
+            if i == game_index:
+                updated_games.append(game)
+            else:
+                updated_games.append(g)
+
+        # Edit round with updated game
+        updated_rounds = []
+        for i, r in enumerate(t['rounds']):
+            if i == len(t['rounds']) - 1:
+                serialized_round = {'name': r['name'], 'start': r['start'], 'end': r['end'], 'games': updated_games}
+                updated_rounds.append(serialized_round)
+            else:
+                updated_rounds.append(r)
+
+        # Edit players total score
+        updated_players = []
+        for p in t['players']:
+            if p[0] == player1[0]:
+                updated_players.append(player1)
+            elif p[0] == player2[0]:
+                updated_players.append(player2)
+            else:
+                updated_players.append(p)
+
+        # Save to db
+        tournaments_table.update(
+            {'rounds': updated_rounds, 'players': updated_players},
+            doc_ids=[self.id],
+        )
+        return

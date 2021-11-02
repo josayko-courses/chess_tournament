@@ -28,6 +28,7 @@ class TournamentUI:
                 return int(index) - 1
 
     def start_tournament(self, tournament):
+        """Create the first round and start the tournament"""
         print("+++++++ Start tournament ++++++++")
         error = TournamentManager.start_tournament_error(tournament)
         if error:
@@ -152,6 +153,7 @@ class TournamentUI:
         return index
 
     def print_leaderboard(tournament):
+        """Log players info sorted by score"""
         players = tournament.get_players_with_score(App.players)
         sorted_players = sorted(players, key=lambda x: x[1], reverse=True)
 
@@ -164,6 +166,7 @@ class TournamentUI:
         return
 
     def edit_player_rank(self):
+        """Edit a player's rank"""
         print(f"{Color.WARNING}+++++++ Edit player rank ++++++++{Color.ENDC}")
         if not App.players:
             return print(f"{Color.FAIL}No players{Color.ENDC}")
@@ -187,6 +190,7 @@ class TournamentUI:
         return
 
     def tournament_report(self, t):
+        """Log all information about the tournament"""
         print(f"{Color.WARNING}+++++++ Tournament report ++++++++{Color.ENDC}")
         print(f"{Color.HEADER}| {t.id}. {t.name}, {t.location}, rating: {t.rating}, ", end="")
         print(f"dates: {t.start} - {t.end} |{Color.ENDC}")

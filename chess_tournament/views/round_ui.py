@@ -66,13 +66,11 @@ class RoundUI:
         return detailed_game
 
     def edit(self, tournament):
-        if len(tournament.rounds) == 0:
-            return print(f"{Color.FAIL}Please start tournament first{Color.ENDC}")
-        elif tournament.rounds[-1].end:
-            return print(f"{Color.FAIL}The tournament is over{Color.ENDC}")
+        error = RoundManager.edit_round_error(tournament)
+        if error:
+            return print(f"{Color.FAIL}{error}{Color.ENDC}")
 
         games = tournament.rounds[-1].games
-
         while True:
             print("+++++++ Edit round ++++++++")
             print(f"{Color.WARNING}Select Game nb. or nb. [0] to Cancel...{Color.ENDC}")
