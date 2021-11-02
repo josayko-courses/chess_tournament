@@ -8,6 +8,7 @@ from models import Tournament, Round, Database
 
 class TournamentManager:
     def menu_error(select):
+        """Check user input form tournament menu"""
         try:
             select = int(select)
         except ValueError:

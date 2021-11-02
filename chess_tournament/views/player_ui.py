@@ -33,10 +33,10 @@ class PlayerUI:
             birthdate = input("Birth Date ? ")
             gender = input("Gender ? ")
             rank = input("Rank ? ")
-            try:
-                rank = int(rank)
-            except ValueError:
-                return print(f"{Color.FAIL}Error: invalid input{Color.ENDC}")
+            error = PlayerManager.create_error(surname, name, rank)
+            if error:
+                print(f"{Color.FAIL}{error}{Color.ENDC}")
+                continue
 
             PlayerManager.create(
                 {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank},
