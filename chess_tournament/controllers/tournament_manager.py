@@ -9,27 +9,24 @@ from models import Tournament, Round, Database
 class TournamentManager:
     def create_error(name, location, rating):
         if len(name) < 2:
-            return "input must be more than 1 character"
+            return "name input must be more than 1 character"
         elif len(location) < 2:
-            return "input must be more than 1 character"
+            return "location input must be more than 1 character"
         try:
             rating = int(rating) - 1
             if rating < 0 or rating > 2:
-                return "invalid input"
+                return "rating input is invalid"
         except ValueError:
-            return "invalid input"
+            return "rating input is invalid"
         return None
 
     def create_tournament(input, dirname):
-        # Add to db first and get id
-        db = Database(dirname)
-        id = db.create_tournament(input)
-
-        # Update local data
+        """Create a new tournament locally and save to db"""
         new_tournament = Tournament(
-            id, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
+            0, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
         )
         App.tournaments.append(new_tournament)
+        new_tournament.id = new_tournament.save_tournament_to_db(dirname)
         return
 
     def add_player(index, tournament, dirname):

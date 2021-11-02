@@ -3,6 +3,7 @@
 """
 
 from .round import Round
+from tinydb import TinyDB
 
 
 class Tournament:
@@ -58,3 +59,19 @@ class Tournament:
         str1 = f"Tournament(id={self.id}, name={self.name}, location={self.location}, rating={self.rating}, "
         str2 = f"desc={self.desc}, start={self.start}, end={self.end})"
         return str1 + str2
+
+    def save_tournament_to_db(self, dirname):
+        db = TinyDB(dirname + '/db.json')
+        tournaments_table = db.table('tournaments')
+        new_tournament = {
+            'name': self.name,
+            'location': self.location,
+            'rating': self.rating,
+            'nb_rounds': self.nb_rounds,
+            'rounds': self.rounds,
+            'players': self.players,
+            'start': self.start,
+            'end': self.end,
+            'desc': self.desc,
+        }
+        return tournaments_table.insert(new_tournament)
