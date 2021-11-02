@@ -28,7 +28,7 @@ Generate the report file in `chess_tournament/flake_report/index.html`.
 ```bash
 # from project root directory
 $ cd chess_tournament/
-$ python -m flake8 --format=html --htmldir=flake-report
+$ python -m flake8 --format=html --htmldir=flake_report
 ```
 
 ## How to run the program

@@ -96,29 +96,28 @@ class TournamentUI:
                 continue
 
     def create(self):
-        print("+++++++ Create Tournament ++++++++")
-        ratings = ("rapid", "blitz", "bullet")
-        name = input("Name ? ")
-        if len(name) < 2:
-            return print(f"{Color.FAIL}input must be more than 1 character{Color.FAIL}")
-        location = input("Location ? ")
-        if len(location) < 2:
-            return print(f"{Color.FAIL}input must be more than 1 character{Color.FAIL}")
-        rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? ")
-        try:
-            rating = int(rating) - 1
-            if rating < 0 or rating > 2:
-                return print(f"{Color.FAIL}invalid input{Color.FAIL}")
-        except ValueError:
-            return print(f"{Color.FAIL}invalid input{Color.FAIL}")
-        start = input("Start date ? ")
-        end = input("End date ? ")
-        desc = input("Description ? ")
+        """Create a new tournament"""
+        while True:
+            print("+++++++ Create Tournament ++++++++")
+            ratings = ("rapid", "blitz", "bullet")
+            name = input("Name ? ")
+            location = input("Location ? ")
+            rating = input("Rating type :\n    [1] rapid\n    [2] blitz\n    [3] bullet\n    Rating ? ")
+            start = input("Start date ? ")
+            end = input("End date ? ")
+            desc = input("Description ? ")
+            error = TournamentManager.create_error(name, location, rating)
+            if error:
+                print(f"{Color.FAIL}{error}{Color.ENDC}")
+                continue
+            else:
+                break
+
         TournamentManager.create_tournament(
             {
                 "name": name,
                 "location": location,
-                "rating": ratings[rating],
+                "rating": ratings[int(rating) - 1],
                 "start": start,
                 "end": end,
                 "desc": desc,

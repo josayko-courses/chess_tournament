@@ -7,6 +7,19 @@ from models import Tournament, Round, Database
 
 
 class TournamentManager:
+    def create_error(name, location, rating):
+        if len(name) < 2:
+            return "input must be more than 1 character"
+        elif len(location) < 2:
+            return "input must be more than 1 character"
+        try:
+            rating = int(rating) - 1
+            if rating < 0 or rating > 2:
+                return "invalid input"
+        except ValueError:
+            return "invalid input"
+        return None
+
     def create_tournament(input, dirname):
         # Add to db first and get id
         db = Database(dirname)
