@@ -59,7 +59,7 @@ class TournamentUI:
             round.edit,
             round.terminate,
             self.start,
-            player.create,
+            player.create_player,
             self.add_player,
             self.tournament_report,
         ]

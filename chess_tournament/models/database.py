@@ -11,22 +11,6 @@ class Database:
         self.players = db.table('players')
         self.tournaments = db.table('tournaments')
 
-    def add_player_to_tournament(self, player, tournament_id):
-        for t in self.tournaments:
-            if t.doc_id == tournament_id:
-                t['players'].append(player)
-                self.tournaments.update(t, doc_ids=[tournament_id])
-
-    def create_player(self, input):
-        new_player = {
-            'surname': input['surname'],
-            'name': input['name'],
-            'birthdate': input['birthdate'],
-            'gender': input['gender'],
-            'rank': input['rank'],
-        }
-        return self.players.insert(new_player)
-
     def add_round_to_tournament(self, round, tournament_id):
         for t in self.tournaments:
             if t.doc_id == tournament_id:

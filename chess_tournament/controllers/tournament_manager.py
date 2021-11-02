@@ -61,10 +61,7 @@ class TournamentManager:
         players = App.players
         new_player = [players[index].id, 0]
         tournament.players.append(new_player)
-
-        # Update database
-        db = Database(dirname)
-        db.add_player_to_tournament(new_player, tournament.id)
+        tournament.update_tournament_players_db(new_player, tournament.id, dirname)
 
     def create_first_round(tournament, dirname):
         # sort players by rank

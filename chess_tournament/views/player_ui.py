@@ -23,7 +23,7 @@ class PlayerUI:
             else:
                 return int(index) - 1
 
-    def create(self, tournament):
+    def create_player(self, tournament):
         while True:
             print("+++++++ Create player ++++++++")
             surname = input("Surname ? ")
