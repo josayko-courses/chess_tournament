@@ -38,7 +38,7 @@ class PlayerUI:
                 print(f"{Color.FAIL}{error}{Color.ENDC}")
                 continue
 
-            PlayerManager.create(
+            PlayerManager.create_player(
                 {'surname': surname, 'name': name, 'birthdate': birthdate, 'gender': gender, 'rank': rank},
                 self.dirname,
             )

@@ -2,6 +2,8 @@
 
 """
 
+from tinydb import TinyDB
+
 
 class Player:
     def __init__(self, id, surname, name, birthdate, gender, rank):
@@ -20,3 +22,15 @@ class Player:
         str1 = f"Player(id={self.id}, surname={self.surname}, name={self.name}, "
         str2 = f"birthdate={self.birthdate}, gender={self.gender}, rank={self.rank})"
         return str1 + str2
+
+    def save_player_to_db(self, dirname):
+        db = TinyDB(dirname + '/db.json')
+        players_table = db.table('players')
+        new_player = {
+            'surname': self.surname,
+            'name': self.name,
+            'birthdate': self.birthdate,
+            'gender': self.gender,
+            'rank': self.rank,
+        }
+        return players_table.insert(new_player)

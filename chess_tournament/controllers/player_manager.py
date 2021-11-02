@@ -14,25 +14,22 @@ class PlayerManager:
             return "name input must be more than 1 character"
         try:
             rank = int(rank)
-            if rank < 0:
+            if rank <= 0:
                 return "rank input is invalid"
         except ValueError:
             return "rank input is invalid"
         return None
 
-    def create(input, dirname):
-        db = Database(dirname)
-
-        # Add to db
-        id = db.create_player(input)
+    def create_player(input, dirname):
         new_player = Player(
-            id,
+            0,
             input['surname'],
             input['name'],
             input['birthdate'],
             input['gender'],
             input['rank'],
         )
+        new_player.id = new_player.save_player_to_db(dirname)
         App.players.append(new_player)
         return
 

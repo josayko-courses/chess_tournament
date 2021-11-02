@@ -33,8 +33,8 @@ class TournamentManager:
         new_tournament = Tournament(
             0, input['name'], input['location'], input['rating'], input['desc'], input['start'], input['end']
         )
-        App.tournaments.append(new_tournament)
         new_tournament.id = new_tournament.save_tournament_to_db(dirname)
+        App.tournaments.append(new_tournament)
         return
 
     def add_player(index, tournament, dirname):
